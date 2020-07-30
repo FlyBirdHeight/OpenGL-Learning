@@ -1,7 +1,22 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-
+//这个回调函数主要使用在视口被用户改变时执行
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+//回调函数实际执行过程，就是重新设置视口属性
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+//判断在窗口中是否存在键盘输入
+void processInput(GLFWwindow *window)
+{
+    //glfwGetKey -> 判断是否存在键盘输入事件 GLFW_KEY_ESCAPE -> 输入为esc
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
+        //glfwSetWindowShouldClose -> 指定关闭相应窗口
+        glfwSetWindowShouldClose(window, true);
+    }
+}
 int main()
 {
     //编译GLSL顶点着色器
@@ -44,19 +59,42 @@ int main()
          printf("Failed to initialize GLAD");
      }
     
+    //索引缓冲对象
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
+        0.5f, 0.5f, 0.0f,   // 右上角
+        0.5f, -0.5f, 0.0f,  // 右下角
+        -0.5f, -0.5f, 0.0f, // 左下角
+        -0.5f, 0.5f, 0.0f   // 左上角
     };
+
+    unsigned int indices[] = { // 注意索引从0开始!
+        0, 1, 3, // 第一个三角形
+        1, 2, 3  // 第二个三角形
+    };
+    //创建索引缓冲对象
+    unsigned int EBO;
+    glGenBuffers(1, &EBO);
+
+    //顶点缓冲对象
     unsigned int VBO;
     unsigned int vertexShader;
+    
+    //创建顶点数组对象VAO
+    unsigned int VAO;
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+    
     //一个缓冲ID生成一个VBO对象
     glGenBuffers(1, &VBO);
     //绑定一个顶点缓冲对象绑定到GL_ARRAY_BUFFER
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     //使用的任何（在GL_ARRAY_BUFFER目标上的）缓冲调用都会用来配置当前绑定的缓冲(VBO)。然后我们可以调用glBufferData函数，它会把之前定义的顶点数据复制到缓冲的内存中
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    //绑定索引缓冲对象
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+    
     //创建一个顶点着色器
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
     //glShaderSource函数把要编译的着色器对象作为第一个参数。第二参数指定了传递的源码字符串数量，这里只有一个。第三个参数是顶点着色器真正的源码
@@ -88,6 +126,39 @@ int main()
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::VERTEX::Link\n" << infoLog << std::endl;
     }
+    //顶点数据解析
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+        //着色器程序对象激活
+    glUseProgram(shaderProgram);
+    //删除着色器
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+    while(!glfwWindowShouldClose(window))
+    {
+        
+        //加入注册事件(键盘输入esc事件)来主动终止循环渲染
+        processInput(window);
+        /*
+         渲染指令在循环渲染中生效
+         glClearColor函数是一个状态设置函数，而glClear函数则是一个状态使用的函数，它使用了当前的状态来获取应该清除为的颜色。
+         glClearColor设置清空屏幕所使用的颜色
+         glClear函数来清空屏幕的颜色缓冲，可以指定接受一个缓冲位(Buffer Bit)来指定要清空的缓冲，可能的缓冲位有GL_COLOR_BUFFER_BIT，GL_DEPTH_BUFFER_BIT和GL_STENCIL_BUFFER_BIT
+         */
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        //绘制物体
+        glUseProgram(shaderProgram);
+        glBindVertexArray(VAO);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        //glDrawArrays(GL_TRIANGLES, 0, 3);
+        //检查并调用事件，交换缓冲
+        glfwPollEvents();
+        glfwSwapBuffers(window);
+    }
+    
     
     return 0;
 }
