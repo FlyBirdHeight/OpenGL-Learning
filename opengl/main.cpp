@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <math.h>
 //这个回调函数主要使用在视口被用户改变时执行
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 //回调函数实际执行过程，就是重新设置视口属性
@@ -19,20 +20,22 @@ void processInput(GLFWwindow *window)
 }
 int main()
 {
-    //编译GLSL顶点着色器
-    const char*vertexShaderSource = "#version 330 core\n"
-        "layout (location = 0) in vec3 aPos;\n"
-        "void main()\n"
-        "{\n"
-        "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-        "}\0";
-    //编译片段着色器
+    const char *vertexShaderSource = "#version 330 core\n"
+    "layout (location = 0) in vec3 aPos;\n"
+    "layout (location = 1) in vec3 aColor;\n"
+    "out vec3 ourColor; \n"
+    "void main()\n"
+    "{\n"
+    "   gl_Position = vec4(aPos, 1.0);\n"
+    "   ourColor = aColor;\n "
+    "}\0";
     const char *fragmentShaderSource = "#version 330 core\n"
-        "out vec4 FragColor;\n"
-        "void main()\n"
-        "{\n"
-        "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-        "}\n\0";
+    "out vec4 FragColor;\n"
+     "in vec3 ourColor;\n"
+    "void main()\n"
+    "{\n"
+    "   FragColor = vec4(ourColor, 1.0);\n"
+    "}\n\0";
     glfwInit();
     //主版本号
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -61,19 +64,25 @@ int main()
     
     //索引缓冲对象
     float vertices[] = {
-        0.5f, 0.5f, 0.0f,   // 右上角
-        0.5f, -0.5f, 0.0f,  // 右下角
-        -0.5f, -0.5f, 0.0f, // 左下角
-        -0.5f, 0.5f, 0.0f   // 左上角
+        // 位置              // 颜色
+         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // 右下
+        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // 左下
+         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // 顶部
     };
+//    float vertices[] = {
+//        0.5f, 0.5f, 0.0f,   // 右上角
+//        0.5f, -0.5f, 0.0f,  // 右下角
+//        -0.5f, -0.5f, 0.0f, // 左下角
+//        -0.5f, 0.5f, 0.0f   // 左上角
+//    };
 
-    unsigned int indices[] = { // 注意索引从0开始!
-        0, 1, 3, // 第一个三角形
-        1, 2, 3  // 第二个三角形
-    };
+//    unsigned int indices[] = { // 注意索引从0开始!
+//        0, 1, 3, // 第一个三角形
+//        1, 2, 3  // 第二个三角形
+//    };
     //创建索引缓冲对象
-    unsigned int EBO;
-    glGenBuffers(1, &EBO);
+//    unsigned int EBO;
+//    glGenBuffers(1, &EBO);
 
     //顶点缓冲对象
     unsigned int VBO;
@@ -91,8 +100,8 @@ int main()
     //使用的任何（在GL_ARRAY_BUFFER目标上的）缓冲调用都会用来配置当前绑定的缓冲(VBO)。然后我们可以调用glBufferData函数，它会把之前定义的顶点数据复制到缓冲的内存中
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     //绑定索引缓冲对象
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
     
     
     //创建一个顶点着色器
@@ -127,9 +136,13 @@ int main()
         std::cout << "ERROR::SHADER::VERTEX::Link\n" << infoLog << std::endl;
     }
     //顶点数据解析
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    // 位置属性
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-        //着色器程序对象激活
+    // 颜色属性
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+    glEnableVertexAttribArray(1);
+    //着色器程序对象激活
     glUseProgram(shaderProgram);
     //删除着色器
     glDeleteShader(vertexShader);
@@ -147,18 +160,30 @@ int main()
          */
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        //绘制物体
+        //激活着色器
         glUseProgram(shaderProgram);
+        //获取程序运行的秒数
+        float timeValue = glfwGetTime();
+        float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+        //glGetUniformLocation函数获取uniform ourColor的位置值，返回-1未找到
+        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+
+        //glUniform4f函数使用来设置uniform变量的值
+        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
+        //绘制物体
+//        glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+//        glDrawArrays(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+//        glBindVertexArray(0);
+        //线框模式
+//        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         //glDrawArrays(GL_TRIANGLES, 0, 3);
         //检查并调用事件，交换缓冲
-        glfwPollEvents();
         glfwSwapBuffers(window);
+        glfwPollEvents();
     }
-    
     
     return 0;
 }

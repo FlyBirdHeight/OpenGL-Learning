@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		544BBEE224D4019500802969 /* shaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BBEE124D4019500802969 /* shaders.cpp */; };
 		54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6DE524D2C2FC00E9A4D9 /* main.cpp */; };
 		54CE6E0124D2C64500E9A4D9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFB24D2C46400E9A4D9 /* OpenGL.framework */; };
 		54CE6E0224D2C66400E9A4D9 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFD24D2C48700E9A4D9 /* libGLEW.2.1.0.dylib */; };
@@ -29,6 +30,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		544BBEE024D3C4CD00802969 /* md */ = {isa = PBXFileReference; lastKnownFileType = folder; path = md; sourceTree = "<group>"; };
+		544BBEE124D4019500802969 /* shaders.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shaders.cpp; sourceTree = "<group>"; };
 		54CE6DE224D2C2FC00E9A4D9 /* opengl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = opengl; sourceTree = BUILT_PRODUCTS_DIR; };
 		54CE6DE524D2C2FC00E9A4D9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		54CE6DF324D2C44400E9A4D9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -40,7 +43,6 @@
 		54CE6DFF24D2C4AC00E9A4D9 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../../usr/local/Cellar/glfw/3.3.2/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
 		54CE6E0424D2C76F00E9A4D9 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glad.c; sourceTree = "<group>"; };
 		54CE6E0624D2C7E800E9A4D9 /* triangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = triangle.cpp; sourceTree = "<group>"; };
-		54CE6E0824D2C81100E9A4D9 /* triangle.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = triangle.md; sourceTree = "<group>"; };
 		54CE6E0924D2C83F00E9A4D9 /* window_show.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = window_show.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,6 +63,7 @@
 		54CE6DD924D2C2FC00E9A4D9 = {
 			isa = PBXGroup;
 			children = (
+				544BBEE024D3C4CD00802969 /* md */,
 				54CE6DE424D2C2FC00E9A4D9 /* opengl */,
 				54CE6DE324D2C2FC00E9A4D9 /* Products */,
 				54CE6DF224D2C44400E9A4D9 /* Frameworks */,
@@ -81,8 +84,8 @@
 				54CE6DE524D2C2FC00E9A4D9 /* main.cpp */,
 				54CE6E0424D2C76F00E9A4D9 /* glad.c */,
 				54CE6E0624D2C7E800E9A4D9 /* triangle.cpp */,
-				54CE6E0824D2C81100E9A4D9 /* triangle.md */,
 				54CE6E0924D2C83F00E9A4D9 /* window_show.cpp */,
+				544BBEE124D4019500802969 /* shaders.cpp */,
 			);
 			path = opengl;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 			files = (
 				54CE6E0A24D2C83F00E9A4D9 /* window_show.cpp in Sources */,
 				54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */,
+				544BBEE224D4019500802969 /* shaders.cpp in Sources */,
 				54CE6E0724D2C7E800E9A4D9 /* triangle.cpp in Sources */,
 				54CE6E0524D2C76F00E9A4D9 /* glad.c in Sources */,
 			);
