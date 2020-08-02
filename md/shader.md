@@ -151,3 +151,34 @@ glEnableVertexAttribArray(1); ``
 同样，这次我们必须指定一个偏移量。对于每个顶点来说，位置顶点属性在前，所以它的偏移量是0。颜色属性紧随位置数据之后，所以偏移量就是3 * sizeof(float)，用字节来计算就是12字节。
 
 ### 自定义着色器类
+` ` #ifndef SHADER_H
+#define SHADER_H
+
+#include <glad/glad.h>; // 包含glad来获取所有的必须OpenGL头文件
+
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+
+
+class Shader
+{
+public:
+    // 程序ID
+    unsigned int ID;
+
+    // 构造器读取并构建着色器
+    Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
+    // 使用/激活程序
+    void use();
+    // uniform工具函数
+    void setBool(const std::string &name, bool value) const;  
+    void setInt(const std::string &name, int value) const;   
+    void setFloat(const std::string &name, float value) const;
+};
+
+#endif` `
+
+### 文件读取
+

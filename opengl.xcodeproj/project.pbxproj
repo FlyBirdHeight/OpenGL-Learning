@@ -60,6 +60,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		544BBEE824D5736D00802969 /* vs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = vs;
+			sourceTree = "<group>";
+		};
+		544BBEE924D5737700802969 /* fs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = fs;
+			sourceTree = "<group>";
+		};
 		54CE6DD924D2C2FC00E9A4D9 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +95,8 @@
 		54CE6DE424D2C2FC00E9A4D9 /* opengl */ = {
 			isa = PBXGroup;
 			children = (
+				544BBEE924D5737700802969 /* fs */,
+				544BBEE824D5736D00802969 /* vs */,
 				54CE6DE524D2C2FC00E9A4D9 /* main.cpp */,
 				54CE6E0424D2C76F00E9A4D9 /* glad.c */,
 				54CE6E0624D2C7E800E9A4D9 /* triangle.cpp */,
