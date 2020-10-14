@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:opengl.xcodeproj">
+      location = "group:/Users/adsionli/code/c++/opengl/opengl/opengl/stb_image.h">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>

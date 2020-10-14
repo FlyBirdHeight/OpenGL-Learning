@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		544BBEE224D4019500802969 /* shaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BBEE124D4019500802969 /* shaders.cpp */; };
-		544BBEF124D955F200802969 /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BBEF024D955F200802969 /* texture.cpp */; };
 		54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6DE524D2C2FC00E9A4D9 /* main.cpp */; };
 		54CE6E0124D2C64500E9A4D9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFB24D2C46400E9A4D9 /* OpenGL.framework */; };
 		54CE6E0224D2C66400E9A4D9 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFD24D2C48700E9A4D9 /* libGLEW.2.1.0.dylib */; };
@@ -32,12 +30,12 @@
 
 /* Begin PBXFileReference section */
 		544BBEE024D3C4CD00802969 /* md */ = {isa = PBXFileReference; lastKnownFileType = folder; path = md; sourceTree = "<group>"; };
-		544BBEE124D4019500802969 /* shaders.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shaders.cpp; sourceTree = "<group>"; };
 		544BBEEC24D9162200802969 /* triangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = triangle.h; sourceTree = "<group>"; };
 		544BBEED24D9162D00802969 /* shaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shaders.h; sourceTree = "<group>"; };
 		544BBEEE24D9169B00802969 /* window_show.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = window_show.h; sourceTree = "<group>"; };
 		544BBEEF24D955DF00802969 /* texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = texture.h; sourceTree = "<group>"; };
-		544BBEF024D955F200802969 /* texture.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = texture.cpp; sourceTree = "<group>"; };
+		54531A192532F29B0021618E /* texture_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = texture_test.vs; sourceTree = "<group>"; };
+		54531A1A2532F2B40021618E /* texture_test.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = texture_test.fs; sourceTree = "<group>"; };
 		54CE6DE224D2C2FC00E9A4D9 /* opengl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = opengl; sourceTree = BUILT_PRODUCTS_DIR; };
 		54CE6DE524D2C2FC00E9A4D9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		54CE6DF324D2C44400E9A4D9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -50,6 +48,18 @@
 		54CE6E0424D2C76F00E9A4D9 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glad.c; sourceTree = "<group>"; };
 		54CE6E0624D2C7E800E9A4D9 /* triangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = triangle.cpp; sourceTree = "<group>"; };
 		54CE6E0924D2C83F00E9A4D9 /* window_show.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = window_show.cpp; sourceTree = "<group>"; };
+		54CF54822533199B004FD5D6 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
+		54CF548325332194004FD5D6 /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
+		54CF548425332194004FD5D6 /* area.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = area.png; sourceTree = "<group>"; };
+		54CF54862534921A004FD5D6 /* transform_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = transform_test.vs; sourceTree = "<group>"; };
+		54CF5487253548A3004FD5D6 /* coordinate_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = coordinate_test.vs; sourceTree = "<group>"; };
+		54CF5488253565B0004FD5D6 /* 3d_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = 3d_test.vs; sourceTree = "<group>"; };
+		54CF54892536C358004FD5D6 /* camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
+		54F909712536E740005AE973 /* color_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = color_test.vs; sourceTree = "<group>"; };
+		54F909722536E750005AE973 /* color_light_test.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = color_light_test.fs; sourceTree = "<group>"; };
+		54F909732536E782005AE973 /* color_object_test.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = color_object_test.fs; sourceTree = "<group>"; };
+		54F9097525371306005AE973 /* color.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = color.h; sourceTree = "<group>"; };
+		54F909762537374D005AE973 /* color_object_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = color_object_test.vs; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +79,12 @@
 		544BBEE824D5736D00802969 /* vs */ = {
 			isa = PBXGroup;
 			children = (
+				54531A192532F29B0021618E /* texture_test.vs */,
+				54CF54862534921A004FD5D6 /* transform_test.vs */,
+				54CF5487253548A3004FD5D6 /* coordinate_test.vs */,
+				54CF5488253565B0004FD5D6 /* 3d_test.vs */,
+				54F909712536E740005AE973 /* color_test.vs */,
+				54F909762537374D005AE973 /* color_object_test.vs */,
 			);
 			path = vs;
 			sourceTree = "<group>";
@@ -76,19 +92,64 @@
 		544BBEE924D5737700802969 /* fs */ = {
 			isa = PBXGroup;
 			children = (
+				54531A1A2532F2B40021618E /* texture_test.fs */,
+				54F909722536E750005AE973 /* color_light_test.fs */,
+				54F909732536E782005AE973 /* color_object_test.fs */,
 			);
 			path = fs;
 			sourceTree = "<group>";
 		};
-		544BBEEB24D915C100802969 /* head */ = {
+		54531A0F25302D030021618E /* plugin */ = {
 			isa = PBXGroup;
 			children = (
-				544BBEEC24D9162200802969 /* triangle.h */,
+				54531A172532EC150021618E /* head */,
+				54531A1B2532F66C0021618E /* resources */,
+				54531A182532F26D0021618E /* shader */,
+				54CE6E0924D2C83F00E9A4D9 /* window_show.cpp */,
+				54CE6E0624D2C7E800E9A4D9 /* triangle.cpp */,
+			);
+			path = plugin;
+			sourceTree = "<group>";
+		};
+		54531A172532EC150021618E /* head */ = {
+			isa = PBXGroup;
+			children = (
+				54F909742537129A005AE973 /* light */,
+				54CF54822533199B004FD5D6 /* stb_image.h */,
 				544BBEED24D9162D00802969 /* shaders.h */,
-				544BBEEE24D9169B00802969 /* window_show.h */,
 				544BBEEF24D955DF00802969 /* texture.h */,
+				544BBEEC24D9162200802969 /* triangle.h */,
+				544BBEEE24D9169B00802969 /* window_show.h */,
+				54CF54892536C358004FD5D6 /* camera.h */,
+				54F9097525371306005AE973 /* color.h */,
 			);
 			path = head;
+			sourceTree = "<group>";
+		};
+		54531A182532F26D0021618E /* shader */ = {
+			isa = PBXGroup;
+			children = (
+				544BBEE824D5736D00802969 /* vs */,
+				544BBEE924D5737700802969 /* fs */,
+			);
+			path = shader;
+			sourceTree = "<group>";
+		};
+		54531A1B2532F66C0021618E /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				54531A1C2532F6770021618E /* images */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
+		54531A1C2532F6770021618E /* images */ = {
+			isa = PBXGroup;
+			children = (
+				54CF548325332194004FD5D6 /* awesomeface.png */,
+				54CF548425332194004FD5D6 /* area.png */,
+			);
+			path = images;
 			sourceTree = "<group>";
 		};
 		54CE6DD924D2C2FC00E9A4D9 = {
@@ -112,15 +173,9 @@
 		54CE6DE424D2C2FC00E9A4D9 /* opengl */ = {
 			isa = PBXGroup;
 			children = (
-				544BBEEB24D915C100802969 /* head */,
-				544BBEE924D5737700802969 /* fs */,
-				544BBEE824D5736D00802969 /* vs */,
+				54531A0F25302D030021618E /* plugin */,
 				54CE6DE524D2C2FC00E9A4D9 /* main.cpp */,
 				54CE6E0424D2C76F00E9A4D9 /* glad.c */,
-				54CE6E0624D2C7E800E9A4D9 /* triangle.cpp */,
-				54CE6E0924D2C83F00E9A4D9 /* window_show.cpp */,
-				544BBEE124D4019500802969 /* shaders.cpp */,
-				544BBEF024D955F200802969 /* texture.cpp */,
 			);
 			path = opengl;
 			sourceTree = "<group>";
@@ -137,6 +192,13 @@
 				54CE6DF324D2C44400E9A4D9 /* IOKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		54F909742537129A005AE973 /* light */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = light;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,8 +260,6 @@
 			files = (
 				54CE6E0A24D2C83F00E9A4D9 /* window_show.cpp in Sources */,
 				54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */,
-				544BBEE224D4019500802969 /* shaders.cpp in Sources */,
-				544BBEF124D955F200802969 /* texture.cpp in Sources */,
 				54CE6E0724D2C7E800E9A4D9 /* triangle.cpp in Sources */,
 				54CE6E0524D2C76F00E9A4D9 /* glad.c in Sources */,
 			);

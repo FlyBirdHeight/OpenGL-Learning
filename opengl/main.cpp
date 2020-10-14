@@ -1,11 +1,10 @@
 #include <iostream>
 #include <string>
-#include "plugin/head/texture.h"
+#include "plugin/head/color.h"
 
 using namespace std;
 int main()
 {
-    TextureUse textureProject;
-    std::string type = "transform";
-    textureProject.init(type);
+    ColorLight colorTest;
+    colorTest.init();
 }
