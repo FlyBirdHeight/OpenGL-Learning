@@ -60,6 +60,17 @@
 		54F909732536E782005AE973 /* color_object_test.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = color_object_test.fs; sourceTree = "<group>"; };
 		54F9097525371306005AE973 /* color.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = color.h; sourceTree = "<group>"; };
 		54F909762537374D005AE973 /* color_object_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = color_object_test.vs; sourceTree = "<group>"; };
+		54F9097D25382BB6005AE973 /* material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
+		54F9097E253831DE005AE973 /* material_type_object.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = material_type_object.vs; sourceTree = "<group>"; };
+		54F9097F253831F5005AE973 /* material_type_light.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = material_type_light.vs; sourceTree = "<group>"; };
+		54F9098025383217005AE973 /* material_type_object.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = material_type_object.fs; sourceTree = "<group>"; };
+		54F9098125383253005AE973 /* material_type_light.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = material_type_light.fs; sourceTree = "<group>"; };
+		54F9098625386601005AE973 /* lightmap_object.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = lightmap_object.vs; sourceTree = "<group>"; };
+		54F9098725386612005AE973 /* lightmap_light.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = lightmap_light.vs; sourceTree = "<group>"; };
+		54F9098825386628005AE973 /* lightmap_object.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = lightmap_object.fs; sourceTree = "<group>"; };
+		54F909892538663B005AE973 /* lightmap_light.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = lightmap_light.fs; sourceTree = "<group>"; };
+		54F9098A25386A7F005AE973 /* lightmap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lightmap.h; sourceTree = "<group>"; };
+		54F9098B25387564005AE973 /* container2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,12 +90,15 @@
 		544BBEE824D5736D00802969 /* vs */ = {
 			isa = PBXGroup;
 			children = (
+				54F90982253865BF005AE973 /* lightmap */,
 				54531A192532F29B0021618E /* texture_test.vs */,
 				54CF54862534921A004FD5D6 /* transform_test.vs */,
 				54CF5487253548A3004FD5D6 /* coordinate_test.vs */,
 				54CF5488253565B0004FD5D6 /* 3d_test.vs */,
 				54F909712536E740005AE973 /* color_test.vs */,
 				54F909762537374D005AE973 /* color_object_test.vs */,
+				54F9097E253831DE005AE973 /* material_type_object.vs */,
+				54F9097F253831F5005AE973 /* material_type_light.vs */,
 			);
 			path = vs;
 			sourceTree = "<group>";
@@ -92,9 +106,12 @@
 		544BBEE924D5737700802969 /* fs */ = {
 			isa = PBXGroup;
 			children = (
+				54F90983253865CA005AE973 /* lightmap */,
 				54531A1A2532F2B40021618E /* texture_test.fs */,
 				54F909722536E750005AE973 /* color_light_test.fs */,
 				54F909732536E782005AE973 /* color_object_test.fs */,
+				54F9098025383217005AE973 /* material_type_object.fs */,
+				54F9098125383253005AE973 /* material_type_light.fs */,
 			);
 			path = fs;
 			sourceTree = "<group>";
@@ -114,7 +131,6 @@
 		54531A172532EC150021618E /* head */ = {
 			isa = PBXGroup;
 			children = (
-				54F909742537129A005AE973 /* light */,
 				54CF54822533199B004FD5D6 /* stb_image.h */,
 				544BBEED24D9162D00802969 /* shaders.h */,
 				544BBEEF24D955DF00802969 /* texture.h */,
@@ -122,6 +138,8 @@
 				544BBEEE24D9169B00802969 /* window_show.h */,
 				54CF54892536C358004FD5D6 /* camera.h */,
 				54F9097525371306005AE973 /* color.h */,
+				54F9097D25382BB6005AE973 /* material.h */,
+				54F9098A25386A7F005AE973 /* lightmap.h */,
 			);
 			path = head;
 			sourceTree = "<group>";
@@ -146,6 +164,7 @@
 		54531A1C2532F6770021618E /* images */ = {
 			isa = PBXGroup;
 			children = (
+				54F9098B25387564005AE973 /* container2.png */,
 				54CF548325332194004FD5D6 /* awesomeface.png */,
 				54CF548425332194004FD5D6 /* area.png */,
 			);
@@ -194,11 +213,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		54F909742537129A005AE973 /* light */ = {
+		54F90982253865BF005AE973 /* lightmap */ = {
 			isa = PBXGroup;
 			children = (
+				54F9098625386601005AE973 /* lightmap_object.vs */,
+				54F9098725386612005AE973 /* lightmap_light.vs */,
 			);
-			path = light;
+			path = lightmap;
+			sourceTree = "<group>";
+		};
+		54F90983253865CA005AE973 /* lightmap */ = {
+			isa = PBXGroup;
+			children = (
+				54F9098825386628005AE973 /* lightmap_object.fs */,
+				54F909892538663B005AE973 /* lightmap_light.fs */,
+			);
+			path = lightmap;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

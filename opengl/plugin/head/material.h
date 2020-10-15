@@ -1,13 +1,12 @@
 //
-//  color.h
+//  material.h
 //  opengl
 //
-//  Created by adsionli on 2020/10/14.
+//  Created by adsionli on 2020/10/15.
 //  Copyright © 2020 adsionli. All rights reserved.
 //
-
-#ifndef color_h
-#define color_h
+#ifndef material_h
+#define material_h
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -32,13 +31,17 @@ bool firstMouse = true;
 // timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
-class ColorLight{
+
+class MaterialSet{
 public:
     void init(){
-        const unsigned int SCR_WIDTH = 800;
-        const unsigned int SCR_HEIGHT = 600;
         unsigned int lightVAO,VBO;
         unsigned int objectVAO;
+        glfwInit();
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         float vertices[] = {
             -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
              0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -82,12 +85,7 @@ public:
             -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
             -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
         };
-        glfwInit();
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-        GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "光照反射", NULL, NULL);
+        GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "材质", NULL, NULL);
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
         glfwSetCursorPosCallback(window, mouse_callback);
@@ -105,14 +103,15 @@ public:
         }
         glEnable(GL_DEPTH_TEST);
         
-        std::string lightVsFilePath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/color_test.vs";
-        std::string objectVsFilePath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/color_object_test.vs";
-        std::string lightFilePath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/color_light_test.fs";
-        std::string objectFilePath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/color_object_test.fs";
-        //设置两个着色器，分别是光源的、物体的
-        Shader lightShader(lightVsFilePath, lightFilePath);
-        Shader objectShader(objectVsFilePath, objectFilePath);
-        //物体顶点数组对象
+        std::string objectVs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/material_type_object.vs";
+        std::string objectFs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/material_type_object.fs";
+        std::string lightVs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/material_type_light.vs";
+        std::string lightFs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/material_type_light.fs";
+        
+        
+        Shader lightShader(lightVs, lightFs);
+        Shader objectShader(objectVs, objectFs);
+        
         glGenVertexArrays(1,&objectVAO);
         glBindVertexArray(objectVAO);
         glGenBuffers(1, &VBO);
@@ -129,8 +128,7 @@ public:
         
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
-        
-        while (!glfwWindowShouldClose(window)) {
+        while(!glfwWindowShouldClose(window)){
             float currentFrame = glfwGetTime();
             deltaTime = currentFrame - lastFrame;
             lastFrame = currentFrame;
@@ -140,14 +138,26 @@ public:
             glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             
-            lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
-            lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
+            glm::vec3 lightColor;
+            lightColor.x = sin(glfwGetTime() * 2.0f);
+            lightColor.y = sin(glfwGetTime() * 0.7f);
+            lightColor.z = sin(glfwGetTime() * 1.3f);
+
+            glm::vec3 diffuseColor = lightColor   * glm::vec3(0.5f); // 降低影响
+            glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); // 很低的影响
+
+
             
             objectShader.use();
-            objectShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-            objectShader.setVec3("lightColor",  1.0f, 1.0f, 1.0f);
-            objectShader.setVec3("lightPos", lightPos);
             objectShader.setVec3("viewPos", camera.Position);
+            objectShader.setVec3("light.position", lightPos);
+            objectShader.setVec3("light.ambient", ambientColor);
+            objectShader.setVec3("light.diffuse", diffuseColor);
+            objectShader.setVec3("light.specular", 1.0f,1.0f,1.0f);
+            objectShader.setVec3("material.ambient",  1.0f, 0.5f, 0.31f);
+            objectShader.setVec3("material.diffuse",  1.0f, 0.5f, 0.31f);
+            objectShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+            objectShader.setFloat("material.shininess", 32.0f);
             glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
             glm::mat4 view = camera.GetViewMatrix();
             objectShader.setMat4("projection", projection);
@@ -178,12 +188,10 @@ public:
         glDeleteBuffers(1, &VBO);
 
         glfwTerminate();
-        
     }
 private:
     glm::vec3 lightPos = glm::vec3(1.2f, 1.0f, 2.0f);
 };
-
 void processInput(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -225,4 +233,5 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     camera.ProcessMouseScroll(yoffset);
 }
-#endif /* color_h */
+
+#endif /* material_h */

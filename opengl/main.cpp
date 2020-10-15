@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
-#include "plugin/head/color.h"
+#include "plugin/head/lightmap.h"
 
 using namespace std;
 int main()
 {
-    ColorLight colorTest;
-    colorTest.init();
+    LightMap lightMap;
+    lightMap.init();
 }
