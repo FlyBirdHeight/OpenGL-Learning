@@ -14,6 +14,7 @@
 		54CE6E0524D2C76F00E9A4D9 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6E0424D2C76F00E9A4D9 /* glad.c */; };
 		54CE6E0724D2C7E800E9A4D9 /* triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6E0624D2C7E800E9A4D9 /* triangle.cpp */; };
 		54CE6E0A24D2C83F00E9A4D9 /* window_show.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6E0924D2C83F00E9A4D9 /* window_show.cpp */; };
+		54F9098E25396733005AE973 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54F9098D25396733005AE973 /* test.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -71,6 +72,14 @@
 		54F909892538663B005AE973 /* lightmap_light.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = lightmap_light.fs; sourceTree = "<group>"; };
 		54F9098A25386A7F005AE973 /* lightmap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lightmap.h; sourceTree = "<group>"; };
 		54F9098B25387564005AE973 /* container2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2.png; sourceTree = "<group>"; };
+		54F9098C253938C3005AE973 /* container2_specular.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2_specular.png; sourceTree = "<group>"; };
+		54F9098D25396733005AE973 /* test.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
+		54F9098F25399370005AE973 /* matrix.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = matrix.jpg; sourceTree = "<group>"; };
+		54F90990253AC416005AE973 /* light_casters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = light_casters.h; sourceTree = "<group>"; };
+		54F90993253BDAAE005AE973 /* light_caster_light.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light_caster_light.vs; sourceTree = "<group>"; };
+		54F90994253BDABB005AE973 /* light_caster_object.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light_caster_object.vs; sourceTree = "<group>"; };
+		54F90995253BDAD4005AE973 /* light_caster_object.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light_caster_object.fs; sourceTree = "<group>"; };
+		54F90997253BDB04005AE973 /* light_caster_light.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light_caster_light.fs; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +99,7 @@
 		544BBEE824D5736D00802969 /* vs */ = {
 			isa = PBXGroup;
 			children = (
+				54F90992253BDA98005AE973 /* light_casters */,
 				54F90982253865BF005AE973 /* lightmap */,
 				54531A192532F29B0021618E /* texture_test.vs */,
 				54CF54862534921A004FD5D6 /* transform_test.vs */,
@@ -106,6 +116,7 @@
 		544BBEE924D5737700802969 /* fs */ = {
 			isa = PBXGroup;
 			children = (
+				54F90991253BDA86005AE973 /* light_casters */,
 				54F90983253865CA005AE973 /* lightmap */,
 				54531A1A2532F2B40021618E /* texture_test.fs */,
 				54F909722536E750005AE973 /* color_light_test.fs */,
@@ -140,6 +151,7 @@
 				54F9097525371306005AE973 /* color.h */,
 				54F9097D25382BB6005AE973 /* material.h */,
 				54F9098A25386A7F005AE973 /* lightmap.h */,
+				54F90990253AC416005AE973 /* light_casters.h */,
 			);
 			path = head;
 			sourceTree = "<group>";
@@ -164,6 +176,8 @@
 		54531A1C2532F6770021618E /* images */ = {
 			isa = PBXGroup;
 			children = (
+				54F9098F25399370005AE973 /* matrix.jpg */,
+				54F9098C253938C3005AE973 /* container2_specular.png */,
 				54F9098B25387564005AE973 /* container2.png */,
 				54CF548325332194004FD5D6 /* awesomeface.png */,
 				54CF548425332194004FD5D6 /* area.png */,
@@ -195,6 +209,7 @@
 				54531A0F25302D030021618E /* plugin */,
 				54CE6DE524D2C2FC00E9A4D9 /* main.cpp */,
 				54CE6E0424D2C76F00E9A4D9 /* glad.c */,
+				54F9098D25396733005AE973 /* test.cpp */,
 			);
 			path = opengl;
 			sourceTree = "<group>";
@@ -229,6 +244,24 @@
 				54F909892538663B005AE973 /* lightmap_light.fs */,
 			);
 			path = lightmap;
+			sourceTree = "<group>";
+		};
+		54F90991253BDA86005AE973 /* light_casters */ = {
+			isa = PBXGroup;
+			children = (
+				54F90995253BDAD4005AE973 /* light_caster_object.fs */,
+				54F90997253BDB04005AE973 /* light_caster_light.fs */,
+			);
+			path = light_casters;
+			sourceTree = "<group>";
+		};
+		54F90992253BDA98005AE973 /* light_casters */ = {
+			isa = PBXGroup;
+			children = (
+				54F90993253BDAAE005AE973 /* light_caster_light.vs */,
+				54F90994253BDABB005AE973 /* light_caster_object.vs */,
+			);
+			path = light_casters;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -291,6 +324,7 @@
 				54CE6E0A24D2C83F00E9A4D9 /* window_show.cpp in Sources */,
 				54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */,
 				54CE6E0724D2C7E800E9A4D9 /* triangle.cpp in Sources */,
+				54F9098E25396733005AE973 /* test.cpp in Sources */,
 				54CE6E0524D2C76F00E9A4D9 /* glad.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

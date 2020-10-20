@@ -1,13 +1,10 @@
-//
-//  lightmap.h
+//  投光物类
+//  light_casters.h
 //  opengl
-//
-//  Created by adsionli on 2020/10/15.
+//  Created by adsionli on 2020/10/17.
 //  Copyright © 2020 adsionli. All rights reserved.
-//
-
-#ifndef lightmap_h
-#define lightmap_h
+#ifndef light_casters_h
+#define light_casters_h
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -20,8 +17,8 @@
 #include "stb_image.h"
 #include "camera.h"
 #include "shaders.h"
-
 #define PI 3.1415926
+//函数声明
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -37,12 +34,9 @@ bool firstMouse = true;
 //计算移动距离使用
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
-
-class LightMap{
+class LightCasters{
 public:
     void init(){
-        unsigned int lightVAO,VBO;
-        unsigned int objectVAO;
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -50,50 +44,6 @@ public:
         #ifdef __APPLE__
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         #endif
-        float vertices[] = {
-            // positions          // normals           // texture coords
-           -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
-            0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
-            0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-            0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-           -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
-           -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
-
-           -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-            0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
-            0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-            0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-           -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
-           -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-
-           -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-           -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-           -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-           -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-           -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-           -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-
-            0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-            0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-            0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-            0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-            0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-            0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-
-           -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-            0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
-            0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-            0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-           -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
-           -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-
-           -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
-            0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
-            0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-            0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-           -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
-           -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
-        };
         GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "漫反射贴图与镜面贴图", NULL, NULL);
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -101,22 +51,77 @@ public:
         glfwSetScrollCallback(window, scroll_callback);
         if (window == NULL)
         {
-            std::cout << "Failed to create GLFW window" << std::endl;
-            glfwTerminate();
+           std::cout << "Failed to create GLFW window" << std::endl;
+           glfwTerminate();
         }
         glfwMakeContextCurrent(window);
 
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
-            std::cout << "Failed to initialize GLAD" << std::endl;
+           std::cout << "Failed to initialize GLAD" << std::endl;
         }
         glEnable(GL_DEPTH_TEST);
+        glm::vec3 cubePositions[] = {
+            glm::vec3( 0.0f,  0.0f,  0.0f),
+            glm::vec3( 2.0f,  5.0f, -15.0f),
+            glm::vec3(-1.5f, -2.2f, -2.5f),
+            glm::vec3(-3.8f, -2.0f, -12.3f),
+            glm::vec3( 2.4f, -0.4f, -3.5f),
+            glm::vec3(-1.7f,  3.0f, -7.5f),
+            glm::vec3( 1.3f, -2.0f, -2.5f),
+            glm::vec3( 1.5f,  2.0f, -2.5f),
+            glm::vec3( 1.5f,  0.2f, -1.5f),
+            glm::vec3(-1.3f,  1.0f, -1.5f)
+        };
+        float vertices[] = {
+            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+             0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+             0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+             0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+             0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+             0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+             0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+            -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+            -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+            -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+            -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+             0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+             0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+             0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+             0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+             0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+             0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+             0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+             0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+             0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+             0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+             0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+             0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+            -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+        };
+        unsigned int objectVAO,lightVAO,VBO;
         
         glGenVertexArrays(1,&objectVAO);
         glGenBuffers(1, &VBO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-        
         glBindVertexArray(objectVAO);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
@@ -124,7 +129,7 @@ public:
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
         glEnableVertexAttribArray(2);
-        
+
         glGenVertexArrays(1,&lightVAO);
         glBindVertexArray(lightVAO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -134,7 +139,6 @@ public:
         //纹理获取
         unsigned int diffuseTexture = getTextureID(diffusePath);
         unsigned int specularTexture = getTextureID(specularPath);
-        unsigned int emissionTexture = getTextureID(emissionPath);
         
         Shader lightShader(lightVs, lightFs);
         Shader objectShader(objectVs, objectFs);
@@ -142,35 +146,20 @@ public:
         objectShader.use();
         objectShader.setInt("material.diffuse", 0);
         objectShader.setInt("material.specular", 1);
-        objectShader.setInt("material.emission", 2);
-        
-        //获取夹角角度，并通过夹角角度获取圆的半径
-        float angel = atan(lightPos.z/lightPos.x)*180.0f/PI;
-        float radiusLength = lightPos.z / sin(angel) / 2;
-        while(!glfwWindowShouldClose(window)){
+        while (!glfwWindowShouldClose(window)) {
             float currentFrame = glfwGetTime();
             deltaTime = currentFrame - lastFrame;
             lastFrame = currentFrame;
-
             processInput(window);
-            
-            
-            lightPos.x = radiusLength * cos(glfwGetTime());
-            lightPos.z = radiusLength * sin(glfwGetTime());
-            
             glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-            
             objectShader.use();
             objectShader.setVec3("viewPos", camera.Position);
-            objectShader.setVec3("light.position", lightPos);
-            
+            objectShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
             objectShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
             objectShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
             objectShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-            
             objectShader.setFloat("material.shininess", 64.0f);
             
             glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -184,9 +173,19 @@ public:
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, specularTexture);
             glBindVertexArray(objectVAO);
-            glActiveTexture(GL_TEXTURE2);
-            glBindTexture(GL_TEXTURE_2D, emissionTexture);
-            glDrawArrays(GL_TRIANGLES, 0, 36);
+            for (unsigned int i = 0; i < 10; i++)
+            {
+                glm::mat4 model = glm::mat4(1.0f);
+                model = glm::translate(model, cubePositions[i]);
+                float angle = 20.0f * i;
+                if(i%3 == 0){
+                    model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+                }else{
+                    model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+                }
+                objectShader.setMat4("model", model);
+                glDrawArrays(GL_TRIANGLES, 0, 36);
+            }
             
             lightShader.use();
             lightShader.setMat4("projection", projection);
@@ -202,13 +201,15 @@ public:
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
-        
-        glDeleteVertexArrays(1, &objectVAO);
-        glDeleteVertexArrays(1, &lightVAO);
-        glDeleteBuffers(1, &VBO);
-
-        glfwTerminate();
     }
+private:
+    glm::vec3 lightPos = glm::vec3(1.2f, 0.5f, 2.0f);
+    std::string objectVs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/light_casters/light_caster_object.vs";
+    std::string objectFs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/light_casters/light_caster_object.fs";
+    std::string lightVs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/light_casters/light_caster_light.vs";
+    std::string lightFs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/light_casters/light_caster_light.fs";
+    const char *diffusePath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/resources/images/container2.png";
+    const char *specularPath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/resources/images/container2_specular.png";
 protected:
     unsigned int getTextureID(char const * path){
         unsigned int textureID;
@@ -245,38 +246,27 @@ protected:
 
         return textureID;
     }
-private:
-    glm::vec3 lightPos = glm::vec3(1.2f, 0.5f, 2.0f);
-    std::string objectVs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/lightmap/lightmap_object.vs";
-    std::string objectFs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/lightmap/lightmap_object.fs";
-    std::string lightVs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/lightmap/lightmap_light.vs";
-    std::string lightFs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/lightmap/lightmap_light.fs";
-    const char *diffusePath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/resources/images/container2.png";
-    const char *specularPath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/resources/images/container2_specular.png";
-    const char *emissionPath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/resources/images/matrix.jpg";
 };
-
 void processInput(GLFWwindow *window)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
         glfwSetWindowShouldClose(window, true);
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    }else if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
         camera.ProcessKeyboard(FORWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    }else if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
         camera.ProcessKeyboard(BACKWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    }else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
         camera.ProcessKeyboard(LEFT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    }else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
         camera.ProcessKeyboard(RIGHT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+    }else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS){
         camera.ProcessKeyboard(TOP, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+    }else if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS){
         camera.ProcessKeyboard(DOWN, deltaTime);
+    }
 }
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    // make sure the viewport matches the new window dimensions; note that width and
-    // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 }
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
@@ -289,7 +279,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     }
 
     float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+    float yoffset = lastY - ypos;
 
     lastX = xpos;
     lastY = ypos;
@@ -300,4 +290,4 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     camera.ProcessMouseScroll(yoffset);
 }
-#endif /* lightmap_h */
+#endif

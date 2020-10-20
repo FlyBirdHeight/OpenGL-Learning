@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
-#include "plugin/head/lightmap.h"
+#include "plugin/head/light_casters.h"
 
 using namespace std;
 int main()
 {
-    LightMap lightMap;
-    lightMap.init();
+    LightCasters lightCasters;
+    lightCasters.init();
 }
