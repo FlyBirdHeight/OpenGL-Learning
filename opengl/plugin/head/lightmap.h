@@ -247,13 +247,13 @@ protected:
     }
 private:
     glm::vec3 lightPos = glm::vec3(1.2f, 0.5f, 2.0f);
-    std::string objectVs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/lightmap/lightmap_object.vs";
-    std::string objectFs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/lightmap/lightmap_object.fs";
-    std::string lightVs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/lightmap/lightmap_light.vs";
-    std::string lightFs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/lightmap/lightmap_light.fs";
-    const char *diffusePath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/resources/images/container2.png";
-    const char *specularPath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/resources/images/container2_specular.png";
-    const char *emissionPath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/resources/images/matrix.jpg";
+    std::string objectVs = "";
+	std::string objectFs = "";
+    std::string lightVs = "";
+    std::string lightFs = "";
+    const char *diffusePath = "";
+    const char *specularPath = "";
+    const char *emissionPath = "";
 };
 
 void processInput(GLFWwindow *window)
