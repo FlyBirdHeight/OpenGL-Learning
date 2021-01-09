@@ -46,10 +46,9 @@ public:
                 gShaderFile.close();
                 geometryCode = gShaderStream.str();
             }
-        }
-        catch (std::ifstream::failure& e)
+        }catch (std::ifstream::failure& e)
         {
-            std::cout << "ERROR::SHADER::文件读取失败" << std::endl;
+            std::cout << "ERROR::SHADER::FILE READ IS NOT SUCCESS" << std::endl;
         }
 
         const char *vShaderCode = vertexCode.c_str();
@@ -60,12 +59,12 @@ public:
         vertex = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertex, 1, &vShaderCode, NULL);
         glCompileShader(vertex);
-        checkCompileErrors(vertex, "VERTEX");
+        checkCompileErrors(vertex, "VERTEX", vertexPath);
         // fragment Shader
         fragment = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fragment, 1, &fShaderCode, NULL);
         glCompileShader(fragment);
-        checkCompileErrors(fragment, "FRAGMENT");
+        checkCompileErrors(fragment, "FRAGMENT", fragmentPath);
         // if geometry shader is given, compile geometry shader
         unsigned int geometry;
         if(geometryPath != nullptr)
@@ -74,7 +73,7 @@ public:
             geometry = glCreateShader(GL_GEOMETRY_SHADER);
             glShaderSource(geometry, 1, &gShaderCode, NULL);
             glCompileShader(geometry);
-            checkCompileErrors(geometry, "GEOMETRY");
+            checkCompileErrors(geometry, "GEOMETRY", geometryPath);
         }
         // shader Program
         ID = glCreateProgram();
@@ -85,13 +84,13 @@ public:
             glAttachShader(ID, geometry);
         }
         glLinkProgram(ID);
-        checkCompileErrors(ID, "PROGRAM");
-        // delete the shaders as they're linked into our program now and no longer necessery
+        checkCompileErrors(ID, "PROGRAM", vertexPath);
+        
         glDeleteShader(vertex);
         glDeleteShader(fragment);
-        if(geometryPath != nullptr)
+        if (geometryPath != nullptr) {
             glDeleteShader(geometry);
-
+        }
     }
     // activate the shader
     // ------------------------------------------------------------------------
@@ -160,9 +159,7 @@ public:
     
 
 private:
-    // utility function for checking shader compilation/linking errors.
-    // ------------------------------------------------------------------------
-    void checkCompileErrors(GLuint shader, std::string type)
+    void checkCompileErrors(GLuint shader, std::string type, std::string fileName)
     {
         GLint success;
         GLchar infoLog[1024];
@@ -172,7 +169,7 @@ private:
             if(!success)
             {
                 glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-                std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+                std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: "  << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << "fileName:" << fileName << "\n" <<std::endl;
             }
         }
         else
@@ -181,7 +178,7 @@ private:
             if(!success)
             {
                 glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-                std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+                std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << "fileName:" << fileName << "\n" << std::endl;
             }
         }
     }

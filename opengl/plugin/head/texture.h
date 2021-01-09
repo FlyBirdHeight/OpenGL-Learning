@@ -108,7 +108,7 @@ public:
             vsFilePath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/3d_test.vs";
         }
     
-        std::string fsFilePath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/texture_test.fs";
+        std::string fsFilePath = "./shader/fs/texture_test.fs";
         Shader shader(vsFilePath,fsFilePath);
         glGenVertexArrays(1,&VAO);
         glGenBuffers(1, &VBO);
@@ -229,7 +229,7 @@ public:
          //设置图片的y轴进行翻转
          stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded
          //添加图片数据
-         unsigned char *data = stbi_load("/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/resources/images/area.png", &width, &height, &nrChannels, 0);
+         unsigned char *data = stbi_load("./resources/images/area.png", &width, &height, &nrChannels, 0);
          if (data)
          {
             //进行纹理生成
@@ -251,7 +251,7 @@ public:
          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-         data = stbi_load("/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/resources/images/awesomeface.png", &width, &height, &nrChannels, 0);
+         data = stbi_load("./resources/images/awesomeface.png", &width, &height, &nrChannels, 0);
          if (data)
          {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);

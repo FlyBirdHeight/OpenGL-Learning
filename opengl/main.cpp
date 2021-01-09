@@ -1,9 +1,10 @@
-#include <iostream>
-#include <string>
-#include "color.h"
-
+#include "text_draw.hpp"
 using namespace std;
 int main()
 {
-	std::cout << "123" << std::endl;
+    TextDraw objInfo;
+//    objInfo.start();
+    objInfo.work();
+    
+    return 0;
 }

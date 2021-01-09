@@ -33,11 +33,14 @@ float lastFrame = 0.0f;
 class LightCasters {
 public:
 	void init() {
-		glfwInit();
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "漫反射贴图与镜面贴图", NULL, NULL);
+        glfwInit();
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        #ifdef __APPLE__
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        #endif
+		GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "投光物", NULL, NULL);
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 		glfwSetCursorPosCallback(window, mouse_callback);
@@ -208,12 +211,12 @@ public:
 	}
 private:
 	glm::vec3 lightPos = glm::vec3(1.2f, 1.0f, 2.0f);
-	std::string objectVs = "./shader/vs/light_casters/light_caster_object.vs";
-	std::string objectFs = "./shader/fs/light_casters/light_caster_object.fs";
-	std::string lightVs  = "./shader/vs/light_casters/light_caster_light.vs";
-	std::string lightFs  = "./shader/fs/light_casters/light_caster_light.fs";
-	const char *diffusePath = "./resources/images/container2.png";
-	const char *specularPath = "./resources/images/container2_specular.png";
+    std::string objectVs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/light_casters/light_caster_object.vs";
+    std::string objectFs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/light_casters/light_caster_object.fs";
+    std::string lightVs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/vs/light_casters/light_caster_light.vs";
+    std::string lightFs = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/shader/fs/light_casters/light_caster_light.fs";
+    const char *diffusePath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/resources/images/container2.png";
+    const char *specularPath = "/Users/adsionli/code/c++/opengl/opengl/opengl/plugin/resources/images/container2_specular.png";
 protected:
 	unsigned int getTextureID(char const * path) {
 		unsigned int textureID;

@@ -11,7 +11,6 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
 #include <vector>
 enum Camera_Movement {
     FORWARD,
@@ -21,7 +20,6 @@ enum Camera_Movement {
     TOP,
     DOWN
 };
-
 const float YAW         = -90.0f;
 const float PITCH       =  0.0f;
 const float SPEED       =  2.5f;
@@ -69,7 +67,7 @@ public:
     void ProcessKeyboard(Camera_Movement direction, float deltaTime)
     {
         //计算所需移动距离，避免移动距离不相同。
-        float velocity = MovementSpeed * deltaTime;
+        float velocity = MovementSpeed * deltaTime * 6.0;
         switch (direction) {
             case FORWARD:
                 Position += Front * velocity;
