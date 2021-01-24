@@ -19,7 +19,6 @@
 #include <math.h>
 #include <iostream>
 #include <stdio.h>
-#include "init_window.hpp"
 #pragma execution_character_set("utf-8")
 
 class TextDraw{

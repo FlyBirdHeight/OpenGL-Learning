@@ -1,10 +1,11 @@
-#include "text_draw.hpp"
+#include "second.h"
 using namespace std;
 int main()
 {
-    TextDraw objInfo;
-//    objInfo.start();
-    objInfo.work();
+    Second objInfo;
+    
+    
+    objInfo.init();
     
     return 0;
 }
