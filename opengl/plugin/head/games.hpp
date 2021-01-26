@@ -19,6 +19,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "games_level.hpp"
 #include "ball.hpp"
+#include "particles.hpp"
 #include <vector>
 enum GameState{
     GAME_ACTIVE,
@@ -40,7 +41,7 @@ public:
     std::vector<GameLevel> Levels;
     unsigned int Level;
     Games(unsigned int scr_width, unsigned int scr_height);
-    ~Games(){};
+    ~Games();
     //初始化游戏
     void Init();
     //处理输入事件

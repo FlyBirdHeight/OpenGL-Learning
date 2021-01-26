@@ -16,6 +16,7 @@
 		5423F72725B7EDB100218EC3 /* ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5423F72525B7EDB100218EC3 /* ball.cpp */; };
 		5446113B25A6EF3300F2DC81 /* text_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5446113925A6EF3300F2DC81 /* text_draw.cpp */; };
 		5446114D25A72F9900F2DC81 /* test123.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5446114C25A72F9900F2DC81 /* test123.cpp */; };
+		546412ED25BE9F0700126AF5 /* particles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412EB25BE9F0700126AF5 /* particles.cpp */; };
 		54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6DE524D2C2FC00E9A4D9 /* main.cpp */; };
 		54CE6E0124D2C64500E9A4D9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFB24D2C46400E9A4D9 /* OpenGL.framework */; };
 		54CE6E0224D2C66400E9A4D9 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFD24D2C48700E9A4D9 /* libGLEW.2.1.0.dylib */; };
@@ -86,6 +87,13 @@
 		545D101225A480D2006F6FD4 /* model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
 		545D101425A48129006F6FD4 /* mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mesh.h; sourceTree = "<group>"; };
 		545D103025A4893D006F6FD4 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = text.h; path = opengl/plugin/head/text.h; sourceTree = SOURCE_ROOT; };
+		546412EB25BE9F0700126AF5 /* particles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = particles.cpp; sourceTree = "<group>"; };
+		546412EC25BE9F0700126AF5 /* particles.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = particles.hpp; sourceTree = "<group>"; };
+		546412F225BED11100126AF5 /* particle.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = particle.vs; sourceTree = "<group>"; };
+		546412F325BED12A00126AF5 /* particle.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = particle.fs; sourceTree = "<group>"; };
+		546412F425BEDCD800126AF5 /* ball_face.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball_face.png; sourceTree = "<group>"; };
+		546412F525BEDCD800126AF5 /* novel_thumb_6_m.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = novel_thumb_6_m.jpg; sourceTree = "<group>"; };
+		546412F625BEDCD800126AF5 /* particle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = particle.png; sourceTree = "<group>"; };
 		54CE6DE224D2C2FC00E9A4D9 /* opengl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = opengl; sourceTree = BUILT_PRODUCTS_DIR; };
 		54CE6DE524D2C2FC00E9A4D9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		54CE6DF324D2C44400E9A4D9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -156,6 +164,7 @@
 		5423F6E225AAE2F300218EC3 /* games */ = {
 			isa = PBXGroup;
 			children = (
+				546412EA25BE9EF800126AF5 /* particle */,
 				5423F70F25B56E3600218EC3 /* game_level */,
 				5423F70925B56C4400218EC3 /* game_object */,
 				5423F6FD25B551BF00218EC3 /* sprite */,
@@ -278,6 +287,7 @@
 		5446114725A7167500F2DC81 /* combat */ = {
 			isa = PBXGroup;
 			children = (
+				546412F025BED0E800126AF5 /* particle */,
 				5423F70325B5589000218EC3 /* sprite */,
 				5446114F25A97E6D00F2DC81 /* font */,
 				5446114825A7169200F2DC81 /* font.vs */,
@@ -288,6 +298,7 @@
 		5446114925A7175300F2DC81 /* combat */ = {
 			isa = PBXGroup;
 			children = (
+				546412F125BED0F500126AF5 /* particle */,
 				5423F70425B5589C00218EC3 /* sprite */,
 				5446115125A97E9800F2DC81 /* font */,
 				5446114A25A7176100F2DC81 /* font.fs */,
@@ -392,6 +403,9 @@
 		54531A1C2532F6770021618E /* images */ = {
 			isa = PBXGroup;
 			children = (
+				546412F425BEDCD800126AF5 /* ball_face.png */,
+				546412F525BEDCD800126AF5 /* novel_thumb_6_m.jpg */,
+				546412F625BEDCD800126AF5 /* particle.png */,
 				5423F71D25B6AB0C00218EC3 /* background.jpg */,
 				5423F71C25B6AB0C00218EC3 /* background01.jpg */,
 				5423F71E25B6AB0C00218EC3 /* paddle.png */,
@@ -584,6 +598,31 @@
 			path = text;
 			sourceTree = "<group>";
 		};
+		546412EA25BE9EF800126AF5 /* particle */ = {
+			isa = PBXGroup;
+			children = (
+				546412EB25BE9F0700126AF5 /* particles.cpp */,
+				546412EC25BE9F0700126AF5 /* particles.hpp */,
+			);
+			name = particle;
+			sourceTree = "<group>";
+		};
+		546412F025BED0E800126AF5 /* particle */ = {
+			isa = PBXGroup;
+			children = (
+				546412F225BED11100126AF5 /* particle.vs */,
+			);
+			path = particle;
+			sourceTree = "<group>";
+		};
+		546412F125BED0F500126AF5 /* particle */ = {
+			isa = PBXGroup;
+			children = (
+				546412F325BED12A00126AF5 /* particle.fs */,
+			);
+			path = particle;
+			sourceTree = "<group>";
+		};
 		54CE6DD924D2C2FC00E9A4D9 = {
 			isa = PBXGroup;
 			children = (
@@ -722,6 +761,7 @@
 			files = (
 				5423F6F525AAEE4A00218EC3 /* games.cpp in Sources */,
 				54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */,
+				546412ED25BE9F0700126AF5 /* particles.cpp in Sources */,
 				5423F70C25B56C5800218EC3 /* game_object.cpp in Sources */,
 				5446114D25A72F9900F2DC81 /* test123.cpp in Sources */,
 				5423F6ED25AAE71400218EC3 /* resoureces_use.cpp in Sources */,

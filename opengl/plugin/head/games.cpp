@@ -7,13 +7,16 @@
 //
 
 #include "games.hpp"
+
 SpriteRender *Renderer;
+GameObject *Player;
+BallObj *Ball;
+Particles *Particle;
+
 const glm::vec2 PLAYER_SIZE(100,20);
 const float PLAYER_VELOCITY(500.0f);
-GameObject *Player;
 const glm::vec2 INITAL_BALL_VELOCITY(100.0f, -350.0f);
 const float BALL_RADIUS = 12.5;
-BallObj *Ball;
 
 Direction VectorDirection(glm::vec2 target);
 
@@ -23,19 +26,39 @@ Games::Games(unsigned int width, unsigned int height)
 
 }
 
+Games::~Games()
+{
+    delete Renderer;
+    delete Player;
+    delete Ball;
+    delete Particle;
+}
+
 void Games::Init(){
     ResourcesUse::LoadShader("./shader/vs/combat/sprite/sprite.vs", "./shader/fs/combat/sprite/sprite.fs", nullptr, "sprite");
+    ResourcesUse::LoadShader("./shader/vs/combat/particle/particle.vs", "./shader/fs/combat/particle/particle.fs", nullptr, "particle");
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->width), static_cast<float>(this->height), 0.0f, -1.0f, 1.0f);
+    //精灵渲染
     Shader sprite = ResourcesUse::GetShader("sprite");
     sprite.use();
     sprite.setMat4("projection", projection);
     sprite.setInt("image", 0);
-    Renderer = new SpriteRender(sprite);
+    //粒子渲染
+    Shader particleShader = ResourcesUse::GetShader("particle");
+    particleShader.use();
+    particleShader.setMat4("projection", projection);
+    particleShader.setInt("sprite", 0);
+    
     ResourcesUse::LoadTexture("./resources/images/background.jpg", false, "background");
     ResourcesUse::LoadTexture("./resources/images/paddle.png", true, "paddle");
     ResourcesUse::LoadTexture("./resources/images/block_solid.png", false, "block_solid");
     ResourcesUse::LoadTexture("./resources/images/block.png", false, "block");
     ResourcesUse::LoadTexture("./resources/images/ball_face.png", true, "ball");
+    ResourcesUse::LoadTexture("./resources/images/particle.png", true, "particle");
+    
+    Renderer = new SpriteRender(sprite);
+    Particle = new Particles(particleShader, ResourcesUse::GetTexture("particle"), 500);
+    
     GameLevel first,second,third,forth;
     first.Load("./resources/combat/first.combat", this->width, this->height * 0.5);
     second.Load("./resources/combat/second.combat", this->width, this->height * 0.5);
@@ -46,6 +69,7 @@ void Games::Init(){
     this->Levels.push_back(third);
     this->Levels.push_back(forth);
     this->Level = 0;
+    
     glm::vec2 playerPos = glm::vec2(this->width / 2.0f - PLAYER_SIZE.x / 2.0f, this->height - PLAYER_SIZE.y);
     Player = new GameObject(playerPos, PLAYER_SIZE, ResourcesUse::GetTexture("paddle"));
     glm::vec2 ballPos = playerPos + glm::vec2(PLAYER_SIZE.x / 2 - BALL_RADIUS, -BALL_RADIUS * 2);
@@ -82,6 +106,8 @@ void Games::ProcessInput(float dt){
 void Games::Update(float dt){
     Ball->Move(dt, this->width);
     this->DoCollision();
+    Particle->Update(dt, *Ball, 2, glm::vec2(Ball->Radius / 2.0f));
+    std::cout << glm::vec2(Ball->Radius / 2).x << "   " << glm::vec2(Ball->Radius / 2).y << std::endl;
     if(Ball->Position.y > this->height){
         this->ResetRender();
         this->ResetPlayer();
@@ -111,6 +137,7 @@ void Games::Render(){
         Renderer->DrawSprite(background, glm::vec2(0.0f, 0.0f), glm::vec2(this->width, this->height), 0.0f);
         this->Levels[this->Level].Draw(*Renderer);
         Player->Draw(*Renderer);
+        Particle->Draw();
         Ball->Draw(*Renderer);
     }
 }
