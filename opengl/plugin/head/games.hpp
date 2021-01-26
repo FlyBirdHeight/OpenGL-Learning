@@ -20,6 +20,7 @@
 #include "games_level.hpp"
 #include "ball.hpp"
 #include "particles.hpp"
+#include "postprocess.hpp"
 #include <vector>
 enum GameState{
     GAME_ACTIVE,

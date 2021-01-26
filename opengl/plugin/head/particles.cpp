@@ -27,7 +27,6 @@ void Particles::init(){
     glBindVertexArray(this->vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(particlesArray), particlesArray, GL_STATIC_DRAW);
-    
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glBindVertexArray(0);
