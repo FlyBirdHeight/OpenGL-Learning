@@ -1,11 +1,10 @@
-#include "second.h"
-using namespace std;
+#include "perlin.hpp"
 int main()
 {
-    Second objInfo;
+    PerlinNoise objInfo;
     
     
-    objInfo.init();
+    objInfo.generateMesh();
     
     return 0;
 }

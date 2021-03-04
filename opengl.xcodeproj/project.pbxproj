@@ -16,6 +16,7 @@
 		5423F72725B7EDB100218EC3 /* ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5423F72525B7EDB100218EC3 /* ball.cpp */; };
 		5446113B25A6EF3300F2DC81 /* text_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5446113925A6EF3300F2DC81 /* text_draw.cpp */; };
 		5446114D25A72F9900F2DC81 /* test123.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5446114C25A72F9900F2DC81 /* test123.cpp */; };
+		5452B0AA25F07A9E00E614BF /* perlin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5452B0A825F07A9E00E614BF /* perlin.cpp */; };
 		546412ED25BE9F0700126AF5 /* particles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412EB25BE9F0700126AF5 /* particles.cpp */; };
 		546412FF25C0472F00126AF5 /* postprocess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412FD25C0472F00126AF5 /* postprocess.cpp */; };
 		54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6DE524D2C2FC00E9A4D9 /* main.cpp */; };
@@ -83,6 +84,11 @@
 		544BBEED24D9162D00802969 /* shaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shaders.h; sourceTree = "<group>"; };
 		544BBEEE24D9169B00802969 /* window_show.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = window_show.h; sourceTree = "<group>"; };
 		544BBEEF24D955DF00802969 /* texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = texture.h; sourceTree = "<group>"; };
+		5452B0A625F0713600E614BF /* template.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = template.fs; sourceTree = "<group>"; };
+		5452B0A825F07A9E00E614BF /* perlin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = perlin.cpp; path = opengl/plugin/head/perlin.cpp; sourceTree = SOURCE_ROOT; };
+		5452B0A925F07A9E00E614BF /* perlin.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = perlin.hpp; path = opengl/plugin/head/perlin.hpp; sourceTree = SOURCE_ROOT; };
+		5452B0B325F0808E00E614BF /* perlin.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = perlin.vs; sourceTree = "<group>"; };
+		5452B0B425F0815600E614BF /* perlin.fs */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.glsl; path = perlin.fs; sourceTree = "<group>"; tabWidth = 4; wrapsLines = 0; };
 		54531A192532F29B0021618E /* texture_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = texture_test.vs; sourceTree = "<group>"; };
 		54531A1A2532F2B40021618E /* texture_test.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = texture_test.fs; sourceTree = "<group>"; };
 		545D101225A480D2006F6FD4 /* model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
@@ -333,6 +339,7 @@
 		544BBEE824D5736D00802969 /* vs */ = {
 			isa = PBXGroup;
 			children = (
+				5452B0B225F0807C00E614BF /* noise */,
 				5446114725A7167500F2DC81 /* combat */,
 				54F90992253BDA98005AE973 /* light_casters */,
 				54F90982253865BF005AE973 /* lightmap */,
@@ -351,6 +358,7 @@
 		544BBEE924D5737700802969 /* fs */ = {
 			isa = PBXGroup;
 			children = (
+				5452B0A525F0711A00E614BF /* noise */,
 				5446114925A7175300F2DC81 /* combat */,
 				54F90991253BDA86005AE973 /* light_casters */,
 				54F90983253865CA005AE973 /* lightmap */,
@@ -361,6 +369,49 @@
 				54F9098125383253005AE973 /* material_type_light.fs */,
 			);
 			path = fs;
+			sourceTree = "<group>";
+		};
+		5452B09D25EDDA5800E614BF /* perlin */ = {
+			isa = PBXGroup;
+			children = (
+				5452B0A825F07A9E00E614BF /* perlin.cpp */,
+				5452B0A925F07A9E00E614BF /* perlin.hpp */,
+			);
+			name = perlin;
+			path = noise;
+			sourceTree = "<group>";
+		};
+		5452B0A525F0711A00E614BF /* noise */ = {
+			isa = PBXGroup;
+			children = (
+				5452B0A625F0713600E614BF /* template.fs */,
+				5452B0B425F0815600E614BF /* perlin.fs */,
+			);
+			path = noise;
+			sourceTree = "<group>";
+		};
+		5452B0AE25F07AA700E614BF /* worly */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = worly;
+			sourceTree = "<group>";
+		};
+		5452B0AF25F07AC900E614BF /* noise */ = {
+			isa = PBXGroup;
+			children = (
+				5452B0AE25F07AA700E614BF /* worly */,
+				5452B09D25EDDA5800E614BF /* perlin */,
+			);
+			name = noise;
+			sourceTree = "<group>";
+		};
+		5452B0B225F0807C00E614BF /* noise */ = {
+			isa = PBXGroup;
+			children = (
+				5452B0B325F0808E00E614BF /* perlin.vs */,
+			);
+			path = noise;
 			sourceTree = "<group>";
 		};
 		54531A0F25302D030021618E /* plugin */ = {
@@ -376,6 +427,7 @@
 		54531A172532EC150021618E /* head */ = {
 			isa = PBXGroup;
 			children = (
+				5452B0AF25F07AC900E614BF /* noise */,
 				545D102C25A48559006F6FD4 /* combat */,
 				545D102B25A48551006F6FD4 /* model */,
 				545D102A25A4854B006F6FD4 /* light */,
@@ -797,6 +849,7 @@
 				546412ED25BE9F0700126AF5 /* particles.cpp in Sources */,
 				5423F70C25B56C5800218EC3 /* game_object.cpp in Sources */,
 				5446114D25A72F9900F2DC81 /* test123.cpp in Sources */,
+				5452B0AA25F07A9E00E614BF /* perlin.cpp in Sources */,
 				5423F6ED25AAE71400218EC3 /* resoureces_use.cpp in Sources */,
 				54F9098E25396733005AE973 /* test.cpp in Sources */,
 				5423F70025B551DA00218EC3 /* SpriteRender.cpp in Sources */,
