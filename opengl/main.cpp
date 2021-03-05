@@ -1,10 +1,10 @@
-#include "perlin.hpp"
+#include "perlin_3d.hpp"
 int main()
 {
-    PerlinNoise objInfo;
+    PerlinNoise3D objInfo;
     
     
-    objInfo.generateMesh();
+    objInfo.testHash();
     
     return 0;
 }

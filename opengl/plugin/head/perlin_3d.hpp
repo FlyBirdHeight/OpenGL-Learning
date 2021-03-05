@@ -1,13 +1,13 @@
 //
-//  perlin.hpp
+//  perlin_3d.hpp
 //  opengl
-//
-//  Created by adsionli on 2021/3/4.
+//  柏林噪声3维
+//  Created by adsionli on 2021/3/5.
 //  Copyright © 2021 adsionli. All rights reserved.
 //
 
-#ifndef perlin_hpp
-#define perlin_hpp
+#ifndef perlin_3d_hpp
+#define perlin_3d_hpp
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -17,8 +17,7 @@
 #include <random>
 #include <cmath>
 #include "shaders.h"
-
-class PerlinNoise{
+class PerlinNoise3D{
     //定义纹理大小
     static const unsigned int g_tableSize = 256;
     //定义随机排列数组大小
@@ -27,22 +26,24 @@ public:
     //生成晶格数据
     void generateMesh();
     //生成对应的晶格数据
-    float generateMeshData(glm::vec2 point);
+    float generateMeshData(glm::fvec3 point);
     //缓和曲线
     float smoothCurve(float data);
     //梯度向量下标获取
-    glm::fvec2 getIndex(int x, int y);
+    glm::fvec3 getIndex(int x, int y, int z);
+    //线性混合
+    float lerp(float a, float b, float v);
     //初始化界面
     void init();
     //测试生成晶格
-    void testHash(int x, int y);
+    void testHash();
 
 private:
     unsigned int SCR_WIDTH = 800, SCR_HEIGHT = 600;
     //定义查找表
-    glm::fvec2 gradient[g_tableSize];
+    glm::fvec3 gradient[g_tableSize];
     //定义随机排列数组
     unsigned permutationTable[g_tableSize * 2];
 };
 
-#endif /* perlin_hpp */
+#endif /* perlin_3d_hpp */
