@@ -22,7 +22,10 @@ class PerlinNoise3D{
     static const unsigned int g_tableSize = 256;
     //定义随机排列数组大小
     static const unsigned int p_tableSize = g_tableSize - 1;
+    //随机梯度向量大小
+    static const unsigned int gradient_cout = 12;
 public:
+    PerlinNoise3D();
     //生成晶格数据
     void generateMesh();
     //生成对应的晶格数据
@@ -37,6 +40,8 @@ public:
     void init();
     //测试生成晶格
     void testHash();
+    
+    glm::fvec3 hash(glm::fvec3 p);
 
 private:
     unsigned int SCR_WIDTH = 800, SCR_HEIGHT = 600;
@@ -44,6 +49,21 @@ private:
     glm::fvec3 gradient[g_tableSize];
     //定义随机排列数组
     unsigned permutationTable[g_tableSize * 2];
+    //随机梯度向量数组
+    glm::fvec3 gradientData[gradient_cout] = {
+        glm::fvec3(1,1,0),
+        glm::fvec3(-1,1,0),
+        glm::fvec3(1,-1,0),
+        glm::fvec3(-1,-1,0),
+        glm::fvec3(1,0,1),
+        glm::fvec3(-1,0,1),
+        glm::fvec3(1,0,-1),
+        glm::fvec3(-1,0,-1),
+        glm::fvec3(0,1,1),
+        glm::fvec3(0,-1,1),
+        glm::fvec3(0,1,-1),
+        glm::fvec3(0,-1,-1)
+    };
 };
 
 #endif /* perlin_3d_hpp */

@@ -8,6 +8,11 @@
 
 #include "perlin_3d.hpp"
 #include <fstream>
+#define M_PI 3.1415926
+PerlinNoise3D::PerlinNoise3D(){
+    
+}
+
 void PerlinNoise3D::init(){
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -54,9 +59,17 @@ void PerlinNoise3D::generateMesh(){
     auto randomData = std::bind(distribution, generate);
     float gradientLen2 = 0.0;
     for(unsigned i = 0; i < this->g_tableSize; ++i){
-        this->gradient[i] = glm::fvec3(2 * randomData() - 1, 2 * randomData() - 1, 2 * randomData() - 1);
-        gradientLen2 = this->gradient[i].length();
-        this->gradient[i] /= sqrtf(gradientLen2);
+        //均匀分布在单位球体上
+        float theta = std::acos(2 * randomData() - 1);
+        float phi = 2 * randomData() * M_PI;
+
+        float x = cos(phi) * sin(theta);
+        float y = sin(phi) * sin(theta);
+        float z = cos(theta);
+//        this->gradient[i] = glm::fvec3(2 * randomData() - 1, 2 * randomData() - 1, 2 * randomData() - 1);
+//        gradientLen2 = this->gradient[i].length();
+//        this->gradient[i] /= sqrtf(gradientLen2);
+        this->gradient[i] = glm::fvec3(x, y, z);
         this->permutationTable[i] = i;
     }
     std::uniform_int_distribution<int> distributionInt{0, 255};
@@ -71,13 +84,13 @@ void PerlinNoise3D::generateMesh(){
 //生成对应的晶格数据
 float PerlinNoise3D::generateMeshData(glm::fvec3 point){
     //最下角晶格顶点的x,y,z坐标
-    int x = ((int) std::floor(point.x));
-    int y = ((int) std::floor(point.y));
-    int z = ((int) std::floor(point.z));
+    int x = ((int) std::floor(point.x)) & 255;
+    int y = ((int) std::floor(point.y)) & 255;
+    int z = ((int) std::floor(point.z)) & 255;
     
-    int x1 = (x + 1);
-    int y1 = (y + 1);
-    int z1 = (z + 1);
+    int x1 = (x + 1) % 256;
+    int y1 = (y + 1) % 256;
+    int z1 = (z + 1) % 256;
     //晶格点顶点
     glm::fvec3 xyz1(x, y, z);
     glm::fvec3 xyz2(x1, y, z);
@@ -135,36 +148,80 @@ float PerlinNoise3D::generateMeshData(glm::fvec3 point){
 //梯度向量获取   g(i, j, k) = P[ ( i + P[ (j + P[k]) mod 256 ] ) mod 256 ]
 //  a = p[y + p[z]]; b = (a % 256 + 256) % 256; c = a + b; d = (c % 256 + 256) % 256
 glm::fvec3 PerlinNoise3D::getIndex(int x, int y, int z){
-    int a = this->permutationTable[y + this->permutationTable[z]];
-    int b = (a % 256 + 256) % 256;
-    int c = a + b;
-    int d = (c % 256 + 256) % 256;
-    return this->gradient[d];
+    return this->gradient[permutationTable[permutationTable[permutationTable[x] + y] + z]];
 }
+
 //缓和曲线
 float PerlinNoise3D::smoothCurve(float t){
-    float returnData = t * t * t * (t * (t * 6. - 15.) + 10.);
+    float returnData = t * t * (3. - 2. * t);
     
     return returnData;
 }
+
 //线性混合
 float PerlinNoise3D::lerp(float a, float b, float v){
     return a * (1 - v) + b * v;
 }
+//直接随机的梯度向量
+glm::fvec3 PerlinNoise3D::hash(glm::fvec3 p){
+    p = glm::fvec3( glm::dot(p,glm::fvec3(127.1,311.7, 74.7)),
+                  glm::dot(p,glm::fvec3(269.5,183.3,246.1)),
+                  glm::dot(p,glm::fvec3(113.5,271.9,124.6)));
+    p.x = std::sin(p.x) * 43758.5453123;
+    p.y = std::sin(p.y) * 43758.5453123;
+    p.z = std::sin(p.z) * 43758.5453123;
+    p = glm::fract(p);
+    p.x = p.x * 2;
+    p.y = p.y * 2;
+    p.z = p.z * 2;
+    glm::fvec3 e(-1.0);
+    
+    return e - p;
+}
 //测试
 void PerlinNoise3D::testHash(){
     this->generateMesh();
-    std::ofstream newFile("./resources/noise/perlin_noise2.ppm");
-    int xx=400, yy=400;
-    newFile << "P3" << std::endl << xx << " " << yy << " " << std::endl << "255" << std::endl;
+    std::ofstream newFile("./resources/noise/perlin_noise113.ppm");
+    const uint32_t width = 400, height = 400;
+    newFile << "P3\n" << width << " " << height << "\n255\n";
+    
     for(float i = 0.0; i < 25.0; i += 0.05){
         for(float j = 0.0; j < 25.0; j += 0.05){
+            float amplitude = 1.0, f = 1.0, maxValue=0;
+            float sum = 0.0;
             glm::fvec3 p(i, j, 7.89101112131415);
-            float sum = 0, frequency = 1, amplitude = 1;
-            for(int k = 0; k < 4; ++k, frequency *= 2.0, amplitude *= 0.5){
-                sum += abs(this->generateMeshData(glm::fvec3(p.x * frequency, p.y * frequency, p.z * frequency))) * amplitude;
-            }
-            int b = (sum + 1)*255.0 / 2.0;
+            sum = this->generateMeshData(p);
+//            for(int k = 0; k < 4; k++, amplitude /= 0.5, f *= 2.0){
+//                sum += std::abs(this->generateMeshData(p)) * amplitude;
+//                maxValue += amplitude;
+//            }
+//            sum /= maxValue;
+//            for(int k = 0; k < 4; k++, amplitude /= 0.5, f *= 2.0){
+//                sum += std::abs(this->generateMeshData(glm::fvec3(p.x * f, p.y * f, p.z * f))) * amplitude;
+//                maxValue += amplitude;
+//            }
+//            sum = sin(sum + i * f / 16.0);
+            int b = (sum + 1) * 255.0 / 2.0;
+//            if (b < 50)
+//            {
+//                newFile << 255 << " " << b << " " << b << std::endl;
+//            }
+//            else if(b<100)
+//            {
+//                newFile << b << " " << 255 << " " << b << std::endl;
+//            }
+//            else if (b < 150)
+//            {
+//                newFile << 175 << " " << 175 << " " << b << std::endl;
+//            }
+//                else if (b < 200)
+//            {
+//                newFile << b << " " << 125 << " " << 125 << std::endl;
+//            }
+//            else
+//            {
+//                newFile << b << " " << b << " " << 255 << std::endl;
+//            }
             newFile << b << " " << b << " " << b << std::endl;
         }
     }
