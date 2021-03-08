@@ -1,10 +1,10 @@
-#include "perlin_3d.hpp"
+#include "simplex.hpp"
 int main()
 {
-    PerlinNoise3D objInfo;
+    SimplexNoise objInfo;
     
     
-    objInfo.testHash();
+    objInfo.test();
     
     return 0;
 }

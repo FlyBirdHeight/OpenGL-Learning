@@ -196,7 +196,7 @@ void PerlinNoise3D::testHash(){
 //                maxValue += amplitude;
 //            }
 //            sum /= maxValue;
-//            for(int k = 0; k < 4; k++, amplitude /= 0.5, f *= 2.0){
+//            for(int k = 0; k < 4; k++, amplitude /= 0.5, f *= 2.0){·11
 //                sum += std::abs(this->generateMeshData(glm::fvec3(p.x * f, p.y * f, p.z * f))) * amplitude;
 //                maxValue += amplitude;
 //            }
