@@ -18,6 +18,8 @@
 		5446114D25A72F9900F2DC81 /* test123.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5446114C25A72F9900F2DC81 /* test123.cpp */; };
 		544BF03525F20A6800BACCD8 /* perlin_3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF03325F20A6800BACCD8 /* perlin_3d.cpp */; };
 		544BF03A25F5E0E900BACCD8 /* simplex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF03825F5E0E900BACCD8 /* simplex.cpp */; };
+		544BF03F25F7448A00BACCD8 /* simplex_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF03D25F7448A00BACCD8 /* simplex_test.cpp */; };
+		544BF04925F769E200BACCD8 /* worley_noise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF04725F769E200BACCD8 /* worley_noise.cpp */; };
 		5452B0AA25F07A9E00E614BF /* perlin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5452B0A825F07A9E00E614BF /* perlin.cpp */; };
 		546412ED25BE9F0700126AF5 /* particles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412EB25BE9F0700126AF5 /* particles.cpp */; };
 		546412FF25C0472F00126AF5 /* postprocess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412FD25C0472F00126AF5 /* postprocess.cpp */; };
@@ -90,6 +92,10 @@
 		544BF03425F20A6800BACCD8 /* perlin_3d.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = perlin_3d.hpp; path = opengl/plugin/head/perlin_3d.hpp; sourceTree = SOURCE_ROOT; };
 		544BF03825F5E0E900BACCD8 /* simplex.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = simplex.cpp; sourceTree = "<group>"; };
 		544BF03925F5E0E900BACCD8 /* simplex.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = simplex.hpp; sourceTree = "<group>"; };
+		544BF03D25F7448A00BACCD8 /* simplex_test.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = simplex_test.cpp; sourceTree = "<group>"; };
+		544BF03E25F7448A00BACCD8 /* simplex_test.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = simplex_test.hpp; sourceTree = "<group>"; };
+		544BF04725F769E200BACCD8 /* worley_noise.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = worley_noise.cpp; sourceTree = "<group>"; };
+		544BF04825F769E200BACCD8 /* worley_noise.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = worley_noise.hpp; sourceTree = "<group>"; };
 		5452B0A625F0713600E614BF /* template.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = template.fs; sourceTree = "<group>"; };
 		5452B0A825F07A9E00E614BF /* perlin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = perlin.cpp; path = opengl/plugin/head/perlin.cpp; sourceTree = SOURCE_ROOT; };
 		5452B0A925F07A9E00E614BF /* perlin.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = perlin.hpp; path = opengl/plugin/head/perlin.hpp; sourceTree = SOURCE_ROOT; };
@@ -382,8 +388,19 @@
 			children = (
 				544BF03825F5E0E900BACCD8 /* simplex.cpp */,
 				544BF03925F5E0E900BACCD8 /* simplex.hpp */,
+				544BF03D25F7448A00BACCD8 /* simplex_test.cpp */,
+				544BF03E25F7448A00BACCD8 /* simplex_test.hpp */,
 			);
 			name = simplex;
+			sourceTree = "<group>";
+		};
+		544BF04625F769D300BACCD8 /* worley */ = {
+			isa = PBXGroup;
+			children = (
+				544BF04725F769E200BACCD8 /* worley_noise.cpp */,
+				544BF04825F769E200BACCD8 /* worley_noise.hpp */,
+			);
+			name = worley;
 			sourceTree = "<group>";
 		};
 		5452B09D25EDDA5800E614BF /* perlin */ = {
@@ -407,18 +424,11 @@
 			path = noise;
 			sourceTree = "<group>";
 		};
-		5452B0AE25F07AA700E614BF /* worly */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = worly;
-			sourceTree = "<group>";
-		};
 		5452B0AF25F07AC900E614BF /* noise */ = {
 			isa = PBXGroup;
 			children = (
+				544BF04625F769D300BACCD8 /* worley */,
 				544BF03725F5E0D700BACCD8 /* simplex */,
-				5452B0AE25F07AA700E614BF /* worly */,
 				5452B09D25EDDA5800E614BF /* perlin */,
 			);
 			name = noise;
@@ -874,6 +884,7 @@
 				54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */,
 				546412ED25BE9F0700126AF5 /* particles.cpp in Sources */,
 				5423F70C25B56C5800218EC3 /* game_object.cpp in Sources */,
+				544BF03F25F7448A00BACCD8 /* simplex_test.cpp in Sources */,
 				5446114D25A72F9900F2DC81 /* test123.cpp in Sources */,
 				5452B0AA25F07A9E00E614BF /* perlin.cpp in Sources */,
 				5423F6ED25AAE71400218EC3 /* resoureces_use.cpp in Sources */,
@@ -883,6 +894,7 @@
 				5423F72725B7EDB100218EC3 /* ball.cpp in Sources */,
 				5423F6E825AAE37C00218EC3 /* texture.cpp in Sources */,
 				544BF03A25F5E0E900BACCD8 /* simplex.cpp in Sources */,
+				544BF04925F769E200BACCD8 /* worley_noise.cpp in Sources */,
 				546412FF25C0472F00126AF5 /* postprocess.cpp in Sources */,
 				5446113B25A6EF3300F2DC81 /* text_draw.cpp in Sources */,
 				544BF03525F20A6800BACCD8 /* perlin_3d.cpp in Sources */,

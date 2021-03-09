@@ -17,8 +17,8 @@
 #include <random>
 #include <cmath>
 #include "shaders.h"
-#define K2 0.211324865
-#define K1 0.366025404
+#define K2 0.166666667
+#define K1 0.333333333
 class SimplexNoise{
     static const unsigned int g_Size = 256;
     static const unsigned int grad_Size = 12;
@@ -40,7 +40,9 @@ public:
     double handleData(glm::dvec3 point);
     //排列大小
     void order(glm::dvec3 point);
-    
+    //分型布朗
+    double fbm1(double octaves, double x, double y, double z);
+    double fbm2(double octaves, double x, double y, double z);
     //测试
     void test();
 private:

@@ -1,7 +1,7 @@
-#include "simplex.hpp"
+#include "simplex_test.hpp"
 int main()
 {
-    SimplexNoise objInfo;
+    SimplexNoiseTest objInfo;
     
     
     objInfo.test();
