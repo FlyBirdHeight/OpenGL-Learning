@@ -1,7 +1,7 @@
-#include "simplex_test.hpp"
+#include "worley_noise.hpp"
 int main()
 {
-    SimplexNoiseTest objInfo;
+    WorleyNoise objInfo;
     
     
     objInfo.test();

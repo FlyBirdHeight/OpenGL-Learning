@@ -28,7 +28,7 @@ public:
     //获取距离点最近的特征点坐标
     double getMinDistance(int x, int y, int z, glm::dvec3 p);
     //分型布朗运动
-    double fbm1();
+    double fbm1(double octaves, double x, double y, double z);
     //测试
     void test();
 private:
