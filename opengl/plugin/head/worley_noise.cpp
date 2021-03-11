@@ -77,7 +77,7 @@ double WorleyNoise::fbm1(double octaves, double x, double y, double z){
 }
 
 void WorleyNoise::test(){
-    std::ofstream newFile("./resources/noise/worley_noise1.ppm");
+    std::ofstream newFile("./resources/noise/worley_noise2.ppm");
     const uint32_t width = 400, height = 400;
     newFile << "P3\n" << width << " " << height << "\n255\n";
     for(double i = 0; i < 25.0; i += 0.05){

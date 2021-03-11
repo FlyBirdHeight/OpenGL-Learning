@@ -20,6 +20,7 @@
 		544BF03A25F5E0E900BACCD8 /* simplex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF03825F5E0E900BACCD8 /* simplex.cpp */; };
 		544BF03F25F7448A00BACCD8 /* simplex_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF03D25F7448A00BACCD8 /* simplex_test.cpp */; };
 		544BF04925F769E200BACCD8 /* worley_noise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF04725F769E200BACCD8 /* worley_noise.cpp */; };
+		544BF05125F9E5F000BACCD8 /* perlin_terrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF04F25F9E5F000BACCD8 /* perlin_terrain.cpp */; };
 		5452B0AA25F07A9E00E614BF /* perlin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5452B0A825F07A9E00E614BF /* perlin.cpp */; };
 		546412ED25BE9F0700126AF5 /* particles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412EB25BE9F0700126AF5 /* particles.cpp */; };
 		546412FF25C0472F00126AF5 /* postprocess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412FD25C0472F00126AF5 /* postprocess.cpp */; };
@@ -96,6 +97,8 @@
 		544BF03E25F7448A00BACCD8 /* simplex_test.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = simplex_test.hpp; sourceTree = "<group>"; };
 		544BF04725F769E200BACCD8 /* worley_noise.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = worley_noise.cpp; sourceTree = "<group>"; };
 		544BF04825F769E200BACCD8 /* worley_noise.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = worley_noise.hpp; sourceTree = "<group>"; };
+		544BF04F25F9E5F000BACCD8 /* perlin_terrain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = perlin_terrain.cpp; sourceTree = "<group>"; };
+		544BF05025F9E5F000BACCD8 /* perlin_terrain.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = perlin_terrain.hpp; sourceTree = "<group>"; };
 		5452B0A625F0713600E614BF /* template.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = template.fs; sourceTree = "<group>"; };
 		5452B0A825F07A9E00E614BF /* perlin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = perlin.cpp; path = opengl/plugin/head/perlin.cpp; sourceTree = SOURCE_ROOT; };
 		5452B0A925F07A9E00E614BF /* perlin.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = perlin.hpp; path = opengl/plugin/head/perlin.hpp; sourceTree = SOURCE_ROOT; };
@@ -134,6 +137,8 @@
 		54CF5487253548A3004FD5D6 /* coordinate_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = coordinate_test.vs; sourceTree = "<group>"; };
 		54CF5488253565B0004FD5D6 /* 3d_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = 3d_test.vs; sourceTree = "<group>"; };
 		54CF54892536C358004FD5D6 /* camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
+		54EC4EA425FA0CDC0091ACB4 /* terrain.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = terrain.vs; sourceTree = "<group>"; };
+		54EC4EA525FA0CEA0091ACB4 /* terrain.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = terrain.fs; sourceTree = "<group>"; };
 		54F909712536E740005AE973 /* color_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = color_test.vs; sourceTree = "<group>"; };
 		54F909722536E750005AE973 /* color_light_test.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = color_light_test.fs; sourceTree = "<group>"; };
 		54F909732536E782005AE973 /* color_object_test.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = color_object_test.fs; sourceTree = "<group>"; };
@@ -351,6 +356,7 @@
 		544BBEE824D5736D00802969 /* vs */ = {
 			isa = PBXGroup;
 			children = (
+				54EC4EA225FA0CBF0091ACB4 /* terrain */,
 				5452B0B225F0807C00E614BF /* noise */,
 				5446114725A7167500F2DC81 /* combat */,
 				54F90992253BDA98005AE973 /* light_casters */,
@@ -370,6 +376,7 @@
 		544BBEE924D5737700802969 /* fs */ = {
 			isa = PBXGroup;
 			children = (
+				54EC4EA325FA0CC80091ACB4 /* terrain */,
 				5452B0A525F0711A00E614BF /* noise */,
 				5446114925A7175300F2DC81 /* combat */,
 				54F90991253BDA86005AE973 /* light_casters */,
@@ -403,6 +410,30 @@
 			name = worley;
 			sourceTree = "<group>";
 		};
+		544BF04C25F8DB2C00BACCD8 /* wavelet */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = wavelet;
+			sourceTree = "<group>";
+		};
+		544BF04D25F9E5C600BACCD8 /* terrain */ = {
+			isa = PBXGroup;
+			children = (
+				544BF04E25F9E5DB00BACCD8 /* perlin */,
+			);
+			name = terrain;
+			sourceTree = "<group>";
+		};
+		544BF04E25F9E5DB00BACCD8 /* perlin */ = {
+			isa = PBXGroup;
+			children = (
+				544BF04F25F9E5F000BACCD8 /* perlin_terrain.cpp */,
+				544BF05025F9E5F000BACCD8 /* perlin_terrain.hpp */,
+			);
+			name = perlin;
+			sourceTree = "<group>";
+		};
 		5452B09D25EDDA5800E614BF /* perlin */ = {
 			isa = PBXGroup;
 			children = (
@@ -427,6 +458,7 @@
 		5452B0AF25F07AC900E614BF /* noise */ = {
 			isa = PBXGroup;
 			children = (
+				544BF04C25F8DB2C00BACCD8 /* wavelet */,
 				544BF04625F769D300BACCD8 /* worley */,
 				544BF03725F5E0D700BACCD8 /* simplex */,
 				5452B09D25EDDA5800E614BF /* perlin */,
@@ -462,6 +494,7 @@
 		54531A172532EC150021618E /* head */ = {
 			isa = PBXGroup;
 			children = (
+				544BF04D25F9E5C600BACCD8 /* terrain */,
 				5452B0AF25F07AC900E614BF /* noise */,
 				545D102C25A48559006F6FD4 /* combat */,
 				545D102B25A48551006F6FD4 /* model */,
@@ -787,6 +820,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		54EC4EA225FA0CBF0091ACB4 /* terrain */ = {
+			isa = PBXGroup;
+			children = (
+				54EC4EA425FA0CDC0091ACB4 /* terrain.vs */,
+			);
+			path = terrain;
+			sourceTree = "<group>";
+		};
+		54EC4EA325FA0CC80091ACB4 /* terrain */ = {
+			isa = PBXGroup;
+			children = (
+				54EC4EA525FA0CEA0091ACB4 /* terrain.fs */,
+			);
+			path = terrain;
+			sourceTree = "<group>";
+		};
 		54F90982253865BF005AE973 /* lightmap */ = {
 			isa = PBXGroup;
 			children = (
@@ -885,6 +934,7 @@
 				546412ED25BE9F0700126AF5 /* particles.cpp in Sources */,
 				5423F70C25B56C5800218EC3 /* game_object.cpp in Sources */,
 				544BF03F25F7448A00BACCD8 /* simplex_test.cpp in Sources */,
+				544BF05125F9E5F000BACCD8 /* perlin_terrain.cpp in Sources */,
 				5446114D25A72F9900F2DC81 /* test123.cpp in Sources */,
 				5452B0AA25F07A9E00E614BF /* perlin.cpp in Sources */,
 				5423F6ED25AAE71400218EC3 /* resoureces_use.cpp in Sources */,
