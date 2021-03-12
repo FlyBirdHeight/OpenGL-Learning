@@ -1,10 +1,12 @@
-#include "worley_noise.hpp"
+#include "terrain.hpp"
+#include <iostream>
 int main()
 {
-    WorleyNoise objInfo;
+//    std::cout << "123" << std::endl;
+    Terrain objInfo;
     
     
-    objInfo.test();
+    objInfo.init();
     
     return 0;
 }

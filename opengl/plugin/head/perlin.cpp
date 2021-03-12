@@ -8,44 +8,11 @@
 
 #include "perlin.hpp"
 #include <fstream>
-void PerlinNoise::init(){
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-    #ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    #endif
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Perlin Noise Template", NULL, NULL);
-    glfwMakeContextCurrent(window);
-    
-    if (window == NULL)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-    }
-    
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-    }
-    Shader shader("./shader/vs/noise/perlin.vs","./shader/fs/noise/perlin.fs");
-    shader.use();
-    
-    while (!glfwWindowShouldClose(window)) {
-        //float currentTime = glfwGetTime();
-        
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        glfwSwapBuffers(window);
-    }
-    
-    glfwDestroyWindow(window);
- 
-    glfwTerminate();
+PerlinNoise::PerlinNoise(){
+    this->generateMesh();
 }
+
+
 //创建晶格并生成梯度向量
 void PerlinNoise::generateMesh(){
     unsigned seed = 2016;
@@ -123,6 +90,26 @@ float PerlinNoise::smoothCurve(float data){
     
     return returnData;
 }
+//fbm
+float PerlinNoise::getNoiseByFbm(int octaves, float x, float y){
+    double output = .0;
+    double denom = .0;
+    double frequency = 1.;
+    double amplitude = 1.;
+    
+    for(double i = 0; i < octaves; i++){
+        output += amplitude * this->generateMeshData(glm::fvec2(x * frequency, y * frequency));
+        denom += amplitude;
+        
+        frequency *= 2.0;
+        amplitude *= 0.5;
+    }
+    
+    return output / denom;
+}
+
+
+
 
 //测试
 void PerlinNoise::testHash(int x, int y){

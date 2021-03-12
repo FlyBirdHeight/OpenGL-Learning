@@ -191,37 +191,8 @@ void PerlinNoise3D::testHash(){
             float sum = 0.0;
             glm::fvec3 p(i, j, 7.89101112131415);
             sum = this->generateMeshData(p);
-//            for(int k = 0; k < 4; k++, amplitude /= 0.5, f *= 2.0){
-//                sum += std::abs(this->generateMeshData(p)) * amplitude;
-//                maxValue += amplitude;
-//            }
-//            sum /= maxValue;
-//            for(int k = 0; k < 4; k++, amplitude /= 0.5, f *= 2.0){·11
-//                sum += std::abs(this->generateMeshData(glm::fvec3(p.x * f, p.y * f, p.z * f))) * amplitude;
-//                maxValue += amplitude;
-//            }
-//            sum = sin(sum + i * f / 16.0);
             int b = (sum + 1) * 255.0 / 2.0;
-//            if (b < 50)
-//            {
-//                newFile << 255 << " " << b << " " << b << std::endl;
-//            }
-//            else if(b<100)
-//            {
-//                newFile << b << " " << 255 << " " << b << std::endl;
-//            }
-//            else if (b < 150)
-//            {
-//                newFile << 175 << " " << 175 << " " << b << std::endl;
-//            }
-//                else if (b < 200)
-//            {
-//                newFile << b << " " << 125 << " " << 125 << std::endl;
-//            }
-//            else
-//            {
-//                newFile << b << " " << b << " " << 255 << std::endl;
-//            }
+
             newFile << b << " " << b << " " << b << std::endl;
         }
     }

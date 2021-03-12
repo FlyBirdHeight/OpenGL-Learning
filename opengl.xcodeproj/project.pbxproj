@@ -20,7 +20,6 @@
 		544BF03A25F5E0E900BACCD8 /* simplex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF03825F5E0E900BACCD8 /* simplex.cpp */; };
 		544BF03F25F7448A00BACCD8 /* simplex_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF03D25F7448A00BACCD8 /* simplex_test.cpp */; };
 		544BF04925F769E200BACCD8 /* worley_noise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF04725F769E200BACCD8 /* worley_noise.cpp */; };
-		544BF05125F9E5F000BACCD8 /* perlin_terrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF04F25F9E5F000BACCD8 /* perlin_terrain.cpp */; };
 		5452B0AA25F07A9E00E614BF /* perlin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5452B0A825F07A9E00E614BF /* perlin.cpp */; };
 		546412ED25BE9F0700126AF5 /* particles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412EB25BE9F0700126AF5 /* particles.cpp */; };
 		546412FF25C0472F00126AF5 /* postprocess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412FD25C0472F00126AF5 /* postprocess.cpp */; };
@@ -30,6 +29,7 @@
 		54CE6E0324D2C66400E9A4D9 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFF24D2C4AC00E9A4D9 /* libglfw.3.3.dylib */; };
 		54CE6E0524D2C76F00E9A4D9 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6E0424D2C76F00E9A4D9 /* glad.c */; };
 		54F9098E25396733005AE973 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54F9098D25396733005AE973 /* test.cpp */; };
+		54FC679D25FB2D9200936D4E /* terrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54FC679B25FB2D9200936D4E /* terrain.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -97,8 +97,6 @@
 		544BF03E25F7448A00BACCD8 /* simplex_test.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = simplex_test.hpp; sourceTree = "<group>"; };
 		544BF04725F769E200BACCD8 /* worley_noise.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = worley_noise.cpp; sourceTree = "<group>"; };
 		544BF04825F769E200BACCD8 /* worley_noise.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = worley_noise.hpp; sourceTree = "<group>"; };
-		544BF04F25F9E5F000BACCD8 /* perlin_terrain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = perlin_terrain.cpp; sourceTree = "<group>"; };
-		544BF05025F9E5F000BACCD8 /* perlin_terrain.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = perlin_terrain.hpp; sourceTree = "<group>"; };
 		5452B0A625F0713600E614BF /* template.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = template.fs; sourceTree = "<group>"; };
 		5452B0A825F07A9E00E614BF /* perlin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = perlin.cpp; path = opengl/plugin/head/perlin.cpp; sourceTree = SOURCE_ROOT; };
 		5452B0A925F07A9E00E614BF /* perlin.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = perlin.hpp; path = opengl/plugin/head/perlin.hpp; sourceTree = SOURCE_ROOT; };
@@ -163,6 +161,8 @@
 		54F90994253BDABB005AE973 /* light_caster_object.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light_caster_object.vs; sourceTree = "<group>"; };
 		54F90995253BDAD4005AE973 /* light_caster_object.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light_caster_object.fs; sourceTree = "<group>"; };
 		54F90997253BDB04005AE973 /* light_caster_light.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light_caster_light.fs; sourceTree = "<group>"; };
+		54FC679B25FB2D9200936D4E /* terrain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = terrain.cpp; sourceTree = "<group>"; };
+		54FC679C25FB2D9200936D4E /* terrain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = terrain.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -417,21 +417,13 @@
 			path = wavelet;
 			sourceTree = "<group>";
 		};
-		544BF04D25F9E5C600BACCD8 /* terrain */ = {
+		544BF04D25F9E5C600BACCD8 /* terrain_tets */ = {
 			isa = PBXGroup;
 			children = (
-				544BF04E25F9E5DB00BACCD8 /* perlin */,
+				54FC679B25FB2D9200936D4E /* terrain.cpp */,
+				54FC679C25FB2D9200936D4E /* terrain.hpp */,
 			);
-			name = terrain;
-			sourceTree = "<group>";
-		};
-		544BF04E25F9E5DB00BACCD8 /* perlin */ = {
-			isa = PBXGroup;
-			children = (
-				544BF04F25F9E5F000BACCD8 /* perlin_terrain.cpp */,
-				544BF05025F9E5F000BACCD8 /* perlin_terrain.hpp */,
-			);
-			name = perlin;
+			name = terrain_tets;
 			sourceTree = "<group>";
 		};
 		5452B09D25EDDA5800E614BF /* perlin */ = {
@@ -494,7 +486,7 @@
 		54531A172532EC150021618E /* head */ = {
 			isa = PBXGroup;
 			children = (
-				544BF04D25F9E5C600BACCD8 /* terrain */,
+				544BF04D25F9E5C600BACCD8 /* terrain_tets */,
 				5452B0AF25F07AC900E614BF /* noise */,
 				545D102C25A48559006F6FD4 /* combat */,
 				545D102B25A48551006F6FD4 /* model */,
@@ -934,7 +926,7 @@
 				546412ED25BE9F0700126AF5 /* particles.cpp in Sources */,
 				5423F70C25B56C5800218EC3 /* game_object.cpp in Sources */,
 				544BF03F25F7448A00BACCD8 /* simplex_test.cpp in Sources */,
-				544BF05125F9E5F000BACCD8 /* perlin_terrain.cpp in Sources */,
+				54FC679D25FB2D9200936D4E /* terrain.cpp in Sources */,
 				5446114D25A72F9900F2DC81 /* test123.cpp in Sources */,
 				5452B0AA25F07A9E00E614BF /* perlin.cpp in Sources */,
 				5423F6ED25AAE71400218EC3 /* resoureces_use.cpp in Sources */,
