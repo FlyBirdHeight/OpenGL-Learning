@@ -417,13 +417,13 @@
 			path = wavelet;
 			sourceTree = "<group>";
 		};
-		544BF04D25F9E5C600BACCD8 /* terrain_tets */ = {
+		544BF04D25F9E5C600BACCD8 /* terrain */ = {
 			isa = PBXGroup;
 			children = (
 				54FC679B25FB2D9200936D4E /* terrain.cpp */,
 				54FC679C25FB2D9200936D4E /* terrain.hpp */,
 			);
-			name = terrain_tets;
+			name = terrain;
 			sourceTree = "<group>";
 		};
 		5452B09D25EDDA5800E614BF /* perlin */ = {
@@ -486,7 +486,7 @@
 		54531A172532EC150021618E /* head */ = {
 			isa = PBXGroup;
 			children = (
-				544BF04D25F9E5C600BACCD8 /* terrain_tets */,
+				544BF04D25F9E5C600BACCD8 /* terrain */,
 				5452B0AF25F07AC900E614BF /* noise */,
 				545D102C25A48559006F6FD4 /* combat */,
 				545D102B25A48551006F6FD4 /* model */,

@@ -49,8 +49,8 @@ float PerlinNoise::generateMeshData(glm::fvec2 point){
     //左下角晶格顶点
     glm::fvec2 mesh_left_bottom_point = glm::floor(point);
     //最下角晶格顶点的x,y坐标
-    int mesh_point_x = ((int) std::floor(point.x)) % this->g_tableSize;
-    int mesh_point_y = ((int) std::floor(point.y)) % this->g_tableSize;
+    int mesh_point_x = ((int) std::floor(point.x)) & this->g_tableSize;
+    int mesh_point_y = ((int) std::floor(point.y)) & this->g_tableSize;
     //晶格点其余顶点
     glm::fvec2 mesh_right_bottom_point(mesh_point_x + 1.0, mesh_point_y);
     glm::fvec2 mesh_left_top_point(mesh_point_x, mesh_point_y + 1.0);

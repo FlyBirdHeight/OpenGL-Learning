@@ -79,7 +79,7 @@ public:
     float MODEL_SCALE = 3;
     float MODEL_BRIGHTNESS = 6;
     //初始化程序
-    void init();
+    void initData();
 private:
     PerlinNoise perlinNoise;
     //生成噪声高度
@@ -91,7 +91,7 @@ private:
     //生成法线向量
     std::vector<float> generate_normal(const std::vector<int> &indices, const std::vector<float> &vertices);
     //生成群落颜色
-    std::vector<float> generate_biome(const std::vector<float> &vertices, std::vector<int> &plant, int xOffset, int yOffset);
+    std::vector<float> generate_biome(const std::vector<float> &vertices, std::vector<plant> &plants, int xOffset, int yOffset);
     //处理颜色取值(glsl中需要处理为0.0 - 1.0范围内)
     glm::vec3 handleColor(int r, int g, int b);
     //生成地图区域
