@@ -1,31 +1,45 @@
 //#define STB_IMAGE_IMPLEMENTATION    // include之前必须定义
 //#include "stb_image.h"
 #include "terrain.hpp"
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <tiny_obj_loader.h>
 void processInput(GLFWwindow *window, Shader &shader);
 void mouse_callback(GLFWwindow *window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+
+//窗口大小
+const unsigned int SCR_HEIGHT = 1080, SCR_WIDTH = 1920;
+//相机类
+Camera camera;
+//是否第一次点击
+bool firstMouse = true;
+float lastX = SCR_WIDTH / 2;
+float lastY = SCR_HEIGHT / 2;
+// Timing
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+float currentFrame;
 /**
  说明一下，为什么这里都是用float存数据的问题
  因为我们在使用opengl去绑定着色器的时候，我们需要确定数据的步长，如果使用glm::vec3的话，就不能很好地让opengl去理解，也没办使用顶点缓冲对象、顶点数组对象和顶点索引对象了
  所以，我们这里全部都要使用vector<float>的形式，去存储顶点坐标、颜色、法线、三角形顶点索引数据
  */
 Terrain::Terrain(){
-    camera = new Camera(glm::vec3(this->originX, 20.0, this->originY));
+    camera.Position = glm::vec3(this->originX, 20.0, this->originY);
 }
 //窗口创建
 void Terrain::createWindow(){
     glfwInit();
-    glfwInitHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwInitHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwInitHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif
-    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "地形生成", NULL, NULL);
+
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Generate Terrain", NULL, NULL);
     glfwMakeContextCurrent(window);
-    glfwSetScrollCallback(window, scroll_callback);
-    glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+//    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -36,13 +50,16 @@ void Terrain::createWindow(){
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
     }
+    glfwSetScrollCallback(window, scroll_callback);
+    glfwSetCursorPosCallback(window, mouse_callback);
+    
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_FRAMEBUFFER_SRGB);
     glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+    this->init(window);
 }
 //初始化数据并执行渲染操作
-void Terrain::init(){
-    this->createWindow();
+void Terrain::init(GLFWwindow* window){
     std::vector<unsigned int> mapChunkVao(this->xMapChunk * this->yMapChunk);
     //三角形顶点索引数组
     std::vector<int> indices = this->generate_indice();
@@ -74,17 +91,17 @@ void Terrain::init(){
     //生成植物数据
     std::vector<unsigned int> treeVAO(xMapChunk * yMapChunk);
     std::vector<unsigned int> flowerVAO(xMapChunk * yMapChunk);
-    set_model(treeVAO, "tree", plants, "./resources/obj/CommonTreee_1.obj");
-    set_model(flowerVAO, "flower", plants, "./resources/obj/Flowers.obj");
+    set_model(treeVAO, "tree", plants, "./resources/obj/CommonTree_1.obj", "./resources/obj");
+    set_model(flowerVAO, "flower", plants, "./resources/obj/Flowers.obj", "./resources/obj");
 
     //渲染设置
-    this->render(mapChunkVao, treeVAO, flowerVAO);
+    this->render(window, mapChunkVao, treeVAO, flowerVAO);
 }
 /**
  渲染设置
  */
-void Terrain::render(std::vector<unsigned int> mapChunkVao, std::vector<unsigned int> treeVao, std::vector<unsigned int> flowerVao){
-    Shader shader("./resources/shader/vs/terrain/terrain.vs","./resources/shader/fs/terrain/terrain.fs");
+void Terrain::render(GLFWwindow* window, std::vector<unsigned int> mapChunkVao, std::vector<unsigned int> treeVao, std::vector<unsigned int> flowerVao){
+    Shader shader("./shader/vs/terrain/terrain.vs","./shader/fs/terrain/terrain.fs");
     shader.use();
     shader.setBool("iFrame", true);
     shader.setVec3("light.ambient", glm::vec3(0.2, 0.2, 0.2));
@@ -103,19 +120,20 @@ void Terrain::render(std::vector<unsigned int> mapChunkVao, std::vector<unsigned
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         shader.use();
-        shader.setMat4("view", camera->GetViewMatrix());
-        shader.setMat4("projection", glm::perspective(glm::radians(camera->Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, (float)this->chunkWidth * (this->chunk_render_distance - 1.2f)));
-        shader.setVec3("viewPos", camera->Position);
+        shader.setMat4("view", camera.GetViewMatrix());
+        shader.setMat4("projection", glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, (float)this->chunkWidth * (this->chunk_render_distance - 1.2f)));
+        shader.setVec3("viewPos", camera.Position);
         glm::mat4 model(1.0f);
         //这个就是之后要画三角形面时候，所要用到的顶点个数的计算
-        unsigned int nIndices = this->chunkHeight * this->chunkWidth * 6;
+        int nIndices = this->chunkHeight * this->chunkWidth * 6;
         //计算在相机之外的大区域的个数
-        gridPosX = (int)(camera->Position.x - originX) / this->chunkWidth + xMapChunk / 2;
-        gridPosY = (int)(camera->Position.y - originY) / this->chunkHeight + yMapChunk/ 2;
+        gridPosX = (int)(camera.Position.x - originX) / this->chunkWidth + xMapChunk / 2;
+        gridPosY = (int)(camera.Position.y - originY) / this->chunkHeight + yMapChunk/ 2;
         for(int y = 0; y < this->yMapChunk; ++y){
             for(int x = 0; x < this->xMapChunk; ++x){
                 //这里渲染的时候不是全部渲染，需要渲染的只是在3*3范围内的大区域，节省时间，所以需要计算距离位置
                 if(std::abs(gridPosX - x) <= chunk_render_distance && (gridPosY - y) <= chunk_render_distance){
+                    shader.use();
                     model = glm::mat4(1.0f);
                     //计算当前需要渲染所在区域的位置的中心,并赋值给model进行偏移。
                     model = glm::translate(model, glm::vec3(-this->chunkWidth / 2.0 + (this->chunkWidth - 1) * x, 0.0, -this->chunkHeight / 2.0 + (this->chunkHeight - 1) * y));
@@ -130,12 +148,13 @@ void Terrain::render(std::vector<unsigned int> mapChunkVao, std::vector<unsigned
                     //这里需要对植物的大小进行一定的缩放
                     model = glm::scale(model, glm::vec3(this->MODEL_SCALE));
                     //开启面剔除
-                    glEnable(GL_CULL_FACE);
-                    glBindVertexArray(treeVao[x + y * this->chunkHeight]);
-                    glDrawArraysInstanced(GL_TRIANGLES, 0, 10192, 8);
-                    glBindVertexArray(flowerVao[x + y * this->chunkHeight]);
-                    glDrawArraysInstanced(GL_TRIANGLES, 0, 1300, 16);
-                    glDisable(GL_CULL_FACE);
+//                    glEnable(GL_CULL_FACE);
+//                    glBindVertexArray(flowerVao[x + y * this->yMapChunk]);
+//                    glDrawArraysInstanced(GL_TRIANGLES, 0, 1300, 16);
+//
+//                    glBindVertexArray(treeVao[x + y * this->yMapChunk]);
+//                    glDrawArraysInstanced(GL_TRIANGLES, 0, 10192, 8);
+//                    glDisable(GL_CULL_FACE);
                 }
             }
         }
@@ -154,15 +173,14 @@ void Terrain::render(std::vector<unsigned int> mapChunkVao, std::vector<unsigned
  @param {std::vector<float>} colorCard 群落颜色
  @param {std::vector<float>} normals 三角形平面法线
  */
-void Terrain::generate_map_chunk(unsigned int mapChunkVao, std::vector<float> vertices, std::vector<int> indices, std::vector<float> colorCard, std::vector<float> normals){
+void Terrain::generate_map_chunk(unsigned int &mapChunkVao, std::vector<float> vertices, std::vector<int> indices, std::vector<float> colorCard, std::vector<float> normals){
     unsigned int VBO[3];
     unsigned int EBO;
-    unsigned int VAO;
     glGenBuffers(3, VBO);
     glGenBuffers(1, &EBO);
-    glGenVertexArrays(1, &VAO);
+    glGenVertexArrays(1, &mapChunkVao);
     
-    glBindVertexArray(VAO);
+    glBindVertexArray(mapChunkVao);
     //顶点数据绑定
     glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
@@ -329,7 +347,7 @@ std::vector<float> Terrain::generate_normal(const std::vector<int> &indices, con
 /**
  处理模型数据
  */
-void Terrain::load_model(unsigned int &VAO, std::string filename){
+void Terrain::load_model(unsigned int &VAO, std::string filename, std::string materialName){
     //索引
     std::vector<float> vertices;
     //顶点坐标
@@ -341,7 +359,7 @@ void Terrain::load_model(unsigned int &VAO, std::string filename){
     tinyobj::attrib_t attrib;
     std::string warning;
     std::string error;
-    bool status = tinyobj::LoadObj(&attrib, &shapes, &materials, &warning, &error, filename.c_str());
+    bool status = tinyobj::LoadObj(&attrib, &shapes, &materials, &warning, &error, filename.c_str(), materialName.c_str());
     if(!warning.empty()){
         std::cout<< warning.c_str() << std::endl;
     }else if(!error.empty()){
@@ -391,7 +409,7 @@ void Terrain::load_model(unsigned int &VAO, std::string filename){
 /**
  设置模型偏移位置
  */
-void Terrain::set_model(std::vector<unsigned int> &plant_chunk, std::string type, std::vector<plant> &plants, std::string filename){
+void Terrain::set_model(std::vector<unsigned int> &plant_chunk, std::string type, std::vector<plant> &plants, std::string filename, std::string materialName){
     std::vector<std::vector<float>> chunkInstances;
     chunkInstances.resize(xMapChunk * yMapChunk);
     
@@ -412,7 +430,7 @@ void Terrain::set_model(std::vector<unsigned int> &plant_chunk, std::string type
     for(int y = 0; y < yMapChunk; ++y){
         for(int x = 0; x < xMapChunk; ++x){
             int pos = x + y * xMapChunk;
-            load_model(plant_chunk[pos], filename);
+            this->load_model(plant_chunk[pos], filename, materialName);
 
             glBindVertexArray(plant_chunk[pos]);
             glBindBuffer(GL_ARRAY_BUFFER, instancesVBO[pos]);
@@ -433,7 +451,7 @@ glm::vec3 Terrain::handleColor(int r, int g, int b){
 
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
-    camera->ProcessMouseScroll(yoffset);
+    camera.ProcessMouseScroll(yoffset);
 }
 
 void mouse_callback(GLFWwindow *window, double xpos, double ypos){
@@ -450,7 +468,7 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos){
     lastX = xpos;
     lastY = ypos;
 
-    camera->ProcessMouseMovement(xoffset, yoffset);
+    camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
 void processInput(GLFWwindow *window, Shader &shader){
@@ -458,21 +476,21 @@ void processInput(GLFWwindow *window, Shader &shader){
         glfwSetWindowShouldClose(window, true);
     }
     else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        camera->ProcessKeyboard(FORWARD, deltaTime);
+        camera.ProcessKeyboard(FORWARD, deltaTime);
     }
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        camera->ProcessKeyboard(BACKWARD, deltaTime);
+        camera.ProcessKeyboard(BACKWARD, deltaTime);
     }
     else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        camera->ProcessKeyboard(LEFT, deltaTime);
+        camera.ProcessKeyboard(LEFT, deltaTime);
     }
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        camera->ProcessKeyboard(RIGHT, deltaTime);
+        camera.ProcessKeyboard(RIGHT, deltaTime);
     }
     else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-        camera->ProcessKeyboard(TOP, deltaTime);
+        camera.ProcessKeyboard(TOP, deltaTime);
     }
     else if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS) {
-        camera->ProcessKeyboard(DOWN, deltaTime);
+        camera.ProcessKeyboard(DOWN, deltaTime);
     }
 }

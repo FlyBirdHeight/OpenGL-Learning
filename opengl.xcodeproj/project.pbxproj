@@ -163,11 +163,10 @@
 		54F90997253BDB04005AE973 /* light_caster_light.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light_caster_light.fs; sourceTree = "<group>"; };
 		54FC679B25FB2D9200936D4E /* terrain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = terrain.cpp; sourceTree = "<group>"; };
 		54FC679C25FB2D9200936D4E /* terrain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = terrain.hpp; sourceTree = "<group>"; };
-		54FC67A025FDC78300936D4E /* tiny_obj_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tiny_obj_loader.h; sourceTree = "<group>"; };
-		54FC67A225FDC7AD00936D4E /* Flowers.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Flowers.mtl; sourceTree = "<group>"; };
-		54FC67A325FDC7AD00936D4E /* CommonTree_1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CommonTree_1.obj; sourceTree = "<group>"; };
-		54FC67A425FDC7AD00936D4E /* CommonTree_1.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CommonTree_1.mtl; sourceTree = "<group>"; };
-		54FC67A525FDC7AD00936D4E /* Flowers.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Flowers.obj; sourceTree = "<group>"; };
+		54FC67B425FE3E5500936D4E /* CommonTree_1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CommonTree_1.obj; sourceTree = "<group>"; };
+		54FC67B525FE3E5500936D4E /* Flowers.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Flowers.obj; sourceTree = "<group>"; };
+		54FC67B625FE3E5500936D4E /* Flowers.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Flowers.mtl; sourceTree = "<group>"; };
+		54FC67B725FE3E5500936D4E /* CommonTree_1.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CommonTree_1.mtl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -502,7 +501,6 @@
 				545D101625A48229006F6FD4 /* basics */,
 				545D101525A481FF006F6FD4 /* utils */,
 				54CF54822533199B004FD5D6 /* stb_image.h */,
-				54FC67A025FDC78300936D4E /* tiny_obj_loader.h */,
 			);
 			path = head;
 			sourceTree = "<group>";
@@ -874,10 +872,10 @@
 		54FC67A125FDC79300936D4E /* obj */ = {
 			isa = PBXGroup;
 			children = (
-				54FC67A425FDC7AD00936D4E /* CommonTree_1.mtl */,
-				54FC67A325FDC7AD00936D4E /* CommonTree_1.obj */,
-				54FC67A225FDC7AD00936D4E /* Flowers.mtl */,
-				54FC67A525FDC7AD00936D4E /* Flowers.obj */,
+				54FC67B725FE3E5500936D4E /* CommonTree_1.mtl */,
+				54FC67B425FE3E5500936D4E /* CommonTree_1.obj */,
+				54FC67B625FE3E5500936D4E /* Flowers.mtl */,
+				54FC67B525FE3E5500936D4E /* Flowers.obj */,
 			);
 			path = obj;
 			sourceTree = "<group>";
@@ -1019,7 +1017,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-lfreetype";
+				OTHER_LDFLAGS = (
+					"-lfreetype",
+					"-ObjC",
+				);
 				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wno-documentation";
 			};
@@ -1072,7 +1073,10 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = "-lfreetype";
+				OTHER_LDFLAGS = (
+					"-lfreetype",
+					"-ObjC",
+				);
 				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wno-documentation";
 			};
@@ -1085,8 +1089,12 @@
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					/usr/local/include/freetype2,
+					"/usr/local/var/vcpkg/installed/x64-osx/include",
 				);
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					"/usr/local/var/vcpkg/installed/x64-osx/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1098,8 +1106,12 @@
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					/usr/local/include/freetype2,
+					"/usr/local/var/vcpkg/installed/x64-osx/include",
 				);
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					"/usr/local/var/vcpkg/installed/x64-osx/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

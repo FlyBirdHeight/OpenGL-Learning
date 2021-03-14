@@ -4,7 +4,7 @@ int main()
     Terrain objInfo;
     
     
-    objInfo.init();
+    objInfo.createWindow();
     
     return 0;
 }

@@ -8,7 +8,6 @@
 
 #include "perlin_3d.hpp"
 #include <fstream>
-#define M_PI 3.1415926
 PerlinNoise3D::PerlinNoise3D(){
     
 }
@@ -57,7 +56,6 @@ void PerlinNoise3D::generateMesh(){
     std::mt19937 generate(seed);
     std::uniform_real_distribution<float> distribution{.0, 1.};
     auto randomData = std::bind(distribution, generate);
-    float gradientLen2 = 0.0;
     for(unsigned i = 0; i < this->g_tableSize; ++i){
         //均匀分布在单位球体上
         float theta = std::acos(2 * randomData() - 1);
@@ -177,27 +175,6 @@ glm::fvec3 PerlinNoise3D::hash(glm::fvec3 p){
     glm::fvec3 e(-1.0);
     
     return e - p;
-}
-//测试
-void PerlinNoise3D::testHash(){
-    this->generateMesh();
-    std::ofstream newFile("./resources/noise/perlin_noise113.ppm");
-    const uint32_t width = 400, height = 400;
-    newFile << "P3\n" << width << " " << height << "\n255\n";
-    
-    for(float i = 0.0; i < 25.0; i += 0.05){
-        for(float j = 0.0; j < 25.0; j += 0.05){
-            float amplitude = 1.0, f = 1.0, maxValue=0;
-            float sum = 0.0;
-            glm::fvec3 p(i, j, 7.89101112131415);
-            sum = this->generateMeshData(p);
-            int b = (sum + 1) * 255.0 / 2.0;
-
-            newFile << b << " " << b << " " << b << std::endl;
-        }
-    }
-    newFile.close();
-    std::cout << "Write Success" << std::endl;
 }
 
 

@@ -11,19 +11,6 @@
 #include "shaders.h"
 #include "perlin.hpp"
 #include "camera.h"
-#include "tiny_obj_loader.h"
-//窗口大小
-const unsigned int SCR_HEIGHT = 1080, SCR_WIDTH = 1920;
-//相机类
-Camera *camera;
-//是否第一次点击
-bool firstMouse = true;
-float lastX = SCR_WIDTH / 2;
-float lastY = SCR_HEIGHT / 2;
-// Timing
-float deltaTime = 0.0f;
-float lastFrame = 0.0f;
-float currentFrame;
 class Terrain{
 public:
     Terrain();
@@ -84,13 +71,12 @@ public:
     //植物模型的缩放以及亮度值
     float MODEL_SCALE = 3;
     float MODEL_BRIGHTNESS = 6;
-    GLFWwindow *window;
     //初始化数据
-    void init();
+    void init(GLFWwindow* window);
     //创建窗口
     void createWindow();
     //渲染
-    void render(std::vector<unsigned int> mapChunkVao,std::vector<unsigned int> treeVao, std::vector<unsigned int> flowerVao);
+    void render(GLFWwindow* window, std::vector<unsigned int> mapChunkVao,std::vector<unsigned int> treeVao, std::vector<unsigned int> flowerVao);
 private:
     PerlinNoise perlinNoise;
     //生成噪声高度
@@ -106,9 +92,9 @@ private:
     //处理颜色取值(glsl中需要处理为0.0 - 1.0范围内)
     glm::vec3 handleColor(int r, int g, int b);
     //生成地图区域
-    void generate_map_chunk(unsigned int mapChunkVao, std::vector<float> vertices, std::vector<int> indices, std::vector<float> colorCard, std::vector<float> normals);
+    void generate_map_chunk(unsigned int &mapChunkVao, std::vector<float> vertices, std::vector<int> indices, std::vector<float> colorCard, std::vector<float> normals);
     //加载模型
-    void load_model(unsigned int &VAO, std::string filename);
+    void load_model(unsigned int &VAO, std::string filename, std::string materialName);
     //设置模型
-    void set_model(std::vector<unsigned int> &plant_chunk, std::string type, std::vector<plant> &plants, std::string filename);
+    void set_model(std::vector<unsigned int> &plant_chunk, std::string type, std::vector<plant> &plants, std::string filename, std::string materialName);
 };

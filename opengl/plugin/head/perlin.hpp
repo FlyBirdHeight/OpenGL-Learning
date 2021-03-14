@@ -1,11 +1,3 @@
-//
-//  perlin.hpp
-//  opengl
-//
-//  Created by adsionli on 2021/3/4.
-//  Copyright © 2021 adsionli. All rights reserved.
-//
-
 #ifndef perlin_hpp
 #define perlin_hpp
 #include <iostream>
@@ -14,7 +6,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <random>
 #include <cmath>
-
 class PerlinNoise{
     //定义纹理大小
     static const unsigned int g_tableSize = 256;

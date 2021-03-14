@@ -8,8 +8,8 @@ uniform bool iFrame;
 
 void main(){
     if(iFrame){
-        FragColor = fragColor;
+        FragColor = vec4(fragColor, 1.0);
     }else{
-        FragColor = Color;
+        FragColor = vec4(Color, 1.0);
     }
 }
