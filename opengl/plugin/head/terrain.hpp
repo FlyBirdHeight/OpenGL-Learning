@@ -11,10 +11,23 @@
 #include "shaders.h"
 #include "perlin.hpp"
 #include "camera.h"
+#include "tiny_obj_loader.h"
+//窗口大小
+const unsigned int SCR_HEIGHT = 1080, SCR_WIDTH = 1920;
+//相机类
+Camera *camera;
+//是否第一次点击
+bool firstMouse = true;
+float lastX = SCR_WIDTH / 2;
+float lastY = SCR_HEIGHT / 2;
+// Timing
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+float currentFrame;
 class Terrain{
 public:
     Terrain();
-
+    //地形群落
     struct terrainColor {
         terrainColor(float _height, glm::vec3 _color) {
             height = _height;
@@ -23,7 +36,8 @@ public:
         float height;
         glm::vec3 color;
     };
-    const unsigned int SCR_HEIGHT = 1080, SCR_WIDTH = 1920;
+
+    //植物
     struct plant {
         //植物类型（花，树）
         std::string type;
@@ -50,36 +64,33 @@ public:
     //大区域中对小区域划分
     int chunkWidth = 127;
     int chunkHeight = 127;
-    //网格位置
+    //相机外网格数量
     int gridPosX = 0;
     int gridPosY = 0;
     //视点位置
     float originX = (chunkWidth  * xMapChunk) / 2 - chunkWidth / 2;
     float originY = (chunkHeight * yMapChunk) / 2 - chunkHeight / 2;
-    //相机类
-    Camera *camera;
-    //是否第一次点击
-    bool firstMouse = true;
-    float lastX = SCR_WIDTH / 2;
-    float lastY = SCR_HEIGHT / 2;
-    // Timing
-    float deltaTime = 0.0f;
-    float lastFrame = 0.0f;
-    float currentFrame;
     //水平面高度
     float horizontal = 0.1;
+    //需要渲染的最大网格距离
     int chunk_render_distance = 3;
     //噪声相关参数设置
     int octaves = 5;//度数
     float meshHeight = 32;//顶点缩放
     float noiseScale = 64;//水平缩放
+    //fbm中的一些参数设置
     float persistence = 0.5;
     float lacunarity = 2;
-    // Model params
+    //植物模型的缩放以及亮度值
     float MODEL_SCALE = 3;
     float MODEL_BRIGHTNESS = 6;
-    //初始化程序
-    void initData();
+    GLFWwindow *window;
+    //初始化数据
+    void init();
+    //创建窗口
+    void createWindow();
+    //渲染
+    void render(std::vector<unsigned int> mapChunkVao,std::vector<unsigned int> treeVao, std::vector<unsigned int> flowerVao);
 private:
     PerlinNoise perlinNoise;
     //生成噪声高度
@@ -95,9 +106,9 @@ private:
     //处理颜色取值(glsl中需要处理为0.0 - 1.0范围内)
     glm::vec3 handleColor(int r, int g, int b);
     //生成地图区域
-    void generate_map_chunk(unsigned int &VAO, int yOffset, std::vector<plant> &plants);
+    void generate_map_chunk(unsigned int mapChunkVao, std::vector<float> vertices, std::vector<int> indices, std::vector<float> colorCard, std::vector<float> normals);
     //加载模型
     void load_model(unsigned int &VAO, std::string filename);
     //设置模型
-    void set_model(unsigned int &VAO, std::vector<unsigned int> &plant_chunk, std::string type, std::vector<plant> &plants, std::string filename);
+    void set_model(std::vector<unsigned int> &plant_chunk, std::string type, std::vector<plant> &plants, std::string filename);
 };

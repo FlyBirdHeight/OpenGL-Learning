@@ -1,24 +1,55 @@
 //#define STB_IMAGE_IMPLEMENTATION    // include之前必须定义
 //#include "stb_image.h"
 #include "terrain.hpp"
+void processInput(GLFWwindow *window, Shader &shader);
+void mouse_callback(GLFWwindow *window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 /**
  说明一下，为什么这里都是用float存数据的问题
  因为我们在使用opengl去绑定着色器的时候，我们需要确定数据的步长，如果使用glm::vec3的话，就不能很好地让opengl去理解，也没办使用顶点缓冲对象、顶点数组对象和顶点索引对象了
  所以，我们这里全部都要使用vector<float>的形式，去存储顶点坐标、颜色、法线、三角形顶点索引数据
  */
 Terrain::Terrain(){
-    this->camera = new Camera(glm::vec3(this->originX, 20.0, this->originY));
+    camera = new Camera(glm::vec3(this->originX, 20.0, this->originY));
 }
+//窗口创建
+void Terrain::createWindow(){
+    glfwInit();
+    glfwInitHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwInitHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwInitHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    #ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    #endif
+    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "地形生成", NULL, NULL);
+    glfwMakeContextCurrent(window);
+    glfwSetScrollCallback(window, scroll_callback);
+    glfwSetCursorPosCallback(window, mouse_callback);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    if (window == NULL)
+    {
+        std::cout << "Failed to create GLFW window" << std::endl;
+        glfwTerminate();
+    }
 
-//初始化
-void Terrain::initData(){
-    std::ofstream newFile("./resources/noise/terrain.txt");
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+    }
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_FRAMEBUFFER_SRGB);
+    glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+}
+//初始化数据并执行渲染操作
+void Terrain::init(){
+    this->createWindow();
+    std::vector<unsigned int> mapChunkVao(this->xMapChunk * this->yMapChunk);
     //三角形顶点索引数组
     std::vector<int> indices = this->generate_indice();
-    //地形顶点数据集合
-    std::vector<float> verticesData;
-    //地形着色数据
-    std::vector<float> colorCard;
+    //地形顶点数据集合(暂时无用)
+//    std::vector<float> verticesData;
+    //地形着色数据(暂时无用)
+//    std::vector<float> colorCard;
     //地形附着植物数据
     std::vector<plant> plants;
     for(unsigned int y = 0; y < this->yMapChunk; ++y){
@@ -28,18 +59,134 @@ void Terrain::initData(){
             noiseMap = this->generate_noise(x, y);
             //生成每个网格中的坐标点
             std::vector<float> vertices = this->generate_vertices(noiseMap, x, y);
-            verticesData.insert(verticesData.end(), vertices.begin(), vertices.end());
+//            verticesData.insert(verticesData.end(), vertices.begin(), vertices.end());
             //生成地形颜色群落
             std::vector<float> returnColor = this->generate_biome(vertices, plants, x, y);
-            colorCard.insert(colorCard.end(), returnColor.begin(), returnColor.end());
+//            colorCard.insert(colorCard.end(), returnColor.begin(), returnColor.end());
+            //生成法线数据
+            std::vector<float> normals = this->generate_normal(indices, vertices);
+            //生成地图模型
+            unsigned int mapVao = x + y * this->yMapChunk;
+            this->generate_map_chunk(mapChunkVao[mapVao], vertices, indices, returnColor, normals);
         }
     }
-    //生成法线数据
-    std::vector<float> normals = this->generate_normal(indices, verticesData);
+   
+    //生成植物数据
+    std::vector<unsigned int> treeVAO(xMapChunk * yMapChunk);
+    std::vector<unsigned int> flowerVAO(xMapChunk * yMapChunk);
+    set_model(treeVAO, "tree", plants, "./resources/obj/CommonTreee_1.obj");
+    set_model(flowerVAO, "flower", plants, "./resources/obj/Flowers.obj");
 
+    //渲染设置
+    this->render(mapChunkVao, treeVAO, flowerVAO);
+}
+/**
+ 渲染设置
+ */
+void Terrain::render(std::vector<unsigned int> mapChunkVao, std::vector<unsigned int> treeVao, std::vector<unsigned int> flowerVao){
+    Shader shader("./resources/shader/vs/terrain/terrain.vs","./resources/shader/fs/terrain/terrain.fs");
+    shader.use();
+    shader.setBool("iFrame", true);
+    shader.setVec3("light.ambient", glm::vec3(0.2, 0.2, 0.2));
+    shader.setVec3("light.diffuse", glm::vec3(0.3, 0.3, 0.3));
+    shader.setVec3("light.specular", glm::vec3(1.0, 1.0, 1.0));
+    shader.setVec3("light.direction", glm::vec3(-0.2, -1.0, -0.3));
+    
+    while (!glfwWindowShouldClose(window)) {
+        currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+        
+        processInput(window, shader);
+        
+        glClearColor(0.53, 0.81, 0.92, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        shader.use();
+        shader.setMat4("view", camera->GetViewMatrix());
+        shader.setMat4("projection", glm::perspective(glm::radians(camera->Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, (float)this->chunkWidth * (this->chunk_render_distance - 1.2f)));
+        shader.setVec3("viewPos", camera->Position);
+        glm::mat4 model(1.0f);
+        //这个就是之后要画三角形面时候，所要用到的顶点个数的计算
+        unsigned int nIndices = this->chunkHeight * this->chunkWidth * 6;
+        //计算在相机之外的大区域的个数
+        gridPosX = (int)(camera->Position.x - originX) / this->chunkWidth + xMapChunk / 2;
+        gridPosY = (int)(camera->Position.y - originY) / this->chunkHeight + yMapChunk/ 2;
+        for(int y = 0; y < this->yMapChunk; ++y){
+            for(int x = 0; x < this->xMapChunk; ++x){
+                //这里渲染的时候不是全部渲染，需要渲染的只是在3*3范围内的大区域，节省时间，所以需要计算距离位置
+                if(std::abs(gridPosX - x) <= chunk_render_distance && (gridPosY - y) <= chunk_render_distance){
+                    model = glm::mat4(1.0f);
+                    //计算当前需要渲染所在区域的位置的中心,并赋值给model进行偏移。
+                    model = glm::translate(model, glm::vec3(-this->chunkWidth / 2.0 + (this->chunkWidth - 1) * x, 0.0, -this->chunkHeight / 2.0 + (this->chunkHeight - 1) * y));
+                    shader.setMat4("model", model);
+                    
+                    glBindVertexArray(mapChunkVao[x + y * this->yMapChunk]);
+                    glDrawElements(GL_TRIANGLES, nIndices, GL_UNSIGNED_INT, 0);
+                    
+                    //绘制区域内的植物分布
+                    model = glm::mat4(1.0f);
+                    model = glm::translate(model, glm::vec3(-this->chunkWidth / 2.0 + (this->chunkWidth - 1) * x, 0.0, -this->chunkHeight / 2.0 + (this->chunkHeight - 1) * y));
+                    //这里需要对植物的大小进行一定的缩放
+                    model = glm::scale(model, glm::vec3(this->MODEL_SCALE));
+                    //开启面剔除
+                    glEnable(GL_CULL_FACE);
+                    glBindVertexArray(treeVao[x + y * this->chunkHeight]);
+                    glDrawArraysInstanced(GL_TRIANGLES, 0, 10192, 8);
+                    glBindVertexArray(flowerVao[x + y * this->chunkHeight]);
+                    glDrawArraysInstanced(GL_TRIANGLES, 0, 1300, 16);
+                    glDisable(GL_CULL_FACE);
+                }
+            }
+        }
+
+        glfwPollEvents();
+        glfwSwapBuffers(window);
+    }
+
+    glfwTerminate();
+}
+/**
+ 生成地图模型
+ @param {std::vector<unsigned int>} mapChunkVao 所在的顶点数组对象的地区（按大区域划分），主要作用是用来按需渲染
+ @param {std::vector<float>} vertices 网格顶点坐标
+ @param {std::vector<int>} indices 三角形平面顶点索引
+ @param {std::vector<float>} colorCard 群落颜色
+ @param {std::vector<float>} normals 三角形平面法线
+ */
+void Terrain::generate_map_chunk(unsigned int mapChunkVao, std::vector<float> vertices, std::vector<int> indices, std::vector<float> colorCard, std::vector<float> normals){
+    unsigned int VBO[3];
+    unsigned int EBO;
+    unsigned int VAO;
+    glGenBuffers(3, VBO);
+    glGenBuffers(1, &EBO);
+    glGenVertexArrays(1, &VAO);
+    
+    glBindVertexArray(VAO);
+    //顶点数据绑定
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(int), &indices[0], GL_ELEMENT_ARRAY_BUFFER);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    //法线数据绑定
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+    glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(float), &normals[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);
+    //颜色数据绑定
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
+    glBufferData(GL_ARRAY_BUFFER, colorCard.size() * sizeof(float), &colorCard[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(2);
 }
 
-//生成构成平面的三角形顶点，主要用于顶点索引对象使用
+
+
+/**
+ 生成构成平面的三角形顶点，主要用于顶点索引对象使用
+ */
 std::vector<int> Terrain::generate_indice(){
     std::vector<int> returnData;
     for(unsigned int i = 0; i < this->chunkHeight; i++){
@@ -92,6 +239,7 @@ std::vector<float> Terrain::generate_vertices(const std::vector<float> &noise_ma
     for(unsigned int i = 0; i < this->chunkHeight; ++i){
         for(unsigned int j = 0; j < this->chunkWidth; ++j){
             vertices.push_back(j + xOffset * this->chunkWidth);
+            //这里实际上要对生成的噪点值进行缩放，来保证不同高度生成
             float scaleNoise = std::fmax(std::pow(noise_map[j + i * this->chunkHeight] * 1.1, 3) * this->meshHeight, this->horizontal * 0.5 * this->meshHeight);
             if(isinf(scaleNoise)){
                 scaleNoise = dice();
@@ -153,12 +301,6 @@ std::vector<float> Terrain::generate_biome(const std::vector<float> &vertices, s
     return colors;
 }
 /**
- 处理颜色数据
- */
-glm::vec3 Terrain::handleColor(int r, int g, int b){
-    return glm::vec3(r / 255.0, g / 255.0, b / 255.0);
-}
-/**
  生成法向量
  @param {std::vector<int>} indices 三角形平面索引数据
  @param {std::vector<float>} vertices 网格顶点数据
@@ -183,4 +325,154 @@ std::vector<float> Terrain::generate_normal(const std::vector<int> &indices, con
     }
     
     return normals;
+}
+/**
+ 处理模型数据
+ */
+void Terrain::load_model(unsigned int &VAO, std::string filename){
+    //索引
+    std::vector<float> vertices;
+    //顶点坐标
+    std::vector<int> indices;
+    //形状
+    std::vector<tinyobj::shape_t> shapes;
+    //材质（也就是rgb颜色）
+    std::vector<tinyobj::material_t> materials;
+    tinyobj::attrib_t attrib;
+    std::string warning;
+    std::string error;
+    bool status = tinyobj::LoadObj(&attrib, &shapes, &materials, &warning, &error, filename.c_str());
+    if(!warning.empty()){
+        std::cout<< warning.c_str() << std::endl;
+    }else if(!error.empty()){
+        std::cout << error.c_str() << std::endl;
+    }
+    if(!status){
+        exit(1);
+    }
+    //读取数据
+    for(unsigned int i = 0; i < shapes.size(); ++i){
+        int index_offset = 0;
+        for(int j = 0; j < shapes[i].mesh.num_face_vertices.size(); ++j){
+            int fv = shapes[i].mesh.num_face_vertices[j];
+            for(int k = 0; k < fv; ++k){
+                tinyobj::index_t idx = shapes[i].mesh.indices[index_offset + k];
+                //顶点
+                vertices.push_back(attrib.vertices[3 * idx.vertex_index + 0]);
+                vertices.push_back(attrib.vertices[3 * idx.vertex_index + 1]);
+                vertices.push_back(attrib.vertices[3 * idx.vertex_index + 2]);
+                //法线
+                vertices.push_back(attrib.normals[3 * idx.normal_index + 0]);
+                vertices.push_back(attrib.normals[3 * idx.normal_index + 1]);
+                vertices.push_back(attrib.normals[3 * idx.normal_index + 2]);
+                //材质
+                vertices.push_back(materials[shapes[i].mesh.material_ids[j]].diffuse[0] * MODEL_BRIGHTNESS);
+                vertices.push_back(materials[shapes[i].mesh.material_ids[j]].diffuse[1] * MODEL_BRIGHTNESS);
+                vertices.push_back(materials[shapes[i].mesh.material_ids[j]].diffuse[2] * MODEL_BRIGHTNESS);
+            }
+            index_offset += fv;
+        }
+    }
+    
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER,VBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+    
+}
+/**
+ 设置模型偏移位置
+ */
+void Terrain::set_model(std::vector<unsigned int> &plant_chunk, std::string type, std::vector<plant> &plants, std::string filename){
+    std::vector<std::vector<float>> chunkInstances;
+    chunkInstances.resize(xMapChunk * yMapChunk);
+    
+    for(int i = 0; i < plants.size(); ++i){
+        float xPos = plants[i].xpos / MODEL_SCALE;
+        float yPos = plants[i].ypos / MODEL_SCALE;
+        float zPos = plants[i].zpos / MODEL_SCALE;
+        //这个pos实际就是创建的chunkInstances中的下标位置，方向计算是先从左到右，在从上到下
+        int pos = plants[i].xOffset + plants[i].yOffset * xMapChunk;
+        if(plants[i].type == type){
+            chunkInstances[pos].push_back(xPos);
+            chunkInstances[pos].push_back(yPos);
+            chunkInstances[pos].push_back(zPos);
+        }
+    }
+    //这里的顶点缓冲对象都是按照每一个大区域进行渲染的，也就是10 * 10, 100个顶点缓冲对象这样处理的
+    unsigned int instancesVBO[xMapChunk * yMapChunk];
+    for(int y = 0; y < yMapChunk; ++y){
+        for(int x = 0; x < xMapChunk; ++x){
+            int pos = x + y * xMapChunk;
+            load_model(plant_chunk[pos], filename);
+
+            glBindVertexArray(plant_chunk[pos]);
+            glBindBuffer(GL_ARRAY_BUFFER, instancesVBO[pos]);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(float) * chunkInstances[pos].size(), &chunkInstances[pos][0], GL_STATIC_DRAW);
+            glEnableVertexAttribArray(3);
+            glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+            glVertexAttribDivisor(3, 1);
+        }
+    }
+}
+
+/**
+ 处理颜色数据
+ */
+glm::vec3 Terrain::handleColor(int r, int g, int b){
+    return glm::vec3(r / 255.0, g / 255.0, b / 255.0);
+}
+
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
+    camera->ProcessMouseScroll(yoffset);
+}
+
+void mouse_callback(GLFWwindow *window, double xpos, double ypos){
+    if (firstMouse)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos;
+
+    lastX = xpos;
+    lastY = ypos;
+
+    camera->ProcessMouseMovement(xoffset, yoffset);
+}
+
+void processInput(GLFWwindow *window, Shader &shader){
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        glfwSetWindowShouldClose(window, true);
+    }
+    else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        camera->ProcessKeyboard(FORWARD, deltaTime);
+    }
+    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        camera->ProcessKeyboard(BACKWARD, deltaTime);
+    }
+    else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        camera->ProcessKeyboard(LEFT, deltaTime);
+    }
+    else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        camera->ProcessKeyboard(RIGHT, deltaTime);
+    }
+    else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        camera->ProcessKeyboard(TOP, deltaTime);
+    }
+    else if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS) {
+        camera->ProcessKeyboard(DOWN, deltaTime);
+    }
 }
