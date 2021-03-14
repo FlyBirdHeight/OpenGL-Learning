@@ -163,6 +163,11 @@
 		54F90997253BDB04005AE973 /* light_caster_light.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light_caster_light.fs; sourceTree = "<group>"; };
 		54FC679B25FB2D9200936D4E /* terrain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = terrain.cpp; sourceTree = "<group>"; };
 		54FC679C25FB2D9200936D4E /* terrain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = terrain.hpp; sourceTree = "<group>"; };
+		54FC67A025FDC78300936D4E /* tiny_obj_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tiny_obj_loader.h; sourceTree = "<group>"; };
+		54FC67A225FDC7AD00936D4E /* Flowers.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Flowers.mtl; sourceTree = "<group>"; };
+		54FC67A325FDC7AD00936D4E /* CommonTree_1.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CommonTree_1.obj; sourceTree = "<group>"; };
+		54FC67A425FDC7AD00936D4E /* CommonTree_1.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CommonTree_1.mtl; sourceTree = "<group>"; };
+		54FC67A525FDC7AD00936D4E /* Flowers.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Flowers.obj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -497,6 +502,7 @@
 				545D101625A48229006F6FD4 /* basics */,
 				545D101525A481FF006F6FD4 /* utils */,
 				54CF54822533199B004FD5D6 /* stb_image.h */,
+				54FC67A025FDC78300936D4E /* tiny_obj_loader.h */,
 			);
 			path = head;
 			sourceTree = "<group>";
@@ -513,6 +519,7 @@
 		54531A1B2532F66C0021618E /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				54FC67A125FDC79300936D4E /* obj */,
 				5452B0BA25F1C33900E614BF /* noise */,
 				5423F71625B6A3C600218EC3 /* combat */,
 				5446114425A6FD5600F2DC81 /* font */,
@@ -862,6 +869,17 @@
 				54F90994253BDABB005AE973 /* light_caster_object.vs */,
 			);
 			path = light_casters;
+			sourceTree = "<group>";
+		};
+		54FC67A125FDC79300936D4E /* obj */ = {
+			isa = PBXGroup;
+			children = (
+				54FC67A425FDC7AD00936D4E /* CommonTree_1.mtl */,
+				54FC67A325FDC7AD00936D4E /* CommonTree_1.obj */,
+				54FC67A225FDC7AD00936D4E /* Flowers.mtl */,
+				54FC67A525FDC7AD00936D4E /* Flowers.obj */,
+			);
+			path = obj;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
