@@ -1,51 +1,55 @@
 #version 330 core
-layout(location = 0) in vec3 aPos;
-layout(location = 1) in vec3 aNormal;
-layout(location = 2) in vec3 aColor;
-layout(location = 3) in vec3 aOffset;
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aNormal;
+layout (location = 2) in vec3 aColor;
+//layout (location = 3) in vec3 aOffset;
+
+flat out vec3 flatColor;
+out vec3 Color;
 
 struct Light {
+    vec3 direction;
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-    vec3 direction;
 };
 
 uniform Light light;
 uniform vec3 viewPos;
+
 uniform mat4 model;
+uniform mat4 view;
 uniform mat4 projection;
-uniform mat4 viewer;
 
-out vec3 fragColor;
-out vec3 Color;
-
-vec3 calculateLighting(vec3 Normal, vec3 FragPos){
-    vec3 normal = normalize(Normal);
-    vec3 lightDir = normalize(light.direction - FragPos);
-    
+vec3 calculateLighting(vec3 Normal, vec3 FragPos) {
+    // Ambient lighting
     vec3 ambient = light.ambient;
-    float diff = max(dot(lightDir, normal), 0.0);
-    vec3 diffuse = diff * light.diffuse;
     
+    // Diffuse lighting
+    vec3 norm = normalize(Normal);
+    vec3 lightDir = normalize(-light.direction);
+    float diff = max(dot(lightDir, norm), 0.0);
+    vec3 diffuse = light.diffuse * diff;
+
+    // Specular lighting
     float specularStrength = 0.5;
     vec3 viewDir = normalize(viewPos - FragPos);
-    vec3 halfDir = normalize(viewDir + lightDir);
-    
-    float spec = pow(max(dot(viewPos, halfDir), 0.0), 16.0);
+    vec3 reflectDir = reflect(-lightDir, Normal);
+
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16);
     vec3 specular = light.specular * spec;
     
-    return (ambient * diffuse * specular);
+    return (ambient + diffuse + specular);
 }
 
-void main(){
-    vec3 FragPos = vec3(model * vec4(aPos + aOffset, 1.0));
+void main() {
+    vec3 FragPos = vec3(model * vec4(aPos, 1.0));
     vec3 Normal = aNormal;
-    
-    vec3 lighting = calculateLighting(Normal, FragPos);
-    Color = aColor;
-    fragColor = aColor * lighting;
-    
-    gl_Position = projection * viewer * model * vec4(aPos + aOffset, 1.0);
-}
+//    vec3 Normal = transpose(inverse(mat3(u_model))) * aNormal;
 
+    vec3 lighting = calculateLighting(Normal, FragPos);
+    Color = aColor * lighting;
+    flatColor = Color;
+    
+    gl_Position = projection * view * model * vec4(aPos, 1.0);
+}

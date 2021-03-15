@@ -63,7 +63,7 @@ public:
     int chunk_render_distance = 3;
     //噪声相关参数设置
     int octaves = 5;//度数
-    float meshHeight = 32;//顶点缩放
+    float meshHeight = 64;//顶点缩放
     float noiseScale = 64;//水平缩放
     //fbm中的一些参数设置
     float persistence = 0.5;
@@ -77,6 +77,8 @@ public:
     void createWindow();
     //渲染
     void render(GLFWwindow* window, std::vector<unsigned int> mapChunkVao,std::vector<unsigned int> treeVao, std::vector<unsigned int> flowerVao);
+    //数据测试
+    void test(std::vector<float> vertices, std::vector<int> indices, std::vector<float> colorCard, std::vector<float> normals);
 private:
     PerlinNoise perlinNoise;
     //生成噪声高度

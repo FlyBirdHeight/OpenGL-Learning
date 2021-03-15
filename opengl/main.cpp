@@ -1,10 +1,7 @@
 #include "terrain.hpp"
-int main()
-{
-    Terrain objInfo;
-    
-    
-    objInfo.createWindow();
+int main(){
+    Terrain obj;
+    obj.createWindow();
     
     return 0;
 }

@@ -2,103 +2,86 @@
 //  perlin.cpp
 //  opengl
 //
-//  Created by adsionli on 2021/3/4.
+//  Created by adsionli on 2021/3/15.
 //  Copyright © 2021 adsionli. All rights reserved.
 //
 
 #include "perlin.hpp"
-#include <fstream>
 PerlinNoise::PerlinNoise(){
-    this->generateMesh();
+    this->generate_permutation();
 }
 
+double PerlinNoise::perlin_noise(float x, float y){
+    float z = 0.5;
+    
+    int X = (int)floor(x) & 255,
+        Y = (int)floor(y) & 255,
+        Z = (int)floor(z) & 255;
+    x -= floor(x);
+    y -= floor(y);
+    z -= floor(z);
+    double u = fade(x),
+           v = fade(y),
+           w = fade(z);
+    int A = permutation[X]+Y, AA = permutation[A]+Z, AB = permutation[A+1]+Z,
+        B = permutation[X+1]+Y, BA = permutation[B]+Z, BB = permutation[B+1]+Z;
+    return lerp(w, lerp(v, lerp(u, gradient(permutation[AA], x  , y  , z   ),
+                                gradient(permutation[BA], x-1, y  , z   )),
+                           lerp(u, gradient(permutation[AB  ], x  , y-1, z   ),
+                                gradient(permutation[BB  ], x-1, y-1, z   ))),
+                   lerp(v, lerp(u, gradient(permutation[AA+1], x  , y  , z-1 ),
+                                gradient(permutation[BA+1], x-1, y  , z-1 )),
+                           lerp(u, gradient(permutation[AB+1], x  , y-1, z-1 ),
+                                gradient(permutation[BB+1], x-1, y-1, z-1 ))));
+    return 0.0;
+}
 
-//创建晶格并生成梯度向量
-void PerlinNoise::generateMesh(){
-    unsigned seed = 2016;
-    std::mt19937 generate(seed);
-    std::uniform_real_distribution<float> distribution{.0, 1.};
-    auto randomData = std::bind(distribution, generate);
-    float gradientLen2 = 0.0;
-    for(unsigned i = 0; i < this->g_tableSize; ++i){
-        this->gradient[i] = glm::fvec2(2 * randomData() - 1, 2 * randomData() - 1);
-        gradientLen2 = this->gradient[i].length();
-        this->gradient[i] /= sqrtf(gradientLen2);
-        this->permutationTable[i] = i;
-    }
-    //perlin noise中的p数组，负责在提取晶格坐标时
-    int p[512] = { 151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
-        190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
-        88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
-        77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
-        102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,
-        135,130,116,188,159,86,164,100,109,198,173,186, 3,64,52,217,226,250,124,123,
-        5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,
-        223,183,170,213,119,248,152, 2,44,154,163, 70,221,153,101,155,167, 43,172,9,
-        129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
-        251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
-        49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
-        138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
+void PerlinNoise::generate_permutation(){
+    std::vector<int> permutationData = { 151,160,137,91,90,15,
+    131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
+    190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
+    88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
+    77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
+    102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,
+    135,130,116,188,159,86,164,100,109,198,173,186, 3,64,52,217,226,250,124,123,
+    5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,
+    223,183,170,213,119,248,152, 2,44,154,163, 70,221,153,101,155,167, 43,172,9,
+    129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
+    251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
+    49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
+    138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
     };
-    for(unsigned i = 0; i < this->g_tableSize; i++){
-        this->permutationTable[256+i] = this->permutationTable[i] = p[i];
+
+    for (int j = 0; j < 2; j++){
+        for (int i=0; i < 256; i++) {
+            this->permutation.push_back(permutationData[i]);
+        }
     }
 }
-//生成对应的晶格数据
-float PerlinNoise::generateMeshData(glm::fvec2 point){
-    //左下角晶格顶点
-    glm::fvec2 mesh_left_bottom_point = glm::floor(point);
-    //最下角晶格顶点的x,y坐标
-    int mesh_point_x = ((int) std::floor(point.x)) & this->g_tableSize;
-    int mesh_point_y = ((int) std::floor(point.y)) & this->g_tableSize;
-    //晶格点其余顶点
-    glm::fvec2 mesh_right_bottom_point(mesh_point_x + 1.0, mesh_point_y);
-    glm::fvec2 mesh_left_top_point(mesh_point_x, mesh_point_y + 1.0);
-    glm::fvec2 mesh_right_top_point(mesh_point_x + 1.0, mesh_point_y + 1.0);
-    
-    //左下角晶格顶点指向晶格内的向量
-    glm::fvec2 mesh_left_bottom_vector = point - mesh_left_bottom_point;
-    //2维晶格顶点剩下三个点指向晶格内点的向量
-    glm::fvec2 mesh_right_bottom_vector = mesh_left_bottom_vector + glm::vec2(1.0, 0.0);
-    glm::fvec2 mesh_left_top_vector = mesh_left_bottom_vector + glm::vec2(0.0, 1.0);
-    glm::fvec2 mesh_right_top_vector = mesh_left_bottom_vector + glm::vec2(1., 1.);
-    
-    //获取四个晶格顶点的梯度向量;
-    glm::fvec2 mesh_left_bottom_gradient = this->getIndex(mesh_point_x, mesh_point_y);
-    glm::fvec2 mesh_left_top_gradient = this->getIndex((int)mesh_left_top_point.x, (int)mesh_left_top_point.y);
-    glm::fvec2 mesh_right_bottom_gradient = this->getIndex((int)mesh_right_bottom_point.x, (int)mesh_right_bottom_point.y);
-    glm::fvec2 mesh_right_top_gradient = this->getIndex((int)mesh_right_top_point.x, (int)mesh_right_top_point.y);
-    
-    //获取缓和曲线处理过的点
-    float u = this->smoothCurve(point.x - mesh_point_x);
-    float v = this->smoothCurve(point.y - mesh_point_y);
-    //线性混合
-    float mesh_bottom = glm::mix(glm::dot(mesh_left_bottom_vector, mesh_left_bottom_gradient), glm::dot(mesh_right_bottom_vector, mesh_right_bottom_gradient), u);
-    float mesh_top = glm::mix(glm::dot(mesh_left_top_vector, mesh_left_top_gradient), glm::dot(mesh_right_top_vector, mesh_right_top_gradient), u);
-    float returnData = glm::mix(mesh_bottom, mesh_top, v);
-    
-    return returnData;
+
+double PerlinNoise::lerp(double t, double a, double b){
+    return a + t * (b - a);
 }
 
-//梯度向量获取
-glm::fvec2 PerlinNoise::getIndex(int x, int y){
-    return this->gradient[(x + this->permutationTable[y]) % 256];
+double PerlinNoise::gradient(int permutationIndex, double x, double y, double z){
+    int h = permutationIndex & 15;
+    double u = h<8 ? x : y,
+           v = h<4 ? y : h==12||h==14 ? x : z;
+    return ((h&1) == 0 ? u : -u) + ((h&2) == 0 ? v : -v);
 }
-//缓和曲线
-float PerlinNoise::smoothCurve(float data){
-    float returnData = data * data * (3.0 - 2.0 * data);
-    
-    return returnData;
+
+double PerlinNoise::fade(double t){
+    return t * t * t * (t * (t * 6 - 15) + 10);
 }
-//fbm
-float PerlinNoise::getNoiseByFbm(int octaves, float x, float y){
+
+double PerlinNoise::fbm(float x, float y){
     double output = .0;
     double denom = .0;
     double frequency = 1.;
     double amplitude = 1.;
     
-    for(double i = 0; i < octaves; i++){
-        output += amplitude * this->generateMeshData(glm::fvec2(x * frequency, y * frequency));
+    for(double i = 0; i < 5; i++){
+        output += amplitude * this->perlin_noise(x * frequency, y * frequency);
         denom += amplitude;
         
         frequency *= 2.0;
@@ -107,27 +90,3 @@ float PerlinNoise::getNoiseByFbm(int octaves, float x, float y){
     
     return output / denom;
 }
-
-
-
-
-//测试
-void PerlinNoise::testHash(int x, int y){
-    this->generateMesh();
-    std::ofstream newFile("./resources/noise/test.ppm");
-//    newFile << "数据测试"  << std::endl;
-    int xx=400, yy=400;
-    newFile << "P3" << std::endl << xx << " " << yy << " " << std::endl << "255" << std::endl;
-    for(float i = 0.0; i < 50.0; i += 0.05){
-        for(float j = 0.0; j < 50.0; j += 0.05){
-            glm::vec2 test(i, j);
-            float sum = this->generateMeshData(test);
-            int b = (sum + 1)*255.0 / 2.0;
-//            std::cout << sum << std::endl;
-            newFile << b << " " << b << " " << b << std::endl;;
-        }
-    }
-    newFile.close();
-    std::cout << "Write Success" << std::endl;
-}
-
