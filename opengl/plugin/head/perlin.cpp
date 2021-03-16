@@ -88,5 +88,5 @@ double PerlinNoise::fbm(float x, float y){
         amplitude *= 0.5;
     }
     
-    return output / denom;
+    return (output + 1) / denom;
 }

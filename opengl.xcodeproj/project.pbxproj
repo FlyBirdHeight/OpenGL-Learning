@@ -21,6 +21,7 @@
 		544BF03F25F7448A00BACCD8 /* simplex_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF03D25F7448A00BACCD8 /* simplex_test.cpp */; };
 		544BF04925F769E200BACCD8 /* worley_noise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF04725F769E200BACCD8 /* worley_noise.cpp */; };
 		5452B0AA25F07A9E00E614BF /* perlin_old.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5452B0A825F07A9E00E614BF /* perlin_old.cpp */; };
+		54570CD3260087540072EEA2 /* generate_mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54570CD1260087540072EEA2 /* generate_mesh.cpp */; };
 		546412ED25BE9F0700126AF5 /* particles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412EB25BE9F0700126AF5 /* particles.cpp */; };
 		546412FF25C0472F00126AF5 /* postprocess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412FD25C0472F00126AF5 /* postprocess.cpp */; };
 		54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6DE524D2C2FC00E9A4D9 /* main.cpp */; };
@@ -28,7 +29,6 @@
 		54CE6E0224D2C66400E9A4D9 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFD24D2C48700E9A4D9 /* libGLEW.2.1.0.dylib */; };
 		54CE6E0324D2C66400E9A4D9 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFF24D2C4AC00E9A4D9 /* libglfw.3.3.dylib */; };
 		54CE6E0524D2C76F00E9A4D9 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6E0424D2C76F00E9A4D9 /* glad.c */; };
-		54F9098E25396733005AE973 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54F9098D25396733005AE973 /* test.cpp */; };
 		54FC679D25FB2D9200936D4E /* terrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54FC679B25FB2D9200936D4E /* terrain.cpp */; };
 		54FC67BE25FEFE3000936D4E /* perlin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54FC67BC25FEFE3000936D4E /* perlin.cpp */; };
 /* End PBXBuildFile section */
@@ -105,6 +105,12 @@
 		5452B0B425F0815600E614BF /* perlin.fs */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.glsl; path = perlin.fs; sourceTree = "<group>"; tabWidth = 4; wrapsLines = 0; };
 		54531A192532F29B0021618E /* texture_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = texture_test.vs; sourceTree = "<group>"; };
 		54531A1A2532F2B40021618E /* texture_test.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = texture_test.fs; sourceTree = "<group>"; };
+		54570CD1260087540072EEA2 /* generate_mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = generate_mesh.cpp; sourceTree = "<group>"; };
+		54570CD2260087540072EEA2 /* generate_mesh.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = generate_mesh.hpp; sourceTree = "<group>"; };
+		54570CD6260090110072EEA2 /* mesh.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = mesh.vs; sourceTree = "<group>"; };
+		54570CD8260090790072EEA2 /* mesh.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = mesh.fs; sourceTree = "<group>"; };
+		54570CDB2600A8C00072EEA2 /* meshTest.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = meshTest.vs; sourceTree = "<group>"; };
+		54570CDC2600A8F80072EEA2 /* meshTest.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = meshTest.fs; sourceTree = "<group>"; };
 		545D101225A480D2006F6FD4 /* model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
 		545D101425A48129006F6FD4 /* mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mesh.h; sourceTree = "<group>"; };
 		545D103025A4893D006F6FD4 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = text.h; path = opengl/plugin/head/text.h; sourceTree = SOURCE_ROOT; };
@@ -155,7 +161,6 @@
 		54F9098A25386A7F005AE973 /* lightmap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lightmap.h; sourceTree = "<group>"; };
 		54F9098B25387564005AE973 /* container2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2.png; sourceTree = "<group>"; };
 		54F9098C253938C3005AE973 /* container2_specular.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = container2_specular.png; sourceTree = "<group>"; };
-		54F9098D25396733005AE973 /* test.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
 		54F9098F25399370005AE973 /* matrix.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = matrix.jpg; sourceTree = "<group>"; };
 		54F90990253AC416005AE973 /* light_casters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = light_casters.h; sourceTree = "<group>"; };
 		54F90993253BDAAE005AE973 /* light_caster_light.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light_caster_light.vs; sourceTree = "<group>"; };
@@ -364,6 +369,7 @@
 		544BBEE824D5736D00802969 /* vs */ = {
 			isa = PBXGroup;
 			children = (
+				54570CD526008FF50072EEA2 /* mesh */,
 				54EC4EA225FA0CBF0091ACB4 /* terrain */,
 				5452B0B225F0807C00E614BF /* noise */,
 				5446114725A7167500F2DC81 /* combat */,
@@ -384,6 +390,7 @@
 		544BBEE924D5737700802969 /* fs */ = {
 			isa = PBXGroup;
 			children = (
+				54570CD72600906D0072EEA2 /* mesh */,
 				54EC4EA325FA0CC80091ACB4 /* terrain */,
 				5452B0A525F0711A00E614BF /* noise */,
 				5446114925A7175300F2DC81 /* combat */,
@@ -496,6 +503,7 @@
 		54531A172532EC150021618E /* head */ = {
 			isa = PBXGroup;
 			children = (
+				54570CD02600873F0072EEA2 /* mesh */,
 				544BF04D25F9E5C600BACCD8 /* terrain */,
 				5452B0AF25F07AC900E614BF /* noise */,
 				545D102C25A48559006F6FD4 /* combat */,
@@ -551,6 +559,33 @@
 				54CF548425332194004FD5D6 /* area.png */,
 			);
 			path = images;
+			sourceTree = "<group>";
+		};
+		54570CD02600873F0072EEA2 /* mesh */ = {
+			isa = PBXGroup;
+			children = (
+				54570CD1260087540072EEA2 /* generate_mesh.cpp */,
+				54570CD2260087540072EEA2 /* generate_mesh.hpp */,
+			);
+			name = mesh;
+			sourceTree = "<group>";
+		};
+		54570CD526008FF50072EEA2 /* mesh */ = {
+			isa = PBXGroup;
+			children = (
+				54570CD6260090110072EEA2 /* mesh.vs */,
+				54570CDB2600A8C00072EEA2 /* meshTest.vs */,
+			);
+			path = mesh;
+			sourceTree = "<group>";
+		};
+		54570CD72600906D0072EEA2 /* mesh */ = {
+			isa = PBXGroup;
+			children = (
+				54570CD8260090790072EEA2 /* mesh.fs */,
+				54570CDC2600A8F80072EEA2 /* meshTest.fs */,
+			);
+			path = mesh;
 			sourceTree = "<group>";
 		};
 		545D101525A481FF006F6FD4 /* utils */ = {
@@ -805,7 +840,6 @@
 				54531A0F25302D030021618E /* plugin */,
 				54CE6DE524D2C2FC00E9A4D9 /* main.cpp */,
 				54CE6E0424D2C76F00E9A4D9 /* glad.c */,
-				54F9098D25396733005AE973 /* test.cpp */,
 			);
 			path = opengl;
 			sourceTree = "<group>";
@@ -954,7 +988,6 @@
 				5446114D25A72F9900F2DC81 /* test123.cpp in Sources */,
 				5452B0AA25F07A9E00E614BF /* perlin_old.cpp in Sources */,
 				5423F6ED25AAE71400218EC3 /* resoureces_use.cpp in Sources */,
-				54F9098E25396733005AE973 /* test.cpp in Sources */,
 				5423F70025B551DA00218EC3 /* SpriteRender.cpp in Sources */,
 				5423F71225B5709B00218EC3 /* games_level.cpp in Sources */,
 				5423F72725B7EDB100218EC3 /* ball.cpp in Sources */,
@@ -965,6 +998,7 @@
 				5446113B25A6EF3300F2DC81 /* text_draw.cpp in Sources */,
 				544BF03525F20A6800BACCD8 /* perlin_3d.cpp in Sources */,
 				54CE6E0524D2C76F00E9A4D9 /* glad.c in Sources */,
+				54570CD3260087540072EEA2 /* generate_mesh.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
