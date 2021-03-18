@@ -1,8 +1,8 @@
-#include "generate_mesh.hpp"
+#include "terrain.hpp"
 int main(){
-    GenerateMesh obj;
+    Terrain obj;
     
-    obj.testData();
+    obj.createWindow();
     
     return 0;
 }

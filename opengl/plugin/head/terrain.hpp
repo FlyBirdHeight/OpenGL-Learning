@@ -77,10 +77,6 @@ public:
     void createWindow();
     //渲染
     void render(GLFWwindow* window, std::vector<unsigned int> mapChunkVao,std::vector<unsigned int> treeVao, std::vector<unsigned int> flowerVao);
-    //初始化数据
-    void initTestData();
-    //数据测试
-    void test(std::vector<float> vertices, std::vector<int> indices, std::vector<float> colorCard, std::vector<float> normals);
 private:
     PerlinNoise perlinNoise;
     //生成噪声高度
