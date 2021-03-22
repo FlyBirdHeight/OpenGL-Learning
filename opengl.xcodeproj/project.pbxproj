@@ -103,7 +103,7 @@
 		5452B0A925F07A9E00E614BF /* perlin_old.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = perlin_old.hpp; path = opengl/plugin/head/perlin_old.hpp; sourceTree = SOURCE_ROOT; };
 		5452B0B325F0808E00E614BF /* perlin.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = perlin.vs; sourceTree = "<group>"; };
 		5452B0B425F0815600E614BF /* perlin.fs */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.glsl; path = perlin.fs; sourceTree = "<group>"; tabWidth = 4; wrapsLines = 0; };
-		54531A192532F29B0021618E /* texture_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = texture_test.vs; sourceTree = "<group>"; };
+		54531A192532F29B0021618E /* texture_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = texture_test.vs; path = opengl/plugin/shader/vs/texture_test.vs; sourceTree = SOURCE_ROOT; };
 		54531A1A2532F2B40021618E /* texture_test.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = texture_test.fs; sourceTree = "<group>"; };
 		54570CD1260087540072EEA2 /* generate_mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = generate_mesh.cpp; sourceTree = "<group>"; };
 		54570CD2260087540072EEA2 /* generate_mesh.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = generate_mesh.hpp; sourceTree = "<group>"; };
