@@ -14,6 +14,9 @@
 		5423F70C25B56C5800218EC3 /* game_object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5423F70A25B56C5800218EC3 /* game_object.cpp */; };
 		5423F71225B5709B00218EC3 /* games_level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5423F71025B5709B00218EC3 /* games_level.cpp */; };
 		5423F72725B7EDB100218EC3 /* ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5423F72525B7EDB100218EC3 /* ball.cpp */; };
+		54302856266F36DB004BEC65 /* dda.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54302855266F36DB004BEC65 /* dda.cpp */; };
+		54302858266F3DD9004BEC65 /* bresenham.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54302857266F3DD9004BEC65 /* bresenham.cpp */; };
+		5430285A2670862A004BEC65 /* thread_bresenham.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 543028592670862A004BEC65 /* thread_bresenham.cpp */; };
 		5446113B25A6EF3300F2DC81 /* text_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5446113925A6EF3300F2DC81 /* text_draw.cpp */; };
 		5446114D25A72F9900F2DC81 /* test123.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5446114C25A72F9900F2DC81 /* test123.cpp */; };
 		544BF03525F20A6800BACCD8 /* perlin_3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF03325F20A6800BACCD8 /* perlin_3d.cpp */; };
@@ -75,6 +78,9 @@
 		5423F72025B6AF2E00218EC3 /* monitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = monitor.h; sourceTree = "<group>"; };
 		5423F72525B7EDB100218EC3 /* ball.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ball.cpp; path = opengl/plugin/head/ball.cpp; sourceTree = SOURCE_ROOT; };
 		5423F72625B7EDB100218EC3 /* ball.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ball.hpp; path = opengl/plugin/head/ball.hpp; sourceTree = SOURCE_ROOT; };
+		54302855266F36DB004BEC65 /* dda.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dda.cpp; sourceTree = "<group>"; };
+		54302857266F3DD9004BEC65 /* bresenham.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bresenham.cpp; sourceTree = "<group>"; };
+		543028592670862A004BEC65 /* thread_bresenham.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = thread_bresenham.cpp; sourceTree = "<group>"; };
 		5446113425A5CEF100F2DC81 /* character_set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = character_set.h; path = opengl/plugin/head/character_set.h; sourceTree = SOURCE_ROOT; };
 		5446113525A5CEF100F2DC81 /* texture_find.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texture_find.h; path = opengl/plugin/head/texture_find.h; sourceTree = SOURCE_ROOT; };
 		5446113925A6EF3300F2DC81 /* text_draw.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = text_draw.cpp; path = opengl/plugin/head/text_draw.cpp; sourceTree = SOURCE_ROOT; };
@@ -309,6 +315,44 @@
 			path = ball;
 			sourceTree = "<group>";
 		};
+		5430285026675D43004BEC65 /* learn_opengl */ = {
+			isa = PBXGroup;
+			children = (
+				54570CD02600873F0072EEA2 /* mesh */,
+				544BF04D25F9E5C600BACCD8 /* terrain */,
+				5452B0AF25F07AC900E614BF /* noise */,
+				545D102C25A48559006F6FD4 /* combat */,
+				545D102B25A48551006F6FD4 /* model */,
+				545D102A25A4854B006F6FD4 /* light */,
+				545D102925A4853D006F6FD4 /* pbr */,
+				545D102525A484BC006F6FD4 /* senior_opengl */,
+				545D101B25A48444006F6FD4 /* senior_light */,
+				545D101625A48229006F6FD4 /* basics */,
+				545D101525A481FF006F6FD4 /* utils */,
+				54CF54822533199B004FD5D6 /* stb_image.h */,
+				54FC67B925FE4AD600936D4E /* perlin_noise.h */,
+			);
+			name = learn_opengl;
+			sourceTree = "<group>";
+		};
+		5430285126675D70004BEC65 /* basic */ = {
+			isa = PBXGroup;
+			children = (
+				54302852266F3567004BEC65 /* line */,
+			);
+			name = basic;
+			sourceTree = "<group>";
+		};
+		54302852266F3567004BEC65 /* line */ = {
+			isa = PBXGroup;
+			children = (
+				54302855266F36DB004BEC65 /* dda.cpp */,
+				54302857266F3DD9004BEC65 /* bresenham.cpp */,
+				543028592670862A004BEC65 /* thread_bresenham.cpp */,
+			);
+			name = line;
+			sourceTree = "<group>";
+		};
 		5446113825A6EF1900F2DC81 /* text_draw */ = {
 			isa = PBXGroup;
 			children = (
@@ -503,19 +547,8 @@
 		54531A172532EC150021618E /* head */ = {
 			isa = PBXGroup;
 			children = (
-				54570CD02600873F0072EEA2 /* mesh */,
-				544BF04D25F9E5C600BACCD8 /* terrain */,
-				5452B0AF25F07AC900E614BF /* noise */,
-				545D102C25A48559006F6FD4 /* combat */,
-				545D102B25A48551006F6FD4 /* model */,
-				545D102A25A4854B006F6FD4 /* light */,
-				545D102925A4853D006F6FD4 /* pbr */,
-				545D102525A484BC006F6FD4 /* senior_opengl */,
-				545D101B25A48444006F6FD4 /* senior_light */,
-				545D101625A48229006F6FD4 /* basics */,
-				545D101525A481FF006F6FD4 /* utils */,
-				54CF54822533199B004FD5D6 /* stb_image.h */,
-				54FC67B925FE4AD600936D4E /* perlin_noise.h */,
+				5430285126675D70004BEC65 /* basic */,
+				5430285026675D43004BEC65 /* learn_opengl */,
 			);
 			path = head;
 			sourceTree = "<group>";
@@ -979,6 +1012,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54FC67BE25FEFE3000936D4E /* perlin.cpp in Sources */,
+				5430285A2670862A004BEC65 /* thread_bresenham.cpp in Sources */,
 				5423F6F525AAEE4A00218EC3 /* games.cpp in Sources */,
 				54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */,
 				546412ED25BE9F0700126AF5 /* particles.cpp in Sources */,
@@ -987,6 +1021,7 @@
 				54FC679D25FB2D9200936D4E /* terrain.cpp in Sources */,
 				5446114D25A72F9900F2DC81 /* test123.cpp in Sources */,
 				5452B0AA25F07A9E00E614BF /* perlin_old.cpp in Sources */,
+				54302856266F36DB004BEC65 /* dda.cpp in Sources */,
 				5423F6ED25AAE71400218EC3 /* resoureces_use.cpp in Sources */,
 				5423F70025B551DA00218EC3 /* SpriteRender.cpp in Sources */,
 				5423F71225B5709B00218EC3 /* games_level.cpp in Sources */,
@@ -994,6 +1029,7 @@
 				5423F6E825AAE37C00218EC3 /* texture.cpp in Sources */,
 				544BF03A25F5E0E900BACCD8 /* simplex.cpp in Sources */,
 				544BF04925F769E200BACCD8 /* worley_noise.cpp in Sources */,
+				54302858266F3DD9004BEC65 /* bresenham.cpp in Sources */,
 				546412FF25C0472F00126AF5 /* postprocess.cpp in Sources */,
 				5446113B25A6EF3300F2DC81 /* text_draw.cpp in Sources */,
 				544BF03525F20A6800BACCD8 /* perlin_3d.cpp in Sources */,
