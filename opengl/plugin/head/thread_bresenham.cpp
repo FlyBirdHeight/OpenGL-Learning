@@ -94,9 +94,9 @@ static void bersenhamLine(int x0, int y0, int xEnd, int yEnd, int number, int dx
 static std::vector<std::vector<ThreadBersenhamPointData>> createThreadBersenhamLine(){
     
     std::vector<std::thread> threadPool;
-    
+    int maxThreadCount = std::thread::hardware_concurrency();
     float k = dy / dx;
-    int threadCount = 10;
+    int threadCount = maxThreadCount - 2;
     int dx_thread = floor(double((dx + threadCount - 1) / threadCount));
     int dy_thread = floor(double(k * dx_thread));
     int x = xS, y = yS;
