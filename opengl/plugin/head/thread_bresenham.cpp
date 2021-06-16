@@ -93,26 +93,26 @@ static void bersenhamLine(int x0, int y0, int xEnd, int yEnd, int number, int dx
 
 static std::vector<std::vector<ThreadBersenhamPointData>> createThreadBersenhamLine(){
     
-    std::vector<std::thread> threadPool;
-    int maxThreadCount = std::thread::hardware_concurrency();
-    float k = dy / dx;
-    int threadCount = maxThreadCount - 2;
-    int dx_thread = floor(double((dx + threadCount - 1) / threadCount));
-    int dy_thread = floor(double(k * dx_thread));
-    int x = xS, y = yS;
-    for(int i = 0; i < threadCount; ++i){
-        int xET = xS + (i + 1) * dx_thread;
-        int yET = yS + roundN((i + 1) * dy_thread);
-        std::thread th(bersenhamLine, x, y, xET, yET, i, dx_thread, dy_thread);
-        x = xET;
-        y = yET;
-        threadPool.push_back(th);
-    }
-    for(int i = 0; i < threadPool.size(); ++i){
-        if(threadPool[i].joinable()){
-            threadPool[i].join();
-        }
-    }
+//    std::vector<std::thread> threadPool;
+//    int maxThreadCount = std::thread::hardware_concurrency();
+//    float k = dy / dx;
+//    int threadCount = maxThreadCount - 2;
+//    int dx_thread = floor(double((dx + threadCount - 1) / threadCount));
+//    int dy_thread = floor(double(k * dx_thread));
+//    int x = xS, y = yS;
+//    for(int i = 0; i < threadCount; ++i){
+//        int xET = xS + (i + 1) * dx_thread;
+//        int yET = yS + roundN((i + 1) * dy_thread);
+//        std::thread th(bersenhamLine, x, y, xET, yET, i, dx_thread, dy_thread);
+//        x = xET;
+//        y = yET;
+//        threadPool.push_back(th);
+//    }
+//    for(int i = 0; i < threadPool.size(); ++i){
+//        if(threadPool[i].joinable()){
+//            threadPool[i].join();
+//        }
+//    }
     
     return returnData;
 }

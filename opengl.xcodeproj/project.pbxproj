@@ -17,6 +17,10 @@
 		54302856266F36DB004BEC65 /* dda.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54302855266F36DB004BEC65 /* dda.cpp */; };
 		54302858266F3DD9004BEC65 /* bresenham.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54302857266F3DD9004BEC65 /* bresenham.cpp */; };
 		5430285A2670862A004BEC65 /* thread_bresenham.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 543028592670862A004BEC65 /* thread_bresenham.cpp */; };
+		5430285D26709766004BEC65 /* thread_screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5430285C26709766004BEC65 /* thread_screen.cpp */; };
+		5430285F26709792004BEC65 /* circle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5430285E26709792004BEC65 /* circle.cpp */; };
+		543028612670B4BB004BEC65 /* ellipse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 543028602670B4BB004BEC65 /* ellipse.cpp */; };
+		54302864267300E2004BEC65 /* boundary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54302863267300E2004BEC65 /* boundary.cpp */; };
 		5446113B25A6EF3300F2DC81 /* text_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5446113925A6EF3300F2DC81 /* text_draw.cpp */; };
 		5446114D25A72F9900F2DC81 /* test123.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5446114C25A72F9900F2DC81 /* test123.cpp */; };
 		544BF03525F20A6800BACCD8 /* perlin_3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 544BF03325F20A6800BACCD8 /* perlin_3d.cpp */; };
@@ -27,6 +31,8 @@
 		54570CD3260087540072EEA2 /* generate_mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54570CD1260087540072EEA2 /* generate_mesh.cpp */; };
 		546412ED25BE9F0700126AF5 /* particles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412EB25BE9F0700126AF5 /* particles.cpp */; };
 		546412FF25C0472F00126AF5 /* postprocess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 546412FD25C0472F00126AF5 /* postprocess.cpp */; };
+		54781A75267A0F0000478EC4 /* point_type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54781A73267A0F0000478EC4 /* point_type.cpp */; };
+		54781A78267A0F6600478EC4 /* sph_stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54781A76267A0F6600478EC4 /* sph_stdafx.cpp */; };
 		54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6DE524D2C2FC00E9A4D9 /* main.cpp */; };
 		54CE6E0124D2C64500E9A4D9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFB24D2C46400E9A4D9 /* OpenGL.framework */; };
 		54CE6E0224D2C66400E9A4D9 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFD24D2C48700E9A4D9 /* libGLEW.2.1.0.dylib */; };
@@ -81,6 +87,10 @@
 		54302855266F36DB004BEC65 /* dda.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dda.cpp; sourceTree = "<group>"; };
 		54302857266F3DD9004BEC65 /* bresenham.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bresenham.cpp; sourceTree = "<group>"; };
 		543028592670862A004BEC65 /* thread_bresenham.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = thread_bresenham.cpp; sourceTree = "<group>"; };
+		5430285C26709766004BEC65 /* thread_screen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = thread_screen.cpp; sourceTree = "<group>"; };
+		5430285E26709792004BEC65 /* circle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = circle.cpp; sourceTree = "<group>"; };
+		543028602670B4BB004BEC65 /* ellipse.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ellipse.cpp; sourceTree = "<group>"; };
+		54302863267300E2004BEC65 /* boundary.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = boundary.cpp; sourceTree = "<group>"; };
 		5446113425A5CEF100F2DC81 /* character_set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = character_set.h; path = opengl/plugin/head/character_set.h; sourceTree = SOURCE_ROOT; };
 		5446113525A5CEF100F2DC81 /* texture_find.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texture_find.h; path = opengl/plugin/head/texture_find.h; sourceTree = SOURCE_ROOT; };
 		5446113925A6EF3300F2DC81 /* text_draw.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = text_draw.cpp; path = opengl/plugin/head/text_draw.cpp; sourceTree = SOURCE_ROOT; };
@@ -131,6 +141,10 @@
 		546412FB25C035D200126AF5 /* postprocess.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = postprocess.fs; sourceTree = "<group>"; };
 		546412FD25C0472F00126AF5 /* postprocess.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = postprocess.cpp; sourceTree = "<group>"; };
 		546412FE25C0472F00126AF5 /* postprocess.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = postprocess.hpp; sourceTree = "<group>"; };
+		54781A73267A0F0000478EC4 /* point_type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = point_type.cpp; sourceTree = "<group>"; };
+		54781A74267A0F0000478EC4 /* point_type.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = point_type.hpp; sourceTree = "<group>"; };
+		54781A76267A0F6600478EC4 /* sph_stdafx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sph_stdafx.cpp; sourceTree = "<group>"; };
+		54781A77267A0F6600478EC4 /* sph_stdafx.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sph_stdafx.hpp; sourceTree = "<group>"; };
 		54CE6DE224D2C2FC00E9A4D9 /* opengl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = opengl; sourceTree = BUILT_PRODUCTS_DIR; };
 		54CE6DE524D2C2FC00E9A4D9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		54CE6DF324D2C44400E9A4D9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -338,6 +352,8 @@
 		5430285126675D70004BEC65 /* basic */ = {
 			isa = PBXGroup;
 			children = (
+				54302862267300CD004BEC65 /* fill */,
+				5430285B2670974B004BEC65 /* geometry */,
 				54302852266F3567004BEC65 /* line */,
 			);
 			name = basic;
@@ -349,8 +365,26 @@
 				54302855266F36DB004BEC65 /* dda.cpp */,
 				54302857266F3DD9004BEC65 /* bresenham.cpp */,
 				543028592670862A004BEC65 /* thread_bresenham.cpp */,
+				5430285C26709766004BEC65 /* thread_screen.cpp */,
 			);
 			name = line;
+			sourceTree = "<group>";
+		};
+		5430285B2670974B004BEC65 /* geometry */ = {
+			isa = PBXGroup;
+			children = (
+				5430285E26709792004BEC65 /* circle.cpp */,
+				543028602670B4BB004BEC65 /* ellipse.cpp */,
+			);
+			name = geometry;
+			sourceTree = "<group>";
+		};
+		54302862267300CD004BEC65 /* fill */ = {
+			isa = PBXGroup;
+			children = (
+				54302863267300E2004BEC65 /* boundary.cpp */,
+			);
+			name = fill;
 			sourceTree = "<group>";
 		};
 		5446113825A6EF1900F2DC81 /* text_draw */ = {
@@ -547,6 +581,7 @@
 		54531A172532EC150021618E /* head */ = {
 			isa = PBXGroup;
 			children = (
+				54781A71267A0EA900478EC4 /* sph */,
 				5430285126675D70004BEC65 /* basic */,
 				5430285026675D43004BEC65 /* learn_opengl */,
 			);
@@ -849,6 +884,25 @@
 			name = postprocess;
 			sourceTree = "<group>";
 		};
+		54781A71267A0EA900478EC4 /* sph */ = {
+			isa = PBXGroup;
+			children = (
+				54781A72267A0EED00478EC4 /* point */,
+				54781A76267A0F6600478EC4 /* sph_stdafx.cpp */,
+				54781A77267A0F6600478EC4 /* sph_stdafx.hpp */,
+			);
+			name = sph;
+			sourceTree = "<group>";
+		};
+		54781A72267A0EED00478EC4 /* point */ = {
+			isa = PBXGroup;
+			children = (
+				54781A73267A0F0000478EC4 /* point_type.cpp */,
+				54781A74267A0F0000478EC4 /* point_type.hpp */,
+			);
+			name = point;
+			sourceTree = "<group>";
+		};
 		54CE6DD924D2C2FC00E9A4D9 = {
 			isa = PBXGroup;
 			children = (
@@ -1013,7 +1067,9 @@
 			files = (
 				54FC67BE25FEFE3000936D4E /* perlin.cpp in Sources */,
 				5430285A2670862A004BEC65 /* thread_bresenham.cpp in Sources */,
+				543028612670B4BB004BEC65 /* ellipse.cpp in Sources */,
 				5423F6F525AAEE4A00218EC3 /* games.cpp in Sources */,
+				54781A75267A0F0000478EC4 /* point_type.cpp in Sources */,
 				54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */,
 				546412ED25BE9F0700126AF5 /* particles.cpp in Sources */,
 				5423F70C25B56C5800218EC3 /* game_object.cpp in Sources */,
@@ -1023,10 +1079,13 @@
 				5452B0AA25F07A9E00E614BF /* perlin_old.cpp in Sources */,
 				54302856266F36DB004BEC65 /* dda.cpp in Sources */,
 				5423F6ED25AAE71400218EC3 /* resoureces_use.cpp in Sources */,
+				54302864267300E2004BEC65 /* boundary.cpp in Sources */,
 				5423F70025B551DA00218EC3 /* SpriteRender.cpp in Sources */,
 				5423F71225B5709B00218EC3 /* games_level.cpp in Sources */,
 				5423F72725B7EDB100218EC3 /* ball.cpp in Sources */,
 				5423F6E825AAE37C00218EC3 /* texture.cpp in Sources */,
+				5430285D26709766004BEC65 /* thread_screen.cpp in Sources */,
+				5430285F26709792004BEC65 /* circle.cpp in Sources */,
 				544BF03A25F5E0E900BACCD8 /* simplex.cpp in Sources */,
 				544BF04925F769E200BACCD8 /* worley_noise.cpp in Sources */,
 				54302858266F3DD9004BEC65 /* bresenham.cpp in Sources */,
@@ -1035,6 +1094,7 @@
 				544BF03525F20A6800BACCD8 /* perlin_3d.cpp in Sources */,
 				54CE6E0524D2C76F00E9A4D9 /* glad.c in Sources */,
 				54570CD3260087540072EEA2 /* generate_mesh.cpp in Sources */,
+				54781A78267A0F6600478EC4 /* sph_stdafx.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1047,7 +1107,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1110,7 +1170,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
