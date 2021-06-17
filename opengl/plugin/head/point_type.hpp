@@ -30,37 +30,38 @@ namespace SPH
             int next;
     };
     
-class PointType{
-public:
-    PointType();
-    //重置流体粒子数量，并重构
-    void reset(unsigned int capcity);
-    //获取流体粒子数量大小
-    unsigned int size(void) const {
-        return pointSize;
+    class PointType{
+        public:
+            PointType();
+            //重置流体粒子数量，并重构
+            void reset(unsigned int capcity);
+            //获取流体粒子数量大小
+            unsigned int size(void) const {
+                return m_pointSize;
+            };
+            //获取对应位置下标的流体粒子参数(可修改)
+            Point* get(unsigned int index){
+                return points+index;
+            };
+            //获取对应位置下标的流体粒子参数(不可修改)
+            const Point* get(unsigned int index) const {
+                return points+index;
+            };
+            //添加新的流体粒子
+            Point* addPointReuse(void);
+            virtual ~PointType();
+        private:
+            //流体粒子数量
+            unsigned int m_pointSize;
+            //容器容积(可存放粒子个数)
+            unsigned int m_capcity;
+            //流体粒子保存的队列
+            Point* points;
+            //枚举参数，设置最大容器粒子数
+            enum {
+                ELEM_MAX = 4096
+            };
     };
-    //获取对应位置下标的流体粒子参数(可修改)
-    Point* get(unsigned int index){
-        return points[index];
-    };
-    //获取对应位置下标的流体粒子参数(不可修改)
-    const Point* get(unsigned int index) const {
-        return points[index];
-    };
-    //添加新的流体粒子
-    Point* addPointReuse(void);
-private:
-    //流体粒子数量
-    unsigned int pointSize;
-    //容器容积
-    unsigned int capcity;
-    //流体粒子保存的队列
-    std::vector<Point*> points;
-    //枚举参数，设置最大容器粒子数
-    enum {
-        ELEM_MAX = 4096
-    };
-};
 }
 
 #endif /* point_type_hpp */
