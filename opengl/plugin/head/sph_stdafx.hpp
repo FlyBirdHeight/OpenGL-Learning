@@ -24,5 +24,12 @@
 #include <algorithm>
 #include <assert.h>
 
+enum {
+    //最大容器粒子数
+    ELEM_MAX = 4096,
+    //粒子邻接表最大记录邻居数量
+    MAX_NEIGHTBOR_COUNTS=80,
+};
+
 
 #endif /* sph_stdafx_hpp */

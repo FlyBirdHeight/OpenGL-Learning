@@ -59,6 +59,12 @@ namespace SPH {
             glm::fvec3 m_gridSize;
             glm::fvec3 m_gridDelta;
             float m_gridSpacing;
+        public:
+            const glm::ivec3* getGridRes(void) const { return &m_gridRes; }
+            const glm::fvec3* getGridMin(void) const { return &m_gridMin; }
+            const glm::fvec3* getGridMax(void) const { return &m_gridMax; }
+            const glm::fvec3* getGridSize(void) const { return &m_gridSize; }
+
     };
 }
 

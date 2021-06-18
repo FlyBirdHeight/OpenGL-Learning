@@ -57,10 +57,6 @@ namespace SPH
             unsigned int m_capcity;
             //流体粒子保存的队列
             Point* points;
-            //枚举参数，设置最大容器粒子数
-            enum {
-                ELEM_MAX = 4096
-            };
     };
 }
 

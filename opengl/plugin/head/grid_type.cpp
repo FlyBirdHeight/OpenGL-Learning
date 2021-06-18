@@ -12,7 +12,7 @@ namespace SPH{
         POINT_START = 0
     };
     /**
-     * @description 初始化网格体系
+     * @brief 初始化网格体系
      * @param {fBox3} box 三维下初始位置，结束位置记录类
      * @param {float} sim_scale 缩放大小
      * @param {float} cell_size 单个网格大小
@@ -47,7 +47,7 @@ namespace SPH{
     }
 
     /**
-     * @description 获取指定下标网格位置
+     * @brief 获取指定下标网格位置
      * @param {int} gridIndex 指定网格下标
      * @returns {int} 邻接表位置下标
      */
@@ -60,7 +60,7 @@ namespace SPH{
     }
 
     /**
-     * @description 在网格中添加粒子
+     * @brief 在网格中添加粒子
      * @param {PointType*} points 指定添加粒子
      * @note 实现思路：
      *  1. 在m_gridData实际是一张hashmap，且其中每一项存储的是一个粒子队列的头指针（这个队列生成时是倒插的）。
@@ -87,7 +87,7 @@ namespace SPH{
     }
 
     /**
-     * @description 寻找本网格内的粒子信息
+     * @brief 寻找本网格内的粒子信息
      * @param {glm::fvec3} position 粒子位置
      */
     int GridType::findCell(const glm::fvec3 position){
@@ -100,7 +100,7 @@ namespace SPH{
     }
 
     /**
-     * @description 寻找领域网格内的粒子信息
+     * @brief 寻找领域网格内的粒子信息
      * @param {glm::fvec3} position 粒子位置
      * @param {float} radius 光滑核半径
      * @param {int*} gridCell 返回结果
