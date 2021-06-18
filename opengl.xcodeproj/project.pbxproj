@@ -35,6 +35,7 @@
 		54781A78267A0F6600478EC4 /* sph_stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54781A76267A0F6600478EC4 /* sph_stdafx.cpp */; };
 		54781A7C267B0D5900478EC4 /* grid_type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54781A7A267B0D5900478EC4 /* grid_type.cpp */; };
 		54781A80267B96D700478EC4 /* neighbor_table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54781A7E267B96D700478EC4 /* neighbor_table.cpp */; };
+		54781A84267C766700478EC4 /* fluid_system.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54781A82267C766700478EC4 /* fluid_system.cpp */; };
 		54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6DE524D2C2FC00E9A4D9 /* main.cpp */; };
 		54CE6E0124D2C64500E9A4D9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFB24D2C46400E9A4D9 /* OpenGL.framework */; };
 		54CE6E0224D2C66400E9A4D9 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFD24D2C48700E9A4D9 /* libGLEW.2.1.0.dylib */; };
@@ -151,6 +152,9 @@
 		54781A7B267B0D5900478EC4 /* grid_type.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = grid_type.hpp; sourceTree = "<group>"; };
 		54781A7E267B96D700478EC4 /* neighbor_table.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = neighbor_table.cpp; sourceTree = "<group>"; };
 		54781A7F267B96D700478EC4 /* neighbor_table.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = neighbor_table.hpp; sourceTree = "<group>"; };
+		54781A82267C766700478EC4 /* fluid_system.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = fluid_system.cpp; sourceTree = "<group>"; };
+		54781A83267C766700478EC4 /* fluid_system.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = fluid_system.hpp; sourceTree = "<group>"; };
+		54781A86267C790600478EC4 /* fluid_interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fluid_interface.h; sourceTree = "<group>"; };
 		54CE6DE224D2C2FC00E9A4D9 /* opengl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = opengl; sourceTree = BUILT_PRODUCTS_DIR; };
 		54CE6DE524D2C2FC00E9A4D9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		54CE6DF324D2C44400E9A4D9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -893,6 +897,8 @@
 		54781A71267A0EA900478EC4 /* sph */ = {
 			isa = PBXGroup;
 			children = (
+				54781A85267C78E700478EC4 /* utils */,
+				54781A81267C75AC00478EC4 /* fluid */,
 				54781A7D267B96C200478EC4 /* neighbor */,
 				54781A79267B0D4500478EC4 /* grid */,
 				54781A72267A0EED00478EC4 /* point */,
@@ -927,6 +933,23 @@
 				54781A7F267B96D700478EC4 /* neighbor_table.hpp */,
 			);
 			name = neighbor;
+			sourceTree = "<group>";
+		};
+		54781A81267C75AC00478EC4 /* fluid */ = {
+			isa = PBXGroup;
+			children = (
+				54781A82267C766700478EC4 /* fluid_system.cpp */,
+				54781A83267C766700478EC4 /* fluid_system.hpp */,
+			);
+			name = fluid;
+			sourceTree = "<group>";
+		};
+		54781A85267C78E700478EC4 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				54781A86267C790600478EC4 /* fluid_interface.h */,
+			);
+			name = utils;
 			sourceTree = "<group>";
 		};
 		54CE6DD924D2C2FC00E9A4D9 = {
@@ -1119,6 +1142,7 @@
 				54302858266F3DD9004BEC65 /* bresenham.cpp in Sources */,
 				546412FF25C0472F00126AF5 /* postprocess.cpp in Sources */,
 				5446113B25A6EF3300F2DC81 /* text_draw.cpp in Sources */,
+				54781A84267C766700478EC4 /* fluid_system.cpp in Sources */,
 				544BF03525F20A6800BACCD8 /* perlin_3d.cpp in Sources */,
 				54CE6E0524D2C76F00E9A4D9 /* glad.c in Sources */,
 				54570CD3260087540072EEA2 /* generate_mesh.cpp in Sources */,
