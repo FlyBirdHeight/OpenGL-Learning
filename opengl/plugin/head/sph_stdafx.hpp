@@ -29,6 +29,13 @@ enum {
     ELEM_MAX = 4096,
     //粒子邻接表最大记录邻居数量
     MAX_NEIGHTBOR_COUNTS=80,
+    //3D下光滑核采样是囊括的网格数量
+    GRID_NUM_3D = 8,
+    //2D下光滑核采样是囊括的网格数量
+    GRID_NUM_2D = 4,
+    //盒子边界大小
+    BOX_BORDER = 1
+    
 };
 
 

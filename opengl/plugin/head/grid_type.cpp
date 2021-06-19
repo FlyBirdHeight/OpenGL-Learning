@@ -18,7 +18,7 @@ namespace SPH{
      * @param {float} cell_size 单个网格大小
      * @param {float} border 网格边界
      */
-    void GridType::init(fBox3 &box, float sim_scale, float cell_size, float border){
+    void GridType::init(const fBox3 &box, float sim_scale, float cell_size, float border){
         //实际网格大小
         float real_gridSize = cell_size / sim_scale;
         //计算边界值，需要考虑border(边界)位置

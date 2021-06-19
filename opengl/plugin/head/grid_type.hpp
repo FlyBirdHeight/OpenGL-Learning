@@ -42,7 +42,7 @@ namespace SPH {
      */
     class GridType{
         public:
-            void init(fBox3 &box, float sim_scale, float cell_size, float border);
+            void init(const fBox3 &box, float sim_scale, float cell_size, float border);
             void findCells(const glm::fvec3 position, float radius, int* gridCell);
             void insertParticles(PointType* points);
         

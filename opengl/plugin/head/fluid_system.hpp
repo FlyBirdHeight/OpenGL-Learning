@@ -18,13 +18,14 @@
 namespace SPH {
     class FluidSystem : public System{
         public:
+            FluidSystem();
             /**
              * @brief 初始化流体系统，设置流体范围
              * @param {short} maxPointCounts 最大流体粒子数量
              * @param {glm::fvec3*} wallBox_min 墙体盒子最小网格位置
              * @param {glm::fvec3*} wallBox_max 墙体盒子最大网格位置
-             * @param {glm::fvec3*} initFluidBox_min 流体盒子最小网格位置
-             * @param {glm::fvec3*} initFluidBox_max 流体盒子最大网格位置
+             * @param {glm::fvec3*} initFluidBox_min 流体盒子最小网格位置(在墙体立面的流体的盒子)
+             * @param {glm::fvec3*} initFluidBox_max 流体盒子最大网格位置(在墙体立面的流体盒子)
              * @param {glm::fvec3*} gravity 重力加速度
              */
             virtual void init(unsigned short maxPointCounts,
@@ -60,6 +61,7 @@ namespace SPH {
              * @brief 逻辑帧
              */
             virtual void tick(void);
+            ~FluidSystem();
         private:
             /**
              * @brief 初始化流体系统，设置流体范围
@@ -110,6 +112,7 @@ namespace SPH {
              * @property {float} m_boundartStiffness 边界刚度(起到的作用是限制粒子在边界时进行反弹而不至于弹出且边界不会移动)
              * @property {float} m_boundaryDampening 边界阻尼(用于控制粒子运动过程趋于平缓且周期性)
              * @property {float} m_speedLimiting 速度限制
+             * @property {float} m_realRadius 实际半径大小， m_smoothRadius / m_unitScale
              * @property {glm::fvec3} m_gravityDir 重力加速度
              * @property {float} m_pointDistance 粒子半径
              */
@@ -123,9 +126,12 @@ namespace SPH {
             float m_boundaryDampening;
             float m_speedLimiting;
             float m_pointDistance;
+            float m_realRadius;
             glm::fvec3 m_gravityDir;
             int m_rexSize[3];
             fBox3 m_sphWallBox;
+            //记录每一次更新后所有例子的位置，以便在更新vao的时候重新赋值
+            std::vector<float> pointPositionData;
         };
 }
 
