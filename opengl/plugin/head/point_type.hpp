@@ -56,7 +56,7 @@ namespace SPH
             //容器容积(可存放粒子个数)
             unsigned int m_capcity;
             //流体粒子保存的队列
-            Point* points;
+            Point* points = 0;
     };
 }
 

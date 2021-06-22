@@ -61,6 +61,13 @@ namespace SPH {
              * @brief 逻辑帧
              */
             virtual void tick(void);
+            /**
+             * @brif 获取粒子位置
+             * @return {std::vector} 粒子位置集合
+             */
+            std::vector<float> getPointPosition(){
+                return pointPositionData;
+            }
             ~FluidSystem();
         private:
             /**

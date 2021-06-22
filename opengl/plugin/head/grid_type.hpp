@@ -42,6 +42,7 @@ namespace SPH {
      */
     class GridType{
         public:
+            GridType(){};
             void init(const fBox3 &box, float sim_scale, float cell_size, float border);
             void findCells(const glm::fvec3 position, float radius, int* gridCell);
             void insertParticles(PointType* points);
@@ -49,8 +50,8 @@ namespace SPH {
             int getGridData(int gridIndex);
             int findCell(const glm::fvec3 position);
             int getGridCellIndex(float dx, float dy, float dz, std::string type = "normal");
-            GridType();
-            ~GridType();
+            
+            ~GridType(){};
         private:
             std::vector<int> m_gridData;
             glm::fvec3 m_gridMin;

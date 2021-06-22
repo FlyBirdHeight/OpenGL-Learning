@@ -10,7 +10,12 @@
 #define neighbor_table_hpp
 
 #include "sph_stdafx.hpp"
+#include <iostream>
 namespace SPH{
+    struct PointExtraData{
+        unsigned int neighborDataOffset = 24;
+        unsigned int neighborCounts = 8;
+    };
     /**
      * @brief 邻接表构建类
      * @note 本类中的数据信息缓存全部是使用进制形式进行存储的，其实也可以使用数组、队列等方法进行存储，也就是neighborBufData这个变量，可以选用自己喜欢的形式。
@@ -69,10 +74,7 @@ namespace SPH{
          * @property {short[]} currNeighborIndex 当前粒子的邻居索引集合
          * @property {float[]} currNeighborDistance 当前粒子对应的邻居到当前粒子距离的集合
          */
-        struct PointExtraData{
-            unsigned int neighborDataOffset = 24;
-            unsigned int neighborCounts = 8;
-        };
+        
         PointExtraData* m_pointExtraData;
         unsigned int pointCounts;
         unsigned int pointCapcity;

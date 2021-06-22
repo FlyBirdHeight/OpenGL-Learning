@@ -36,6 +36,8 @@
 		54781A7C267B0D5900478EC4 /* grid_type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54781A7A267B0D5900478EC4 /* grid_type.cpp */; };
 		54781A80267B96D700478EC4 /* neighbor_table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54781A7E267B96D700478EC4 /* neighbor_table.cpp */; };
 		54781A84267C766700478EC4 /* fluid_system.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54781A82267C766700478EC4 /* fluid_system.cpp */; };
+		54781A8A26807CA400478EC4 /* sph_show.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54781A8826807CA400478EC4 /* sph_show.cpp */; };
+		54781A932681CB3700478EC4 /* triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54781A922681CB3700478EC4 /* triangle.cpp */; };
 		54CE6DE624D2C2FC00E9A4D9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6DE524D2C2FC00E9A4D9 /* main.cpp */; };
 		54CE6E0124D2C64500E9A4D9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFB24D2C46400E9A4D9 /* OpenGL.framework */; };
 		54CE6E0224D2C66400E9A4D9 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFD24D2C48700E9A4D9 /* libGLEW.2.1.0.dylib */; };
@@ -155,6 +157,11 @@
 		54781A82267C766700478EC4 /* fluid_system.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = fluid_system.cpp; sourceTree = "<group>"; };
 		54781A83267C766700478EC4 /* fluid_system.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = fluid_system.hpp; sourceTree = "<group>"; };
 		54781A86267C790600478EC4 /* fluid_interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fluid_interface.h; sourceTree = "<group>"; };
+		54781A8826807CA400478EC4 /* sph_show.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sph_show.cpp; sourceTree = "<group>"; };
+		54781A8926807CA400478EC4 /* sph_show.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sph_show.hpp; sourceTree = "<group>"; };
+		54781A8E26807F0700478EC4 /* sph.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sph.vs; sourceTree = "<group>"; };
+		54781A9126807F8E00478EC4 /* sph.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sph.fs; sourceTree = "<group>"; };
+		54781A922681CB3700478EC4 /* triangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = triangle.cpp; sourceTree = "<group>"; };
 		54CE6DE224D2C2FC00E9A4D9 /* opengl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = opengl; sourceTree = BUILT_PRODUCTS_DIR; };
 		54CE6DE524D2C2FC00E9A4D9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		54CE6DF324D2C44400E9A4D9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -457,6 +464,7 @@
 		544BBEE824D5736D00802969 /* vs */ = {
 			isa = PBXGroup;
 			children = (
+				54781A8C26807EE300478EC4 /* sph */,
 				54570CD526008FF50072EEA2 /* mesh */,
 				54EC4EA225FA0CBF0091ACB4 /* terrain */,
 				5452B0B225F0807C00E614BF /* noise */,
@@ -478,6 +486,7 @@
 		544BBEE924D5737700802969 /* fs */ = {
 			isa = PBXGroup;
 			children = (
+				54781A8F26807F7C00478EC4 /* sph */,
 				54570CD72600906D0072EEA2 /* mesh */,
 				54EC4EA325FA0CC80091ACB4 /* terrain */,
 				5452B0A525F0711A00E614BF /* noise */,
@@ -689,6 +698,7 @@
 				54F9097D25382BB6005AE973 /* material.h */,
 				54F9098A25386A7F005AE973 /* lightmap.h */,
 				54F90990253AC416005AE973 /* light_casters.h */,
+				54781A922681CB3700478EC4 /* triangle.cpp */,
 			);
 			name = basics;
 			sourceTree = "<group>";
@@ -897,6 +907,7 @@
 		54781A71267A0EA900478EC4 /* sph */ = {
 			isa = PBXGroup;
 			children = (
+				54781A8726807C9200478EC4 /* show */,
 				54781A85267C78E700478EC4 /* utils */,
 				54781A81267C75AC00478EC4 /* fluid */,
 				54781A7D267B96C200478EC4 /* neighbor */,
@@ -950,6 +961,47 @@
 				54781A86267C790600478EC4 /* fluid_interface.h */,
 			);
 			name = utils;
+			sourceTree = "<group>";
+		};
+		54781A8726807C9200478EC4 /* show */ = {
+			isa = PBXGroup;
+			children = (
+				54781A8826807CA400478EC4 /* sph_show.cpp */,
+				54781A8926807CA400478EC4 /* sph_show.hpp */,
+			);
+			name = show;
+			sourceTree = "<group>";
+		};
+		54781A8C26807EE300478EC4 /* sph */ = {
+			isa = PBXGroup;
+			children = (
+				54781A8D26807EEB00478EC4 /* first */,
+			);
+			path = sph;
+			sourceTree = "<group>";
+		};
+		54781A8D26807EEB00478EC4 /* first */ = {
+			isa = PBXGroup;
+			children = (
+				54781A8E26807F0700478EC4 /* sph.vs */,
+			);
+			path = first;
+			sourceTree = "<group>";
+		};
+		54781A8F26807F7C00478EC4 /* sph */ = {
+			isa = PBXGroup;
+			children = (
+				54781A9026807F8200478EC4 /* first */,
+			);
+			path = sph;
+			sourceTree = "<group>";
+		};
+		54781A9026807F8200478EC4 /* first */ = {
+			isa = PBXGroup;
+			children = (
+				54781A9126807F8E00478EC4 /* sph.fs */,
+			);
+			path = first;
 			sourceTree = "<group>";
 		};
 		54CE6DD924D2C2FC00E9A4D9 = {
@@ -1116,6 +1168,7 @@
 			files = (
 				54FC67BE25FEFE3000936D4E /* perlin.cpp in Sources */,
 				5430285A2670862A004BEC65 /* thread_bresenham.cpp in Sources */,
+				54781A8A26807CA400478EC4 /* sph_show.cpp in Sources */,
 				543028612670B4BB004BEC65 /* ellipse.cpp in Sources */,
 				5423F6F525AAEE4A00218EC3 /* games.cpp in Sources */,
 				54781A75267A0F0000478EC4 /* point_type.cpp in Sources */,
@@ -1136,6 +1189,7 @@
 				5430285D26709766004BEC65 /* thread_screen.cpp in Sources */,
 				5430285F26709792004BEC65 /* circle.cpp in Sources */,
 				54781A7C267B0D5900478EC4 /* grid_type.cpp in Sources */,
+				54781A932681CB3700478EC4 /* triangle.cpp in Sources */,
 				544BF03A25F5E0E900BACCD8 /* simplex.cpp in Sources */,
 				544BF04925F769E200BACCD8 /* worley_noise.cpp in Sources */,
 				54781A80267B96D700478EC4 /* neighbor_table.cpp in Sources */,

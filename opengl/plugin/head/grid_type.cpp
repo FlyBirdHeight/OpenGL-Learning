@@ -7,6 +7,7 @@
 //
 
 #include "grid_type.hpp"
+#include <iostream>
 namespace SPH{
     enum {
         POINT_START = 0
@@ -152,9 +153,9 @@ namespace SPH{
     int GridType::getGridCellIndex(float dx, float dy, float dz, std::string type){
         if(type == "normal"){
             //@note 这里对数据的处理是为了让其落在对应的网格中去
-            int gx = (int)((dx - m_gridMin.x) * m_gridSpacing);
-            int gy = (int)((dy - m_gridMin.y) * m_gridSpacing);
-            int gz = (int)((dz - m_gridMin.z) * m_gridSpacing);
+            int gx = (int)((dx - m_gridMin.x) * m_gridDelta.x);
+            int gy = (int)((dy - m_gridMin.y) * m_gridDelta.y);
+            int gz = (int)((dz - m_gridMin.z) * m_gridDelta.z);
             //@note 这里实际就是按照自己规定的方向去数格子即可
             return gx + gz * m_gridRes.x * m_gridRes.y + gy * m_gridRes.x;
         }else{

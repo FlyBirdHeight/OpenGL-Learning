@@ -67,7 +67,9 @@ namespace SPH {
      * @brief 计算粒子所受压强及粒子密度
      */
     void FluidSystem::computePressure(){
+
         float h_2 = pow(m_smoothRadius, 2.0f);
+        m_neighborTable.reset(m_pointType.size());
         for(unsigned int i = 0; i < m_pointType.size(); ++i){
             Point *p = m_pointType.get(i);
             float sum = 0.0;
@@ -79,7 +81,8 @@ namespace SPH {
                 if(!gridCell[j]){
                     continue;
                 }
-                int pointN = m_gridType.getGridData(j);
+                int pointN = m_gridType.getGridData(gridCell[j]);
+                
                 while(pointN != -1){
                     Point *pN = m_pointType.get(pointN);
                     if(p == pN){
@@ -139,7 +142,92 @@ namespace SPH {
      * @brief 粒子移动
      */
     void FluidSystem::advance(){
-        
+        float deltaTime = 0.003f;
+        float sl_2 = std::pow(m_speedLimiting, 2.0f);
+        for(unsigned int i = 0; i < m_pointType.size(); ++i){
+            Point *point = m_pointType.get(i);
+            //首先对粒子当前速度进行判断，如果超过了最大允许粒子运动速度，就将粒子的加速度进行限制 a = a * v_l / a
+            glm::fvec3 accel = point->accel;
+            float accelLength_2 = std::pow(glm::length(accel), 2.0f);
+            if(accelLength_2 > sl_2){
+                accel *= m_speedLimiting / sqrt(accelLength_2);
+            }
+            float diff;
+           //边界情况
+           // Z方向边界
+           diff = m_unitScale - (point->position.z - m_sphWallBox.min.z)*m_unitScale;
+           if (diff > 0.0f )
+           {
+               glm::vec3 norm(0, 0, 1.0);
+               float adj = m_boundartStiffness * diff - m_boundaryDampening * glm::dot ( norm,point->velocity_eval );
+               accel.x += adj * norm.x;
+               accel.y += adj * norm.y;
+               accel.z += adj * norm.z;
+           }
+
+           diff = m_unitScale - (m_sphWallBox.max.z - point->position.z)*m_unitScale;
+           if (diff > 0.0f)
+           {
+               glm::vec3 norm( 0, 0, -1.0);
+               float adj = m_boundartStiffness * diff - m_boundaryDampening *glm::dot ( norm,point->velocity_eval );
+               accel.x += adj * norm.x;
+               accel.y += adj * norm.y;
+               accel.z += adj * norm.z;
+           }
+
+           //X方向边界
+           diff = m_unitScale - (point->position.x - m_sphWallBox.min.x)*m_unitScale;
+           if (diff > 0.0f )
+           {
+               glm::vec3 norm(1.0, 0, 0);
+               float adj = m_boundartStiffness * diff - m_boundaryDampening * glm::dot ( norm,point->velocity_eval ) ;
+               accel.x += adj * norm.x;
+               accel.y += adj * norm.y;
+               accel.z += adj * norm.z;
+           }
+
+           diff = m_unitScale - (m_sphWallBox.max.x - point->position.x)*m_unitScale;
+           if (diff > 0.0f)
+           {
+               glm::vec3 norm(-1.0, 0, 0);
+               float adj = m_boundartStiffness * diff - m_boundaryDampening * glm::dot ( norm,point->velocity_eval );
+               accel.x += adj * norm.x;
+               accel.y += adj * norm.y;
+               accel.z += adj * norm.z;
+           }
+
+           //Y方向边界
+           diff = m_unitScale - ( point->position.y - m_sphWallBox.min.y )*m_unitScale;
+           if (diff > 0.0f)
+           {
+               glm::vec3 norm(0, 1.0, 0);
+               float adj = m_boundartStiffness * diff - m_boundaryDampening * glm::dot ( norm,point->velocity_eval );
+               accel.x += adj * norm.x;
+               accel.y += adj * norm.y;
+               accel.z += adj * norm.z;
+           }
+           diff = m_unitScale - ( m_sphWallBox.max.y - point->position.y )*m_unitScale;
+           if (diff > 0.0f)
+           {
+               glm::vec3 norm(0, -1.0, 0);
+               float adj = m_boundartStiffness * diff - m_boundaryDampening * glm::dot ( norm,point->velocity_eval );
+               accel.x += adj * norm.x;
+               accel.y += adj * norm.y;
+               accel.z += adj * norm.z;
+           }
+
+            //加速度需要加上重力加速度，因为会收到重力影响
+            accel += m_gravityDir;
+            
+            glm::fvec3 vNext = point->velocity + accel * deltaTime;
+            point->velocity_eval = (point->velocity + vNext) * 0.5f;
+            point->position += vNext * deltaTime / m_unitScale;
+            point->velocity = vNext;
+            
+            pointPositionData[3 * i] = point->position.x;
+            pointPositionData[3 * i + 1] = point->position.y;
+            pointPositionData[3 * i + 2] = point->position.z;
+        }
     }
     /**
      * @brief 创建初始液体块
@@ -147,16 +235,19 @@ namespace SPH {
      * @param {float} spacing 网格间隔
      */
     void FluidSystem::addFluidVolume(const fBox3 &fluidBox, float spacing){
-        for(int z = fluidBox.min.z; z < fluidBox.max.z; z += spacing){
-            for(int y = fluidBox.min.y; y < fluidBox.max.y; y += spacing){
-                for(int x = fluidBox.min.x; x < fluidBox.max.y; x += spacing){
+        for(float z = fluidBox.max.z; z >= fluidBox.min.z; z -= spacing){
+            for(float y = fluidBox.min.y; y < fluidBox.max.y; y += spacing){
+                for(float x = fluidBox.min.x; x < fluidBox.max.y; x += spacing){
+                    
                     Point* point = m_pointType.addPointReuse();
                     point->position = glm::fvec3(x, y, z);
                 }
             }
         }
-    }
+        
 
+    }
+    
     FluidSystem::~FluidSystem(){}
 }
 
