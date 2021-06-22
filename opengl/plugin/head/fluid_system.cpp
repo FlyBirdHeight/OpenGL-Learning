@@ -26,7 +26,7 @@ namespace SPH {
         
         m_boundartStiffness = 10000.0f;
         m_boundaryDampening = 256.0f;
-        m_speedLimiting = 200.0f;
+        m_speedLimiting = 500.0f;
         
         m_kernelPoly6 = 315.0f / (64.0f * PI * std::pow(m_smoothRadius, 9));
         m_kernelSpiky = -45.0f / (PI * std::pow(m_smoothRadius, 6));
@@ -155,7 +155,7 @@ namespace SPH {
             float diff;
            //边界情况
            // Z方向边界
-           diff = m_unitScale - (point->position.z - m_sphWallBox.min.z)*m_unitScale;
+           diff = 0.5 * m_unitScale - (point->position.z - m_sphWallBox.min.z)*m_unitScale;
            if (diff > 0.0f )
            {
                glm::vec3 norm(0, 0, 1.0);
@@ -165,7 +165,7 @@ namespace SPH {
                accel.z += adj * norm.z;
            }
 
-           diff = m_unitScale - (m_sphWallBox.max.z - point->position.z)*m_unitScale;
+           diff = 0.5 * m_unitScale - (m_sphWallBox.max.z - point->position.z)*m_unitScale;
            if (diff > 0.0f)
            {
                glm::vec3 norm( 0, 0, -1.0);
@@ -176,7 +176,7 @@ namespace SPH {
            }
 
            //X方向边界
-           diff = m_unitScale - (point->position.x - m_sphWallBox.min.x)*m_unitScale;
+           diff = 0.5 * m_unitScale - (point->position.x - m_sphWallBox.min.x)*m_unitScale;
            if (diff > 0.0f )
            {
                glm::vec3 norm(1.0, 0, 0);
@@ -186,7 +186,7 @@ namespace SPH {
                accel.z += adj * norm.z;
            }
 
-           diff = m_unitScale - (m_sphWallBox.max.x - point->position.x)*m_unitScale;
+           diff = 0.5 * m_unitScale - (m_sphWallBox.max.x - point->position.x)*m_unitScale;
            if (diff > 0.0f)
            {
                glm::vec3 norm(-1.0, 0, 0);
@@ -197,7 +197,7 @@ namespace SPH {
            }
 
            //Y方向边界
-           diff = m_unitScale - ( point->position.y - m_sphWallBox.min.y )*m_unitScale;
+           diff = 0.5 * m_unitScale - ( point->position.y - m_sphWallBox.min.y )*m_unitScale;
            if (diff > 0.0f)
            {
                glm::vec3 norm(0, 1.0, 0);
@@ -206,7 +206,7 @@ namespace SPH {
                accel.y += adj * norm.y;
                accel.z += adj * norm.z;
            }
-           diff = m_unitScale - ( m_sphWallBox.max.y - point->position.y )*m_unitScale;
+           diff = 0.5 * m_unitScale - ( m_sphWallBox.max.y - point->position.y )*m_unitScale;
            if (diff > 0.0f)
            {
                glm::vec3 norm(0, -1.0, 0);
@@ -218,10 +218,11 @@ namespace SPH {
 
             //加速度需要加上重力加速度，因为会收到重力影响
             accel += m_gravityDir;
-            
+            std::cout << accel.y << std::endl;
             glm::fvec3 vNext = point->velocity + accel * deltaTime;
             point->velocity_eval = (point->velocity + vNext) * 0.5f;
-            point->position += vNext * deltaTime / m_unitScale;
+            glm::fvec3 distance = vNext * deltaTime / m_unitScale;
+            point->position += distance;
             point->velocity = vNext;
             
             pointPositionData[3 * i] = point->position.x;
