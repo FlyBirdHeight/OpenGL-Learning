@@ -76,8 +76,8 @@ namespace SPH{
         //批量初试化变量
         std::fill(m_gridData.begin(), m_gridData.end(), -1);
         Point* p = points->get(POINT_START);
-        for(unsigned int i = 0; i < points->size(); ++i, p++){
-            int gridPosition = this->getGridCellIndex(p->position.x, p->position.y, p->position.z);
+        for(unsigned int i = 0; i < points->size(); ++i, ++p){
+            int gridPosition = this->getGridCellIndex(p->position.x, p->position.y, p->position.z, "normal");
             if(gridPosition >= 0 && gridPosition < (int)m_gridData.size()){
                 p->next = m_gridData[gridPosition];
                 m_gridData[gridPosition] = i;
@@ -92,8 +92,8 @@ namespace SPH{
      * @param {glm::fvec3} position 粒子位置
      */
     int GridType::findCell(const glm::fvec3 position){
-        int gridPosition = getGridCellIndex(position.x, position.y, position.z);
-        if(gridPosition < 0 || gridPosition > m_gridData.size()){
+        int gridPosition = getGridCellIndex(position.x, position.y, position.z, "normal");
+        if(gridPosition < 0 || gridPosition >= m_gridData.size()){
             return -1;
         }
         
@@ -114,9 +114,17 @@ namespace SPH{
         int minX = (int)((-radius + position.x - m_gridMin.x) * m_gridDelta.x);
         int minY = (int)((-radius + position.y - m_gridMin.y) * m_gridDelta.y);
         int minZ = (int)((-radius + position.z - m_gridMin.z) * m_gridDelta.z);
-        minX < 0 ? minX = 0 : minX = minX && minY < 0 ? minY = 0 : minY = minY && minZ < 0 ? minZ = 0 : minZ = minZ;
+        if(minX < 0){
+            minX = 0;
+        }
+        if(minY < 0){
+            minY = 0;
+        }
+        if(minZ < 0){
+            minZ = 0;
+        }
         //下层的相交的网格空间
-        gridCell[0] = this->getGridCellIndex(minX, minY, minZ, "find");
+        gridCell[0] = (minZ * m_gridRes.y + minZ) * m_gridRes.x + minX;
         gridCell[1] = gridCell[0] + 1;
         gridCell[2] = gridCell[0] + m_gridRes.x;
         gridCell[3] = gridCell[2] + 1;

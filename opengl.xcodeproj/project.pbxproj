@@ -43,6 +43,12 @@
 		54CE6E0224D2C66400E9A4D9 /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFD24D2C48700E9A4D9 /* libGLEW.2.1.0.dylib */; };
 		54CE6E0324D2C66400E9A4D9 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CE6DFF24D2C4AC00E9A4D9 /* libglfw.3.3.dylib */; };
 		54CE6E0524D2C76F00E9A4D9 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 54CE6E0424D2C76F00E9A4D9 /* glad.c */; };
+		54E8804D2683380E00283144 /* point.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54E8804B2683380E00283144 /* point.cpp */; };
+		54E880502683382800283144 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54E8804E2683382800283144 /* stdafx.cpp */; };
+		54E880532683383000283144 /* grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54E880512683383000283144 /* grid.cpp */; };
+		54E880562683383D00283144 /* neigh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54E880542683383D00283144 /* neigh.cpp */; };
+		54E880592683384600283144 /* fluid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54E880572683384600283144 /* fluid.cpp */; };
+		54E8805E2683386A00283144 /* show.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54E8805C2683386A00283144 /* show.cpp */; };
 		54FC679D25FB2D9200936D4E /* terrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54FC679B25FB2D9200936D4E /* terrain.cpp */; };
 		54FC67BE25FEFE3000936D4E /* perlin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54FC67BC25FEFE3000936D4E /* perlin.cpp */; };
 /* End PBXBuildFile section */
@@ -162,6 +168,8 @@
 		54781A8E26807F0700478EC4 /* sph.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sph.vs; sourceTree = "<group>"; };
 		54781A9126807F8E00478EC4 /* sph.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sph.fs; sourceTree = "<group>"; };
 		54781A922681CB3700478EC4 /* triangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = triangle.cpp; sourceTree = "<group>"; };
+		54781A942682CADC00478EC4 /* sph_point.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sph_point.vs; sourceTree = "<group>"; };
+		54781A952682CAFC00478EC4 /* sph_point.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sph_point.fs; sourceTree = "<group>"; };
 		54CE6DE224D2C2FC00E9A4D9 /* opengl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = opengl; sourceTree = BUILT_PRODUCTS_DIR; };
 		54CE6DE524D2C2FC00E9A4D9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		54CE6DF324D2C44400E9A4D9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -179,6 +187,18 @@
 		54CF5487253548A3004FD5D6 /* coordinate_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = coordinate_test.vs; sourceTree = "<group>"; };
 		54CF5488253565B0004FD5D6 /* 3d_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = 3d_test.vs; sourceTree = "<group>"; };
 		54CF54892536C358004FD5D6 /* camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
+		54E8804B2683380E00283144 /* point.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = point.cpp; sourceTree = "<group>"; };
+		54E8804C2683380E00283144 /* point.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = point.hpp; sourceTree = "<group>"; };
+		54E8804E2683382800283144 /* stdafx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
+		54E8804F2683382800283144 /* stdafx.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = stdafx.hpp; sourceTree = "<group>"; };
+		54E880512683383000283144 /* grid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = grid.cpp; sourceTree = "<group>"; };
+		54E880522683383000283144 /* grid.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = grid.hpp; sourceTree = "<group>"; };
+		54E880542683383D00283144 /* neigh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = neigh.cpp; sourceTree = "<group>"; };
+		54E880552683383D00283144 /* neigh.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = neigh.hpp; sourceTree = "<group>"; };
+		54E880572683384600283144 /* fluid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = fluid.cpp; sourceTree = "<group>"; };
+		54E880582683384600283144 /* fluid.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = fluid.hpp; sourceTree = "<group>"; };
+		54E8805C2683386A00283144 /* show.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = show.cpp; sourceTree = "<group>"; };
+		54E8805D2683386A00283144 /* show.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = show.hpp; sourceTree = "<group>"; };
 		54EC4EA425FA0CDC0091ACB4 /* terrain.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = terrain.vs; sourceTree = "<group>"; };
 		54EC4EA525FA0CEA0091ACB4 /* terrain.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = terrain.fs; sourceTree = "<group>"; };
 		54F909712536E740005AE973 /* color_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = color_test.vs; sourceTree = "<group>"; };
@@ -600,6 +620,7 @@
 		54531A172532EC150021618E /* head */ = {
 			isa = PBXGroup;
 			children = (
+				54E8804A268337F900283144 /* sph_test */,
 				54781A71267A0EA900478EC4 /* sph */,
 				5430285126675D70004BEC65 /* basic */,
 				5430285026675D43004BEC65 /* learn_opengl */,
@@ -984,6 +1005,7 @@
 			isa = PBXGroup;
 			children = (
 				54781A8E26807F0700478EC4 /* sph.vs */,
+				54781A942682CADC00478EC4 /* sph_point.vs */,
 			);
 			path = first;
 			sourceTree = "<group>";
@@ -1000,6 +1022,7 @@
 			isa = PBXGroup;
 			children = (
 				54781A9126807F8E00478EC4 /* sph.fs */,
+				54781A952682CAFC00478EC4 /* sph_point.fs */,
 			);
 			path = first;
 			sourceTree = "<group>";
@@ -1044,6 +1067,25 @@
 				54CE6DF324D2C44400E9A4D9 /* IOKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		54E8804A268337F900283144 /* sph_test */ = {
+			isa = PBXGroup;
+			children = (
+				54E8804B2683380E00283144 /* point.cpp */,
+				54E8804C2683380E00283144 /* point.hpp */,
+				54E8804E2683382800283144 /* stdafx.cpp */,
+				54E8804F2683382800283144 /* stdafx.hpp */,
+				54E880512683383000283144 /* grid.cpp */,
+				54E880522683383000283144 /* grid.hpp */,
+				54E880542683383D00283144 /* neigh.cpp */,
+				54E880552683383D00283144 /* neigh.hpp */,
+				54E880572683384600283144 /* fluid.cpp */,
+				54E880582683384600283144 /* fluid.hpp */,
+				54E8805C2683386A00283144 /* show.cpp */,
+				54E8805D2683386A00283144 /* show.hpp */,
+			);
+			name = sph_test;
 			sourceTree = "<group>";
 		};
 		54EC4EA225FA0CBF0091ACB4 /* terrain */ = {
@@ -1140,6 +1182,7 @@
 				TargetAttributes = {
 					54CE6DE124D2C2FC00E9A4D9 = {
 						CreatedOnToolsVersion = 11.6;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
@@ -1178,10 +1221,14 @@
 				544BF03F25F7448A00BACCD8 /* simplex_test.cpp in Sources */,
 				54FC679D25FB2D9200936D4E /* terrain.cpp in Sources */,
 				5446114D25A72F9900F2DC81 /* test123.cpp in Sources */,
+				54E880502683382800283144 /* stdafx.cpp in Sources */,
+				54E880532683383000283144 /* grid.cpp in Sources */,
+				54E880592683384600283144 /* fluid.cpp in Sources */,
 				5452B0AA25F07A9E00E614BF /* perlin_old.cpp in Sources */,
 				54302856266F36DB004BEC65 /* dda.cpp in Sources */,
 				5423F6ED25AAE71400218EC3 /* resoureces_use.cpp in Sources */,
 				54302864267300E2004BEC65 /* boundary.cpp in Sources */,
+				54E880562683383D00283144 /* neigh.cpp in Sources */,
 				5423F70025B551DA00218EC3 /* SpriteRender.cpp in Sources */,
 				5423F71225B5709B00218EC3 /* games_level.cpp in Sources */,
 				5423F72725B7EDB100218EC3 /* ball.cpp in Sources */,
@@ -1198,8 +1245,10 @@
 				5446113B25A6EF3300F2DC81 /* text_draw.cpp in Sources */,
 				54781A84267C766700478EC4 /* fluid_system.cpp in Sources */,
 				544BF03525F20A6800BACCD8 /* perlin_3d.cpp in Sources */,
+				54E8804D2683380E00283144 /* point.cpp in Sources */,
 				54CE6E0524D2C76F00E9A4D9 /* glad.c in Sources */,
 				54570CD3260087540072EEA2 /* generate_mesh.cpp in Sources */,
+				54E8805E2683386A00283144 /* show.cpp in Sources */,
 				54781A78267A0F6600478EC4 /* sph_stdafx.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1329,34 +1378,49 @@
 		54CE6DEA24D2C2FC00E9A4D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					/usr/local/include/freetype2,
 					"/usr/local/var/vcpkg/installed/x64-osx/include",
 				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
 					"/usr/local/var/vcpkg/installed/x64-osx/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		54CE6DEB24D2C2FC00E9A4D9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					/usr/local/include/freetype2,
 					"/usr/local/var/vcpkg/installed/x64-osx/include",
 				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
 					"/usr/local/var/vcpkg/installed/x64-osx/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

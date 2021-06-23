@@ -39,8 +39,7 @@ namespace SPH{
          */
         if(m_pointSize >= m_capcity){
             if(m_capcity * 2 > ELEM_MAX){
-                unsigned int index = rand() % m_pointSize;
-                return points + index;
+                return points + m_pointSize - 1;
             }
             m_capcity *= 2;
             Point* new_data = (Point*)malloc(m_capcity * sizeof(Point));
