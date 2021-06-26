@@ -1,4 +1,4 @@
-#include "show.hpp"
+#include "sph_show.hpp"
 
 int main(){
     SphShow obj;

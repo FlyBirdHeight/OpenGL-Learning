@@ -53,7 +53,7 @@ namespace SPH{
      * @returns {int} 邻接表位置下标
      */
     int GridType::getGridData(int gridIndex){
-        if(gridIndex < 0 || gridIndex > m_gridData.size()){
+        if(gridIndex < 0 || gridIndex >= m_gridData.size()){
             return -1;
         }
         
@@ -124,7 +124,7 @@ namespace SPH{
             minZ = 0;
         }
         //下层的相交的网格空间
-        gridCell[0] = (minZ * m_gridRes.y + minZ) * m_gridRes.x + minX;
+        gridCell[0] = (minZ * m_gridRes.y + minY) * m_gridRes.x + minX;
         gridCell[1] = gridCell[0] + 1;
         gridCell[2] = gridCell[0] + m_gridRes.x;
         gridCell[3] = gridCell[2] + 1;
@@ -159,16 +159,13 @@ namespace SPH{
      * @param {float} z位置坐标
      */
     int GridType::getGridCellIndex(float dx, float dy, float dz, std::string type){
-        if(type == "normal"){
-            //@note 这里对数据的处理是为了让其落在对应的网格中去
-            int gx = (int)((dx - m_gridMin.x) * m_gridDelta.x);
-            int gy = (int)((dy - m_gridMin.y) * m_gridDelta.y);
-            int gz = (int)((dz - m_gridMin.z) * m_gridDelta.z);
-            //@note 这里实际就是按照自己规定的方向去数格子即可
-            return gx + gz * m_gridRes.x * m_gridRes.y + gy * m_gridRes.x;
-        }else{
-            return (dz * m_gridRes.y + dy) * m_gridRes.x + dx;
-        }
+        //@note 这里对数据的处理是为了让其落在对应的网格中去
+        int gx = (int)((dx - m_gridMin.x) * m_gridDelta.x);
+        int gy = (int)((dy - m_gridMin.y) * m_gridDelta.y);
+        int gz = (int)((dz - m_gridMin.z) * m_gridDelta.z);
+        //@note 这里实际就是按照自己规定的方向去数格子即可
+//        return gx + gz * m_gridRes.x * m_gridRes.y + gy * m_gridRes.x;
+        return (gz * m_gridRes.y + gy) * m_gridRes.x + gx;
         
     }
 }

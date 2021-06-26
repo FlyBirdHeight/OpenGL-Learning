@@ -22,8 +22,8 @@ FluidSystem::FluidSystem(){
         m_rexSize[2]=0;
         
         
-        m_boundaryStiffness = 10000.f;
-        m_boundaryDampening = 256;
+        m_boundaryStiffness = 50000.f;
+        m_boundaryDampening = 50;
         m_speedLimiting        =    200;
  
         //Poly6 Kernel
@@ -122,7 +122,7 @@ void FluidSystem::_computerForce(){
        }
    }
 void FluidSystem::_advance(){
-        float deltaTime=0.003;
+        float deltaTime=0.0005;
         float SL2=m_speedLimiting*m_speedLimiting;
         //posData.clear();
         for (unsigned int i=0; i<m_pointBuffer.size(); i++) {

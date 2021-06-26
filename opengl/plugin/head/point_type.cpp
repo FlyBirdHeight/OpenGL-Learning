@@ -13,8 +13,8 @@ namespace SPH{
     }
     
     PointType::~PointType(){
-        free(points);
-        points = 0;
+        delete[] points;
+        points = nullptr;
     }
 
     void PointType::reset(unsigned int capcity){
